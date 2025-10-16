@@ -1,5 +1,5 @@
 "use client";
-import "@/src/feauters/axios";
+import "@/src/api/baseClient";
 import type { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 import { HeroUIProvider } from "@heroui/system";

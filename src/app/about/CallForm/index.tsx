@@ -12,7 +12,9 @@ const CallForm: React.FC<any> = ({ handleSubmit, formData, setFormData }) => {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">نام کامل</label>
+              <label className="flex text-sm font-medium justify-start mb-2">
+                نام کامل
+              </label>
               <input
                 type="text"
                 value={formData.name}
@@ -25,7 +27,7 @@ const CallForm: React.FC<any> = ({ handleSubmit, formData, setFormData }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">ایمیل</label>
+              <label className="flex text-sm font-medium mb-2">ایمیل</label>
               <input
                 type="email"
                 value={formData.email}
@@ -37,7 +39,7 @@ const CallForm: React.FC<any> = ({ handleSubmit, formData, setFormData }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">موضوع</label>
+              <label className="flex text-sm font-medium mb-2">موضوع</label>
               <input
                 type="text"
                 value={formData.subject}
@@ -50,7 +52,7 @@ const CallForm: React.FC<any> = ({ handleSubmit, formData, setFormData }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">پیام</label>
+              <label className="flex text-sm font-medium mb-2">پیام</label>
               <textarea
                 value={formData.message}
                 onChange={(e) =>

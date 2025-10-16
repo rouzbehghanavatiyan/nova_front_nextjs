@@ -2,8 +2,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import CallForm from "./CallForm";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import CallDetail from "./CallDetail";
+import cover from "@/src/assets/img/mainContentCover.jpg";
+
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -21,9 +22,13 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className=" bg-gray-50 pb-8">
+      <span className="flex justify-center mb-10" >
+        <img className="h-[90vh] w-[100vw]" src={cover.src} />
+        {/* <img className="h-[calc(100vw-1000px)] h-[100vw] w-[100vw]" src={cover.src} /> */}
+      </span>
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="w-full  mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-2 gap-12">
             <span className="col-span-1">
               <CallDetail />

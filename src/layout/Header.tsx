@@ -1,84 +1,88 @@
+"use client";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import {
-  HomeIcon,
-  PhoneIcon,
-  ChartBarIcon,
   ArchiveBoxIcon,
+  ChevronDownIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
-import Logo from "@/src/assets/img/logo.svg";
+import Logo from "@/src/assets/img/logo.png";
 import { siteConfig } from "../config/site";
-import { Input } from "@heroui/input";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import { categoryServices } from "../api/services/categoryServices";
+
+import MegaMenu from "./megaMenu/page";
 
 export const Header: React.FC = () => {
+  const [isProductsPanelOpen, setIsProductsPanelOpen] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
+
+  const router = useRouter();
+
+  const handleRedirect = (data: any) => {
+    console.log(data);
+    router.push(`/product/detail/${data}`);
+  };
+
+  const handleGetAllCategories = async () => {
+    const res: any = await categoryServices.getAllCategories();
+    setCategories(res?.data);
+  };
+
+  useEffect(() => {
+    handleGetAllCategories();
+  }, []);
+
   return (
-    <header className="bg-black w-full shadow-2xl border-b border-gray-200 sticky top-0 z-50">
-      <div className="container mx-auto flex justify-between items-center py-4 px-6">
-        <nav className="flex space-x-8">
-          {siteConfig.navItems.map((item: any) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex items-center space-x-1 text-white hover:text-blue-600 transition-colors duration-200 font-medium"
-              >
-                {Icon && <Icon className="w-5 h-5" />}
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="flex justify-around w-5xl gap-10">
-          <Input
-            // endContent={
-            //   <MagnifyingGlassIcon style={{ fontSize: "10px !important" }} />
-            // }
-            variant="bordered"
-            color="primary"
-            className="text-white h-8 "
-            placeholder="جستجو . . ."
-            type="email"
-          />
-          <Link href="/" className="flex items-center space-x-2">
-            <img className="w-36 h-auto" src={Logo.src} alt="Logo" />
-          </Link>
-        </div>
-      </div>
-      <div className="md:hidden bg-white border-t border-gray-200">
-        <nav className="container mx-auto px-6 py-4">
-          <div className="flex flex-col space-y-4">
-            {siteConfig.navItems.map((item: any) => {
+    <>
+      <header className="bg-white w-full border-gray-200 border-b-[1px] sticky top-0 z-50">
+        <div className="container mx-auto flex justify-between items-center py-5 px-6">
+          <nav className="flex space-x-12">
+            {siteConfig.navItems.map((item: any, index: number) => {
               const Icon = item.icon;
+              if (item.hasDropdown) {
+                return (
+                  <button
+                    key={`dropdown-${item.label}-${index}`}
+                    onClick={() => setIsProductsPanelOpen(!isProductsPanelOpen)}
+                    className="flex items-center space-x-1 text-blue-600 transition-colors duration-200 font-medium hover:text-blue-700"
+                  >
+                    {Icon && <Icon className="w-6 h-6" />}
+                    <span className="font20">{item.label}</span>
+                    <ChevronDownIcon
+                      className={`w-4 h-4 transition-transform ${isProductsPanelOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                );
+              }
               return (
                 <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center space-x-3 text-white hover:text-blue-600 transition-colors duration-200 font-medium py-2"
+                  key={`link-${item.label}-${index}`}
+                  href={item.href || "#"}
+                  className="flex items-start space-x-1 text-blue-600 transition-colors duration-200 font-medium hover:text-blue-700"
                 >
-                  {Icon && <Icon className="w-5 h-5" />}
-                  <span>{item.label}</span>
+                  {Icon && <Icon className="w-6 h-6" />}
+                  <span className="font20">{item.label}</span>
                 </Link>
               );
             })}
-            <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200">
-              <Link
-                href="/login"
-                className="px-4 py-2 text-center text-white hover:bg-gray-100 transition-colors duration-200 rounded-lg font-medium"
-              >
-                ورود
-              </Link>
-              <Link
-                href="/register"
-                className="px-4 py-2 text-center bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
-              >
-                ثبت‌نام
-              </Link>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header>
+          </nav>
+          <img className="w-36 h-auto" src={Logo.src} alt="Logo" />
+        </div>
+        {isProductsPanelOpen && (
+          <MegaMenu
+            setIsProductsPanelOpen={setIsProductsPanelOpen}
+            categories={categories}
+          />
+        )}
+      </header>
+      {isProductsPanelOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 z-30 mt-[calc(100%-1px)]"
+          onClick={() => setIsProductsPanelOpen(false)}
+        />
+      )}
+    </>
   );
 };
 

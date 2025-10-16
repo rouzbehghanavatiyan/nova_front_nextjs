@@ -1,3 +1,5 @@
+import { ArchiveBoxIcon, ChartBarIcon, HomeIcon, PhoneIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
@@ -6,60 +8,45 @@ export const siteConfig = {
     {
       label: "خانه",
       href: "/",
+      icon: HomeIcon,
     },
     {
       label: "محصولات",
       href: "/products",
+      icon: ArchiveBoxIcon,
+      hasDropdown: true, // اضافه کردن این ویژگی
     },
     {
       label: "درباره ما",
       href: "/about",
+      icon: ChartBarIcon,
     },
     {
       label: "ارتباط‌ با‌ما",
       href: "/connectToUs",
+      icon: PhoneIcon,
     },
   ],
-
-  navMenuItems: [
+  productCategories: [
     {
-      label: "Profile",
-      href: "/profile",
+      label: "تمام محصولات",
+      href: "/products",
     },
     {
-      label: "Dashboard",
-      href: "/dashboard",
+      label: "دسته‌بندی ۱",
+      href: "/products?category=1",
     },
     {
-      label: "Projects",
-      href: "/projects",
+      label: "دسته‌بندی ۲",
+      href: "/products?category=2",
     },
     {
-      label: "Team",
-      href: "/team",
+      label: "دسته‌بندی ۳",
+      href: "/products?category=3",
     },
     {
-      label: "Calendar",
-      href: "/calendar",
-    },
-    {
-      label: "Settings",
-      href: "/settings",
-    },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
+      label: "پرفروش‌ها",
+      href: "/products?sort=bestseller",
     },
   ],
-  links: {
-    github: "https://github.com/heroui-inc/heroui",
-    twitter: "https://twitter.com/hero_ui",
-    docs: "https://heroui.com",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
-  },
 };
