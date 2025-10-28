@@ -21,11 +21,7 @@ export const siteConfig = {
       href: "/about",
       icon: ChartBarIcon,
     },
-    {
-      label: "ارتباط‌ با‌ما",
-      href: "/connectToUs",
-      icon: PhoneIcon,
-    },
+
   ],
   productCategories: [
     {

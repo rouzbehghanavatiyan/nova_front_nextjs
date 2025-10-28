@@ -17,8 +17,6 @@ const CompanyRecords: React.FC = () => {
                 پیشگامان این صنعت در کشور شناخته می‌شود.
               </p>
             </section>
-             
-             
             {/* <section className="bg-purple-50 p-6 rounded-xl border-r-4 border-purple-600">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">زمینه‌های تخصصی</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

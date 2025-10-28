@@ -5,13 +5,14 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
-import { productService } from "@/src/api/services/MasterServices";
+import { productService } from "@/src/api/services/productService";
 import StringHelpers from "@/src/config/StringHelpers";
 
 const TopContent: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
   const [mainProduct, setMainProduct] = useState<any[]>([]);
   const router = useRouter();
+  const imageAspectRatio = 16 / 9;
 
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => {
@@ -20,7 +21,7 @@ const TopContent: React.FC = () => {
       return newLoaded;
     });
   };
-  const imageAspectRatio = 16 / 9;
+  
   const pagination = {
     clickable: true,
     renderBullet: function (index: number, className: string) {
@@ -47,8 +48,7 @@ const TopContent: React.FC = () => {
       <Swiper
         pagination={pagination}
         modules={[Pagination]}
-        style={{ height: "90vh" }}
-        className="mySwiper"
+        className="mySwiper h-[82vh]"
       >
         {mainProduct.map((item: any, index) => {
           const imageUrl = StringHelpers.getProfile(item?.attachments[0]);
@@ -57,7 +57,7 @@ const TopContent: React.FC = () => {
             <SwiperSlide key={index}>
               <div
                 className="relative w-full"
-                style={{ paddingBottom: `${(1 / imageAspectRatio) * 100}%` }}
+                style={{ paddingBottom: `${(1 / imageAspectRatio) * 90}%` }}
               >
                 <img
                   src={imageUrl}

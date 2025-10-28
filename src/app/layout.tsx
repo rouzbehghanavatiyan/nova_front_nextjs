@@ -5,6 +5,9 @@ import { siteConfig } from "@/src/config/site";
 import { Header } from "../layout/Header";
 import Footer from "../layout/Footer";
 import { iransans } from "./fonts";
+import { ProductProvider } from "../context/ContextProvider";
+import { Provider } from "react-redux";
+import StoreProvider from "../store/storeProvider";
 
 export const metadata: Metadata = {
   description: siteConfig.description,
@@ -32,11 +35,13 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${iransans.variable} ${iransans.className}`}
     >
-      <body className="antialiased  " suppressHydrationWarning>
+      <body className="antialiased" suppressHydrationWarning>
         <Providers>
-          <Header />
-          {children}
-          <Footer />
+          <StoreProvider>
+            <Header />
+            {children}
+            <Footer />
+          </StoreProvider>
         </Providers>
       </body>
     </html>

@@ -12,8 +12,7 @@ const MostPopular: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
   const images = [BaseImage, BaseImage2, BaseImage3];
 
-  // ابعاد ثابت برای عکس‌ها
-  const fixedHeight = "40vh"; // یا h-96 برای Tailwind
+  const fixedHeight = "40vh"; 
   const fixedWidth = "100%";
 
   const handleImageLoad = (index: number) => {
@@ -28,7 +27,6 @@ const MostPopular: React.FC = () => {
     <div className="grid grid-cols-5 gap-5 mb-10">
       <div className="col-span-3">
         {" "}
-        {/* ارتفاع ثابت برای container */}
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -46,13 +44,11 @@ const MostPopular: React.FC = () => {
           {images.map((image, index) => (
             <SwiperSlide key={index}>
               <div className="relative w-full h-full">
-                {/* Loading Skeleton */}
                 {!loadedImages[index] && (
                   <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center  ">
                     <div className="animate-spin   h-8 w-8 border-b-2 border-blue-600"></div>
                   </div>
                 )}
-
                 <img
                   width={1500}
                   height={1500}

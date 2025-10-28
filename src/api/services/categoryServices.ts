@@ -27,8 +27,6 @@ export class CategoryServices extends BaseService<
   }
 
   async getSubCategories(categoryId: string): Promise<ApiResponse<any[]>> {
-    console.log(categoryId);
-
     try {
       const response = await baseClient.get(
         `/category/${categoryId}/subcategories`
@@ -41,6 +39,8 @@ export class CategoryServices extends BaseService<
   }
 
   async getProductCategory(categoryId: number): Promise<ApiResponse<any[]>> {
+    console.log(categoryId);
+    
     try {
       const response = await baseClient.get(
         `/category/categoryId=${categoryId}`
