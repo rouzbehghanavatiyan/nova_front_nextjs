@@ -39,9 +39,7 @@ export class CategoryServices extends BaseService<
   }
 
   async getProductCategory(categoryId: number): Promise<ApiResponse<any[]>> {
-    console.log(categoryId);
-    
-    try {
+    try {   
       const response = await baseClient.get(
         `/category/categoryId=${categoryId}`
       );

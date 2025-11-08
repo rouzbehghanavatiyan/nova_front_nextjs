@@ -1,12 +1,39 @@
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import img1 from "@/src/assets/img/1295.png";
-import img1104 from "@/src/assets/img/1104.png";
-import img10100 from "@/src/assets/img/0100.png";
-import img1178 from "@/src/assets/img/1178.png";
+import Metr from "@/src/assets/img/5025.png";
+import Body from "@/src/assets/img/2704.png";
+import Handly from "@/src/assets/img/9606.png";
+import Electricy from "@/src/assets/img/2236.png";
+import Gass from "@/src/assets/img/9565.png";
+import Cheft from "@/src/assets/img/1173.png";
+import Baghbani from "@/src/assets/img/2470.png";
+import TamirGahi from "@/src/assets/img/2202.png";
+import Looleh from "@/src/assets/img/1178.png";
+import Joosh from "@/src/assets/img/2420.png";
+import General from "@/src/assets/img/6016.png";
+import Light from "@/src/assets/img/3032.png";
+import Other from "@/src/assets/img/2943.png";
+import Chargy from "@/src/assets/img/7715.png";
 import { categoryServices } from "@/src/api/services/categoryServices";
-const categoryImages = [img1, img1104, img10100, img1178];
+
+const categoryImages = [
+  Metr,
+  Body,
+  Handly,
+  Electricy,
+  Gass,
+  Cheft,
+  Baghbani,
+  TamirGahi,
+  Looleh,
+  "",
+  Joosh,
+  General,
+  Light,
+  Other,
+  Chargy,
+];
 
 interface MegaMenuProps {
   setIsProductsPanelOpen: (isOpen: boolean) => void;
@@ -52,7 +79,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
     }
   };
 
-  const getCategoryImage = (categoryId: string) => {
+  const getCategoryImage = (categoryId: string): any => {
     const index =
       categories.findIndex((cat) => cat.id === categoryId) %
       categoryImages.length;
@@ -131,12 +158,12 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
           <div className="flex-1">
             {hoveredCategory && (
               <div className="flex justify-around">
-                <div className="w-">
+                <div className="w-96">
                   <div
-                    className="grid gap-3 max-h-[70vh] overflow-y-auto p-2"
+                    className="p-2"
                     style={{
-                      gridTemplateColumns:
-                        "repeat(auto-fit, minmax(180px, 1fr))",
+                      columnCount: currentSubCategories.length > 15 ? 2 : 1,
+                      maxHeight: "70vh",
                     }}
                   >
                     {currentSubCategories.map((subCategory, index) => {
@@ -150,7 +177,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                               setIsProductsPanelOpen(false);
                             }, 300);
                           }}
-                          className="block p-3 hover:text-blue-600 transition-all duration-200"
+                          className="block p-3 hover:text-blue-600 w- transition-all duration-200 mb-3 break-inside-avoid"
                         >
                           <span className="font-semibold text-gray-700 text-sm line-clamp-2">
                             {subCategory.title}
@@ -160,7 +187,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                     })}
                     {loading === hoveredCategory &&
                       currentSubCategories.length === 0 && (
-                        <div className="flex justify-center items-center py-4 col-span-full">
+                        <div className="flex justify-center items-center py-4 break-inside-avoid">
                           <div className="animate-spin h-6 w-6 border-b-2"></div>
                         </div>
                       )}

@@ -5,6 +5,7 @@ import CompanyRecords from "./home/CompanyRecords";
 import MostPopular from "./home/MostPopular";
 import MainProduct from "./home/MainProduct";
 import LearningAboutProduct from "./home/LearningAboutProduct";
+import MainTitle from "./home/MainTitle";
 
 const TopContent = dynamic(() => import("./home/TopContent"), {
   ssr: false,
@@ -12,7 +13,7 @@ const TopContent = dynamic(() => import("./home/TopContent"), {
 
 export default function Home() {
   return (
-    <section className="flex flex-col  gap-4">
+    <section className="flex flex-col">
       <Suspense
         fallback={
           <div className="w-full max-w-6xl h-64 bg-gray-200 animate-pulse  rounded-lg"></div>
@@ -21,9 +22,9 @@ export default function Home() {
         <TopContent />
         <CompanyRecords />
         <MainProduct />
-        <MostPopular />
+        {/* <MainTitle /> */}
         <LearningAboutProduct />
-        {/* <LatestProduct /> */}
+        <MostPopular />
       </Suspense>
     </section>
   );

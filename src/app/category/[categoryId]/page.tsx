@@ -5,29 +5,45 @@ import { useParams, useRouter } from "next/navigation";
 import StringHelpers from "@/src/config/StringHelpers";
 import { useAppDispatch } from "@/src/store/hook";
 import { setCurrentProduct } from "@/src/store/slices/main";
+import { productService } from "@/src/api/services/productService";
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     categoryId: string;
-  };
+  }>;
 }
 
 const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
   const [products, setProducts] = useState<any[]>([]);
   const [category, setCategory] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [resolvedParams, setResolvedParams] = useState<{
+    categoryId: string;
+  } | null>(null);
+  
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { categoryId } = params;
+
+  useEffect(() => {
+    const resolveParams = async () => {
+      const resolved = await params;
+      setResolvedParams(resolved);
+    };
+    
+    resolveParams();
+  }, [params]);
+
   const fetchCategoryData = async () => {
+    if (!resolvedParams) return;
+    
     try {
       setLoading(true);
-      const res = await categoryServices.getProductCategory(Number(categoryId));
+      const res = await categoryServices.getProductCategory(Number(resolvedParams.categoryId));
       setProducts(res?.data || []);
 
       setCategory({
-        id: categoryId,
-        name: `دسته‌بندی ${categoryId}`,
+        id: resolvedParams.categoryId,
+        name: `دسته‌بندی ${resolvedParams.categoryId}`,
       });
     } catch (error) {
       console.error("Error:", error);
@@ -36,16 +52,26 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
     }
   };
 
+  const handleProductClick = (product: any) => {
+    if (!resolvedParams) return;
+    
+    dispatch(setCurrentProduct(product));
+    router.push(`/category/${resolvedParams.categoryId}/products/${product.id}`);
+  };
+
   useEffect(() => {
-    if (categoryId) {
+    if (resolvedParams) {
       fetchCategoryData();
     }
-  }, [categoryId]);
+  }, [resolvedParams]);
 
-  const handleProductClick = (product: any) => {
-    dispatch(setCurrentProduct(product));
-    router.push(`/category/${categoryId}/products/${product.id}`);
-  };
+  if (!resolvedParams || loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <p className="text-gray-500">در حال بارگذاری...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -57,13 +83,13 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
             <div
               key={product.id}
               onClick={() => handleProductClick(product)}
-              className="cursor-pointer border border-gray-200 p-4  transition-shadow"
+              className="cursor-pointer border border-gray-200 p-4 transition-shadow"
             >
               <div className="flex">
                 <img
                   src={imgUrl}
                   alt={product.name}
-                  className="w-96 h-w-96 object-cover rounded mb-4"
+                  className="w-3/4 h-3/4 object-cover rounded mb-4"
                   crossOrigin="anonymous"
                 />
                 <span className="text-gray-400">مدل:</span>

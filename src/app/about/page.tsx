@@ -12,23 +12,50 @@ const ContactPage = () => {
     subject: "",
     message: "",
   });
+  
+  const [zoomStyle, setZoomStyle] = useState({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
     console.log("Form submitted:", formData);
     alert("پیام شما با موفقیت ارسال شد!");
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    const rect = img.getBoundingClientRect();
+    
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    setZoomStyle({
+      transform: 'scale(4)',
+      transformOrigin: `${x}% ${y}%`
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setZoomStyle({});
+  };
+
   return (
-    <div className=" bg-gray-50 pb-8">
-      <span className="flex justify-center mb-10" >
-        <img className="h-[90vh] w-[100vw]" src={cover.src} />
-        {/* <img className="h-[calc(100vw-1000px)] h-[100vw] w-[100vw]" src={cover.src} /> */}
-      </span>
+    <div className="bg-gray-50 pb-8">
+      <div className="flex justify-center mb-10 overflow-hidden">
+        <div className="relative h-[90vh] w-[100vw] overflow-hidden">
+          <img 
+            className="h-full w-full object-cover transition-transform duration-200 ease-out"
+            style={zoomStyle}
+            src={cover.src} 
+            alt="Contact cover"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          />
+        </div>
+      </div>
+      
       <div className="container mx-auto px-4">
-        <div className="w-full  mx-auto">
+        <div className="w-full mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-2 gap-12">
             <span className="col-span-1">
               <CallDetail />

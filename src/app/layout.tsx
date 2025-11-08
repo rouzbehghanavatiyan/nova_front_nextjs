@@ -5,7 +5,6 @@ import { siteConfig } from "@/src/config/site";
 import { Header } from "../layout/Header";
 import Footer from "../layout/Footer";
 import { iransans } from "./fonts";
-import { ProductProvider } from "../context/ContextProvider";
 import { Provider } from "react-redux";
 import StoreProvider from "../store/storeProvider";
 
