@@ -63,6 +63,8 @@ export default defineConfig([
       "react/prop-types": "off",
     },
   },
+
+  // TypeScript files
   {
     files: ["**/*.ts", "**/*.tsx"],
     extends: fixupConfigRules(
@@ -124,13 +126,16 @@ export default defineConfig([
       "react-hooks/exhaustive-deps": "warn",
       "react/self-closing-comp": "warn",
 
+      // Accessibility rules
       "jsx-a11y/click-events-have-key-events": "warn",
       "jsx-a11y/interactive-supports-focus": "warn",
 
+      // Unused imports
       "no-unused-vars": "off",
       "unused-imports/no-unused-vars": "off",
       "unused-imports/no-unused-imports": "warn",
 
+      // TypeScript rules
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
@@ -143,6 +148,7 @@ export default defineConfig([
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
 
+      // Import order for your project structure
       "import/order": [
         "warn",
         {

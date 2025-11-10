@@ -6,11 +6,6 @@ if (!baseURL) {
   console.warn("NEXT_PUBLIC_NEST_BASE_URI is not defined");
 }
 
-console.log(
-  "baseURLbaseURLbaseURLbaseURLbaseURLbaseURLbaseURLbaseURLbaseURLbaseURLbaseURLbaseURLbaseURLbaseURL",
-  baseURL
-);
-
 export const baseClient = axios.create({
   baseURL,
   timeout: 10000,

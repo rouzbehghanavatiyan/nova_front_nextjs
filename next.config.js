@@ -1,8 +1,8 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     domains: ['192.168.1.189'], 
-    unoptimized: true // اگر مشکل بهینه سازی دارید
+    unoptimized: true 
   },
 }
-module.exports = nextConfig;
+
+module.exports = nextConfig
