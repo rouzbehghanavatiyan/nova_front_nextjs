@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import mainSlice from './slices/main';
-// سایر sliceها را اینجا import کنید
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       product: mainSlice,
-      // سایر reducerها اینجا اضافه شوند
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
