@@ -9,11 +9,11 @@ import img7 from "@/src/assets/newProduct/محصولات جدید7.jpg";
 import img8 from "@/src/assets/newProduct/محصولات جدید8.jpg";
 import img9 from "@/src/assets/newProduct/محصولات جدید9.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-const MainProduct: React.FC = () => {
+const NewProduct: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [loadedImages, setLoadedImages] = useState<boolean[]>(new Array(4).fill(false));
   const [imagesReady, setImagesReady] = useState(false);
@@ -30,7 +30,6 @@ const MainProduct: React.FC = () => {
     { src: img9, alt: "صنعتی", link: "/products/industrial-tools" },
   ];
 
-  // پیش‌بارگذاری عکس‌ها
   useEffect(() => {
     const preloadImages = async () => {
       const imagePromises = images.map((image, index) => {
@@ -56,7 +55,6 @@ const MainProduct: React.FC = () => {
         });
       });
 
-      // منتظر ماندن برای بارگذاری حداقل دو عکس اول
       await Promise.all(imagePromises.slice(0, 2));
       setImagesReady(true);
     };
@@ -124,7 +122,8 @@ const MainProduct: React.FC = () => {
                 spaceBetween: 10,
               },
             }}
-            modules={[Pagination, Autoplay]}
+            navigation={true}
+            modules={[Pagination, Autoplay , Navigation]}
             className="mySwiper"
           >
             {images.map((image, index) => (
@@ -201,4 +200,4 @@ const MainProduct: React.FC = () => {
   );
 };
 
-export default MainProduct;
+export default NewProduct;

@@ -7,8 +7,7 @@ import { siteConfig } from "../config/site";
 import { useRouter } from "next/navigation";
 import { categoryServices } from "../api/services/categoryServices";
 import MegaMenu from "./megaMenu/page";
-import { Input } from "@heroui/input";
-import { SearchIcon } from "../components/icons";
+import SearchField from "./SearchField";
 
 export const Header: React.FC = () => {
   const [isProductsPanelOpen, setIsProductsPanelOpen] = useState(false);
@@ -62,13 +61,7 @@ export const Header: React.FC = () => {
               );
             })}
           </nav>
-          {/* <Input
-            endContent={
-              <SearchIcon onClick={handleSearch} className="cursor-pointer" />
-            }
-            placeholder="جستجو . . ."
-            className="w-1/2"
-          /> */}
+          <SearchField />
           <img className="w-36 h-auto" src={Logo.src} alt="Logo" />
         </div>
         {isProductsPanelOpen && (

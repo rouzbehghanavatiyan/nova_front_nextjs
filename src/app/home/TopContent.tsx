@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay, EffectFade, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
@@ -59,6 +59,7 @@ const TopContent: React.FC = () => {
         pagination={{
           clickable: true,
         }}
+        navigation={true}
         fadeEffect={{
           crossFade: true,
         }}
@@ -68,7 +69,7 @@ const TopContent: React.FC = () => {
         }}
         speed={1000}
         loop={true}
-        modules={[Pagination, Autoplay, EffectFade]}
+        modules={[Pagination, Autoplay, EffectFade,Navigation]}
         className="mySwiper h-[82vh]"
         effect="fade"
       >

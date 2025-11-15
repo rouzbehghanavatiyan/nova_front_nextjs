@@ -169,5 +169,7 @@ body {
     border-radius: 1px !important;
 }
 
-
- 
+.swiper-pagination-bullet {
+    width: var(--swiper-pagination-bullet-width, var(--swiper-pagination-bullet-size, 20px)) !important;
+    height: var(--swiper-pagination-bullet-height, var(--swiper-pagination-bullet-size, 20px)) !important;
+}

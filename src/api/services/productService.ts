@@ -35,9 +35,28 @@ export class ProductService extends BaseService<
     }
   }
 
-    async getFeaturesFromProduct(productId: number): Promise<ApiResponse<Product[]>> {
+  async getFeaturesFromProduct(
+    productId: number
+  ): Promise<ApiResponse<Product[]>> {
     try {
-      const response = await baseClient.get(`/feature/getFeaturesFromProduct/${productId}`);
+      const response = await baseClient.get(
+        `/feature/getFeaturesFromProduct/${productId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error getting main products:", error);
+      throw error;
+    }
+  }
+
+  async productBySearching(
+    productTitle: string | null,
+    productModel: number | null
+  ): Promise<ApiResponse<Product[]>> {
+    try {
+      const response = await baseClient.get(
+        `/product/productBySearching/${productTitle}/productModel/${productModel}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error getting main products:", error);

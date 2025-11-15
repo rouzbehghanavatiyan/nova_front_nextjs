@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import CompanyRecords from "./home/CompanyRecords";
 import MostPopular from "./home/MostPopular";
-import MainProduct from "./home/MainProduct";
+import NewProduct from "./home/NewProduct";
 import LearningAboutProduct from "./home/LearningAboutProduct";
 import MainTitle from "./home/MainTitle";
 
@@ -21,7 +21,7 @@ export default function Home() {
       >
         <TopContent />
         <CompanyRecords />
-        <MainProduct />
+        <NewProduct />
         {/* <MainTitle /> */}
         <LearningAboutProduct />
         <MostPopular />
