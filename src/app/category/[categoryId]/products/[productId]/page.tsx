@@ -4,6 +4,7 @@ import StringHelpers from "@/src/config/StringHelpers";
 import { useAppSelector } from "@/src/store/hook";
 import { productService } from "@/src/api/services/productService";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, MinusIcon } from "@heroicons/react/16/solid";
 
 interface ProductPageProps {
   params: Promise<{
@@ -38,7 +39,6 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
 
   const handleGetProductDescription = async () => {
     if (!resolvedParams) return;
-
     try {
       const res = await productService.getDescription(
         Number(resolvedParams.productId)
@@ -88,6 +88,8 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
     }));
   };
 
+  console.log(isOpen?.features);
+
   useEffect(() => {
     if (resolvedParams) {
       fetchProduct();
@@ -129,21 +131,11 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
               className="flex justify-between w-full px-4 py-3 text-right text-gray-700 border-b-1 border-gray-200 transition-colors hover:bg-gray-50"
             >
               <h2 className="text-xl font-semibold">ویژگی‌ها</h2>
-              <svg
-                className={`w-5 h-5 text-gray-500 transform transition-transform ${
-                  isOpen.features ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
+              {!isOpen?.features ? (
+                <PlusIcon className="h-5 w-5" />
+              ) : (
+                <MinusIcon className="h-5 w-5" />
+              )}
             </button>
             <div
               className={`overflow-hidden transition-all duration-300 ${
@@ -184,21 +176,11 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
               className="flex justify-between w-full px-4 py-3 text-right text-gray-700 border-b-1 border-gray-200 transition-colors hover:bg-gray-50"
             >
               <h2 className="text-xl font-semibold">توضیحات:</h2>
-              <svg
-                className={`w-5 h-5 text-gray-500 transform transition-transform ${
-                  isOpen.description ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
+              {!isOpen?.description ? (
+                <PlusIcon className="h-5 w-5" />
+              ) : (
+                <MinusIcon className="h-5 w-5" />
+              )}
             </button>
             <div
               className={`overflow-hidden transition-all duration-300 ${

@@ -17,7 +17,7 @@ export class ProductService extends BaseService<
   }
   async getMainCover(): Promise<ApiResponse<Product[]>> {
     try {
-      const response = await baseClient.get("/cover/mainProduct");
+      const response = await baseClient.get("/product/cover");
       return response.data;
     } catch (error) {
       console.error("Error getting main products:", error);

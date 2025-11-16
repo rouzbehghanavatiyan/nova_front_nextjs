@@ -75,41 +75,41 @@ const SearchField: React.FC = () => {
   };
 
   const handleInputBlur = () => {
+    console.log("HHHHHHHHHHHHHHHHHHHHHH");
     setTimeout(() => setShowResults(false), 200);
   };
 
   return (
-    // <div className="w-1/2 flex justify-center relative">
-    //   <div className="w-full relative">
-    //     <Input
-    //       value={searchTitle}
-    //       onChange={handleSearching}
-    //       onFocus={handleInputFocus}
-    //       onBlur={handleInputBlur}
-    //       onKeyPress={(e: any) => {
-    //         if (e.key === "Enter") {
-    //           handleConfirmSearch();
-    //         }
-    //       }}
-    //       endContent={
-    //         <SearchIcon
-    //           onClick={handleConfirmSearch}
-    //           className="cursor-pointer"
-    //         />
-    //       }
-    //       placeholder="جستجو . . ."
-    //     />
+    <div className="w-1/2 flex justify-center relative">
+      <div className="w-full relative">
+        <Input
+          value={searchTitle}
+          onChange={handleSearching}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onKeyPress={(e: any) => {
+            if (e.key === "Enter") {
+              handleConfirmSearch();
+            }
+          }}
+          endContent={
+            <SearchIcon
+              onClick={handleConfirmSearch}
+              className="cursor-pointer"
+            />
+          }
+          placeholder="جستجو . . ."
+        />
 
-    //     {showResults && (
-    //       <SearchResults
-    //         results={searchResults}
-    //         isLoading={isLoading}
-    //         onSelect={handleResultSelect}
-    //       />
-    //     )}
-    //   </div>
-    // </div>
-    <div>test</div>
+        {showResults && (
+          <SearchResults
+            results={searchResults}
+            isLoading={isLoading}
+            onSelect={handleResultSelect}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 

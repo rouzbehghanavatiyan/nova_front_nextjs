@@ -18,13 +18,15 @@ const CategoryContent: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  const categoryId = searchParams.get('categoryId');
+
+  const categoryId = searchParams.get("categoryId");
 
   const handleGetAllCategories = async () => {
     try {
       if (categoryId) {
-        const res = await categoryServices.getProductCategory(Number(categoryId));
+        const res = await categoryServices.getProductCategory(
+          Number(categoryId)
+        );
         setProductCategories(res?.data || []);
       }
     } catch (error) {
@@ -46,6 +48,7 @@ const CategoryContent: React.FC = () => {
   };
 
   const handleShowProduct = (data: Category) => {
+    console.log("handleShowProduct handleShowProduct handleShowProduct", data);
     router.push(`/category/${categoryId}/products/${data.id}`);
   };
 

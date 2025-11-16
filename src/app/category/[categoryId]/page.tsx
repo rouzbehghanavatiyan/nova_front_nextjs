@@ -23,7 +23,7 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
   
   const router = useRouter();
   const dispatch = useAppDispatch();
-
+  
   useEffect(() => {
     const resolveParams = async () => {
       const resolved = await params;

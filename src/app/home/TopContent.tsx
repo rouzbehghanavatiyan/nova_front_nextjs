@@ -53,6 +53,8 @@ const TopContent: React.FC = () => {
     handleGetMainCover();
   }, []);
 
+  console.log(mainProduct);
+
   return (
     <div className="gap-5 relative">
       <Swiper
@@ -69,29 +71,18 @@ const TopContent: React.FC = () => {
         }}
         speed={1000}
         loop={true}
-        modules={[Pagination, Autoplay, EffectFade,Navigation]}
-        className="mySwiper h-[82vh]"
+        modules={[Pagination, Autoplay, EffectFade, Navigation]}
+        className="mySwiper h-[94vh]"
         effect="fade"
       >
-        {coverAlbum.map((item: any, index) => {
-          // const imageUrl = StringHelpers.getProfile(item?.attachments[0]);
-          // console.log("Image URL:", imageUrl);
-          console.log(item);
-
+        {mainProduct.map((item: any, index) => {
+          const imageUrl = `${StringHelpers.baseURL}/${item?.imageAttachment}/${item?.imageFileName}${item?.imageExt}`;
           return (
             <SwiperSlide key={index}>
-              <div
-                className="relative w-full h-full"
-                style={{
-                  paddingBottom: `${(1 / imageAspectRatio) * 100}%`,
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
+              <div className="relative w-full h-full">
                 <div className="absolute inset-0 w-full h-full">
                   <img
-                    // src={imageUrl}
-                    src={item?.src?.src}
+                    src={imageUrl}
                     alt={`Slide ${index + 1}`}
                     className={`w-full h-full object-cover transition-all duration-1000 ease-in-out ${
                       loadedImages[index]
@@ -112,24 +103,31 @@ const TopContent: React.FC = () => {
                       <div className="text-gray-400">Loading...</div>
                     </div>
                   )}
-                </div>
-                <div className="absolute bottom-2/3 left-1/12 max-w-[500px] p-5 bg-[rgba(0,0,0,0.4)] z-10 transform transition-all duration-1000 delay-300">
-                  <h1 className="font30 font-bold text-white transform transition-all duration-1000 delay-500">
-                    {item?.name}
-                  </h1>
-                  <p className="font20 text-white my-10 transform transition-all duration-1000 delay-700">
-                    {item?.des?.split(" ").slice(0, 10).join(" ")}...
-                  </p>
-                  <div className="flex justify-end transform transition-all duration-1000 delay-900">
-                    <Button
-                      onClick={() => handleRedirect(item)}
-                      style={{ backgroundColor: "#0068b1" }}
-                      className="rounded-none px-10 h-12 font20 transform transition-transform hover:scale-105"
-                      color="primary"
-                      variant="solid"
-                    >
-                      اطلاعات بیشتر
-                    </Button>
+                  <div className="absolute top-10 left-10 p-5 bg-[rgba(0,0,0,0.4)] z-10 transform">
+                    <h1 className="font30 font-bold text-white transform transition-all duration-1000 delay-500">
+                      {item?.productName}
+                    </h1>
+                    <p className="font20 text-white my-10 transform transition-all duration-1000 delay-700">
+                      {item?.features?.slice(0, 2)?.map((item: any) => {
+                        return (
+                          <div>
+                            <span className="me-2 ">+</span>
+                            <span>{item}</span>
+                          </div>
+                        );
+                      })}
+                    </p>
+                    <div className="flex justify-end transform transition-all duration-1000 delay-900">
+                      <Button
+                        onClick={() => handleRedirect(item)}
+                        style={{ backgroundColor: "#0068b1" }}
+                        className="rounded-none px-10 h-12 font20 transform transition-transform hover:scale-105"
+                        color="primary"
+                        variant="solid"
+                      >
+                        اطلاعات بیشتر
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
