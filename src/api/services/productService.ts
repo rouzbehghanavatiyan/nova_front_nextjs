@@ -63,6 +63,11 @@ export class ProductService extends BaseService<
       throw error;
     }
   }
+
+  async getNewProduct(): Promise<ApiResponse<Product[]>> {
+    const response = await baseClient.get(`/product/new`);
+    return response.data;
+  }
 }
 
 export const productService = new ProductService();

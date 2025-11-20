@@ -3,6 +3,7 @@ import { Input } from "@heroui/react";
 import { SearchIcon } from "../components/icons";
 import SearchResults from "./SearchResult";
 import { productService } from "../api/services/productService";
+import { useRouter } from "next/navigation";
 
 const SearchField: React.FC = () => {
   const [searchTitle, setSearchTitle] = useState("");
@@ -10,22 +11,20 @@ const SearchField: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout>();
+  const router = useRouter();
 
   const handleSearching = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setSearchTitle(value);
-
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-
       if (value.trim() === "") {
         setSearchResults([]);
         setShowResults(false);
         return;
       }
-
       setIsLoading(true);
       setShowResults(true);
 
@@ -54,18 +53,15 @@ const SearchField: React.FC = () => {
     },
     []
   );
-
-  console.log(searchResults);
-
   const handleConfirmSearch = () => {
     console.log("Confirm search:", searchTitle);
     setShowResults(false);
   };
-
   const handleResultSelect = (item: any) => {
-    console.log("Selected item:", item);
-    setSearchTitle(item.name);
-    setShowResults(false);
+      sessionStorage.setItem("currentProduct", JSON.stringify(item));
+      setSearchTitle(item.name);
+      setShowResults(false);
+      router.push(`/products/${item.id}`);
   };
 
   const handleInputFocus = () => {
@@ -75,12 +71,11 @@ const SearchField: React.FC = () => {
   };
 
   const handleInputBlur = () => {
-    console.log("HHHHHHHHHHHHHHHHHHHHHH");
     setTimeout(() => setShowResults(false), 200);
   };
 
   return (
-    <div className="w-1/2 flex justify-center relative">
+    <div className="w-1/3 flex justify-center relative">
       <div className="w-full relative">
         <Input
           value={searchTitle}
@@ -100,7 +95,6 @@ const SearchField: React.FC = () => {
           }
           placeholder="جستجو . . ."
         />
-
         {showResults && (
           <SearchResults
             results={searchResults}

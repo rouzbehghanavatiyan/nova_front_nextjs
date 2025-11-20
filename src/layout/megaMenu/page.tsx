@@ -119,11 +119,11 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
   return (
     <div
       ref={menuRef}
-      className={`absolute top-full left-0 w-full h-[80vh] bg-white backdrop-blur-md border-t border-gray-200 shadow-lg z-40 transform transition-all duration-500 ease-out ${
+      className={`absolute top-full left-0 w-full h-[60vh] bg-white backdrop-blur-md border-t border-gray-200 shadow-lg z-40 transform transition-all duration-500 ease-out ${
         isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
       }`}
     >
-      <div className="container mx-auto py-6">
+      <div className="container mx-auto pt-6 ">
         <div className="flex gap-8">
           <div className="w-1/7 pl-6">
             <div className="">
@@ -134,17 +134,17 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                   onMouseEnter={() => handleCategoryHover(category.id)}
                 >
                   <div
-                    className={`flex items-center justify-between p-3 ${
+                    className={`flex items-center justify-between p-2 ${
                       hoveredCategory === category.id ? "text-blue-700" : ""
                     }`}
                   >
                     <div className="flex items-center gap-3 flex-1">
-                      <div className="font-medium font11 flex-1 text-right hover:text-blue-600 transition-colors duration-200">
+                      <div className=" font13 flex-1 text-right hover:scale-105  hover:text-blue-600 transition-colors duration-200">
                         {category.title_per}
                       </div>
                     </div>
                     <ChevronDownIcon
-                      className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${
+                      className={`w-4 h-4  flex-shrink-0 transition-transform duration-200 ${
                         hoveredCategory === category.id
                           ? "rotate-180 text-blue-600"
                           : "text-gray-400"
@@ -162,8 +162,8 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                   <div
                     className="p-2"
                     style={{
-                      columnCount: currentSubCategories.length > 15 ? 2 : 1,
-                      maxHeight: "70vh",
+                      columnCount: currentSubCategories.length > 14 ? 2 : 1,
+                      maxHeight: "60vh",
                     }}
                   >
                     {currentSubCategories.map((subCategory, index) => {
@@ -177,9 +177,9 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                               setIsProductsPanelOpen(false);
                             }, 300);
                           }}
-                          className="block p-3 hover:text-blue-600 w- transition-all duration-200 mb-3 break-inside-avoid"
+                          className="block hover:text-blue-600 transform  transition-all duration-200 mb-3 break-inside-avoid"
                         >
-                          <span className="font-semibold text-gray-700 text-sm line-clamp-2">
+                          <span className="font-medium font12 text-gray-700 hover:scale-105 inline-block cursor-pointer">
                             {subCategory.title}
                           </span>
                         </Link>

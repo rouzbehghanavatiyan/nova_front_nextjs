@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import StringHelpers from "@/src/config/StringHelpers";
-import { useAppSelector } from "@/src/store/hook";
 import { productService } from "@/src/api/services/productService";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { PlusIcon, MinusIcon } from "@heroicons/react/16/solid";
@@ -27,7 +26,9 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
     productId: string;
   } | null>(null);
 
-  const { currentProduct }: any = useAppSelector((state) => state.product);
+  const getProductFromStorage: any = sessionStorage.getItem("currentProduct");
+  const currentProduct = JSON.parse(getProductFromStorage);
+
   const resolveParams = async () => {
     const resolved = await params;
     setResolvedParams(resolved);
@@ -36,6 +37,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   useEffect(() => {
     resolveParams();
   }, [params]);
+  console.log(resolvedParams);
 
   const handleGetProductDescription = async () => {
     if (!resolvedParams) return;
@@ -43,6 +45,8 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
       const res = await productService.getDescription(
         Number(resolvedParams.productId)
       );
+      console.log(res);
+
       const { code, data }: any = res;
       if (code === 0) setDescription(data?.content || "");
     } catch (error) {
@@ -52,7 +56,6 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
 
   const handleGetFeaturesFromProduct = async () => {
     if (!resolvedParams) return;
-
     try {
       const res = await productService.getFeaturesFromProduct(
         Number(resolvedParams.productId)
@@ -66,7 +69,6 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
 
   const fetchProduct = async () => {
     if (!resolvedParams) return;
-
     try {
       setProduct({
         id: resolvedParams.productId,
@@ -87,8 +89,6 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
       [section]: !prev[section],
     }));
   };
-
-  console.log(isOpen?.features);
 
   useEffect(() => {
     if (resolvedParams) {
@@ -139,7 +139,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
             </button>
             <div
               className={`overflow-hidden transition-all duration-300 ${
-                isOpen.features ? " opacity-100" : "max-h-0 opacity-0"
+                isOpen.features ? "max-h-[100vh] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
               <div className="px-4 pt-4 pb-2 text-gray-600">
@@ -185,7 +185,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
             <div
               className={`overflow-hidden transition-all duration-300 ${
                 isOpen.description
-                  ? "max-h-96 opacity-100"
+                  ? "max-h-[100vh] opacity-100"
                   : "max-h-0 opacity-0"
               }`}
             >

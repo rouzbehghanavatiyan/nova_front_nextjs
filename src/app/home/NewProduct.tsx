@@ -12,55 +12,54 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { productService } from "@/src/api/services/productService";
+import StringHelpers from "@/src/config/StringHelpers";
+import { useRouter } from "next/navigation";
 
 const NewProduct: React.FC = () => {
+  const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [loadedImages, setLoadedImages] = useState<boolean[]>(new Array(4).fill(false));
-  const [imagesReady, setImagesReady] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<boolean[]>(
+    new Array(4).fill(false)
+  );
+  const [newProduct, setNewProduct] = useState<any>([]);
 
-  const images = [
-    { src: img1, alt: "ANGEL GRINDER", link: "/products/angel-grinder" },
-    { src: img2, alt: "ابزار روشنایی", link: "/products/lighting-tools" },
-    { src: img3, alt: "ابزار صنعتی", link: "/products/industrial-tools" },
-    { src: img4, alt: "صنعتی", link: "/products/industrial-tools" },
-    { src: img5, alt: "صنعتی", link: "/products/industrial-tools" },
-    { src: img6, alt: "صنعتی", link: "/products/industrial-tools" },
-    { src: img7, alt: "صنعتی", link: "/products/industrial-tools" },
-    { src: img8, alt: "صنعتی", link: "/products/industrial-tools" },
-    { src: img9, alt: "صنعتی", link: "/products/industrial-tools" },
-  ];
+  // const preloadImages = async () => {
+  //   const imagePromises = images.map((image, index) => {
+  //     return new Promise((resolve, reject) => {
+  //       const img = new Image();
+  //       img.src = image.src.src;
+  //       img.onload = () => {
+  //         setLoadedImages((prev) => {
+  //           const newLoaded = [...prev];
+  //           newLoaded[index] = true;
+  //           return newLoaded;
+  //         });
+  //         resolve(true);
+  //       };
+  //       img.onerror = () => {
+  //         setLoadedImages((prev) => {
+  //           const newLoaded = [...prev];
+  //           newLoaded[index] = true;
+  //           return newLoaded;
+  //         });
+  //         resolve(false);
+  //       };
+  //     });
+  //   });
+  //   await Promise.all(imagePromises.slice(0, 2));
+  //   setImagesReady(true);
+  // };
 
-  useEffect(() => {
-    const preloadImages = async () => {
-      const imagePromises = images.map((image, index) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = image.src.src;
-          img.onload = () => {
-            setLoadedImages(prev => {
-              const newLoaded = [...prev];
-              newLoaded[index] = true;
-              return newLoaded;
-            });
-            resolve(true);
-          };
-          img.onerror = () => {
-            setLoadedImages(prev => {
-              const newLoaded = [...prev];
-              newLoaded[index] = true;
-              return newLoaded;
-            });
-            resolve(false);
-          };
-        });
-      });
-
-      await Promise.all(imagePromises.slice(0, 2));
-      setImagesReady(true);
-    };
-
-    preloadImages();
-  }, []);
+  const handleGetNewProduct = async () => {
+    try {
+      const res: any = await productService.getNewProduct();
+      setNewProduct(res?.data);
+      console.log();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => {
@@ -70,29 +69,15 @@ const NewProduct: React.FC = () => {
     });
   };
 
-  const handleImageClick = (link: string) => {
-    window.location.href = link;
+  const handleImageClick = (data: any) => {
+    const productId = data.id;
+    sessionStorage.setItem("currentProduct", JSON.stringify(data));
+    router.push(`/products/${productId}`);
   };
 
-  if (!imagesReady) {
-    return (
-      <div className="w-full px-4 py-8">
-        <div className="max-w-full mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mx-16">
-            {images.map((_, index) => (
-              <div key={index} className="relative">
-                <div className="overflow-hidden shadow-lg">
-                  <div className="h-[50vh] w-[40vw] bg-gray-300 animate-pulse flex items-center justify-center">
-                    <div className="animate-spin h-8 w-8 border-b-2 border-blue-600"></div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    handleGetNewProduct();
+  }, []);
 
   return (
     <div className="w-full  py-8 bg-red">
@@ -101,9 +86,7 @@ const NewProduct: React.FC = () => {
           <Swiper
             slidesPerView={1}
             spaceBetween={5}
-            pagination={{
-              clickable: true,
-            }}
+            loop={true}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
@@ -122,77 +105,71 @@ const NewProduct: React.FC = () => {
                 spaceBetween: 10,
               },
             }}
-            navigation={true}
-            modules={[Pagination, Autoplay , Navigation]}
+            modules={[Pagination, Autoplay, Navigation]}
             className="mySwiper"
           >
-            {images.map((image, index) => (
-              <SwiperSlide key={index}>
-                <div
-                  className="relative group cursor-pointer"
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  onClick={() => handleImageClick(image.link)}
-                >
-                  <div className="overflow-hidden shadow-lg">
-                    {/* Loading State */}
-                    {!loadedImages[index] && (
-                      <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center z-10">
-                        <div className="animate-spin h-8 w-8 border-b-2 border-blue-600"></div>
-                      </div>
-                    )}
-                    
-                    {/* Image */}
-                    <img
-                      src={image.src.src}
-                      alt={image.alt}
-                      className={`h-[50vh] w-full object-cover transition-all duration-300 ease-in-out ${
-                        hoveredIndex === index
-                          ? "scale-105 brightness-110"
-                          : "scale-100 brightness-100"
-                      } ${
-                        loadedImages[index] ? "opacity-100" : "opacity-0"
-                      }`}
-                      onLoad={() => handleImageLoad(index)}
-                      onError={() => handleImageLoad(index)}
-                      loading={index < 2 ? "eager" : "lazy"}
-                    />
-                    
-                    <span className="absolute top-0 text-white m-5 p-3 bg-red-500 z-20">
-                      جدید
-                    </span>
-                  </div>
-                  
-                  {/* Overlay */}
-                  <div
-                    className={`absolute inset-0 bg-[rgba(0,0,0,0.4)] bg-opacity-40 transition-opacity duration-300 ${
-                      hoveredIndex === index ? "opacity-100" : "opacity-0"
-                    }`}
-                  ></div>
+            {newProduct.map((item: any, index: number) => {
+              const fixImageUrl = `${StringHelpers.baseURL}/${item?.attachmentType}/${item?.fileName}${item?.ext}`;
 
-                  {/* Text Content */}
+              return (
+                <SwiperSlide key={index}>
                   <div
-                    className={`absolute bottom-4 left-4 right-4 text-white transition-all duration-300 z-20 ${
-                      hoveredIndex === index
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-2 opacity-0"
-                    }`}
+                    className="relative group cursor-pointer"
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    onClick={() => handleImageClick(item)}
                   >
-                    <h3 className="text-lg font-bold mb-1">{image.alt}</h3>
-                    <p className="text-sm opacity-90">مشاهده جزئیات →</p>
-                  </div>
+                    <div className="overflow-hidden shadow-lg">
+                      {!loadedImages[index] && (
+                        <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center z-10">
+                          <div className="animate-spin h-8 w-8 border-b-2 border-blue-600"></div>
+                        </div>
+                      )}
+                      <img
+                        src={fixImageUrl}
+                        alt={item.alt}
+                        className={`h-[50vh] w-full object-cover transition-all duration-300 ease-in-out ${
+                          hoveredIndex === index
+                            ? "scale-105 brightness-110"
+                            : "scale-100 brightness-100"
+                        } ${loadedImages[index] ? "opacity-100" : "opacity-0"}`}
+                        onLoad={() => handleImageLoad(index)}
+                        onError={() => handleImageLoad(index)}
+                        loading="lazy"
+                        crossOrigin="anonymous"
+                      />
+                      <span className="absolute top-0 text-white m-5 p-3 bg-red-500 z-20">
+                        جدید
+                      </span>
+                    </div>
 
-                  {/* Border Effect */}
-                  <div
-                    className={`absolute inset-0 border-2 border-blue-500 transition-all duration-300 ${
-                      hoveredIndex === index
-                        ? "opacity-100 scale-100"
-                        : "opacity-0 scale-95"
-                    }`}
-                  ></div>
-                </div>
-              </SwiperSlide>
-            ))}
+                    <div
+                      className={`absolute inset-0 bg-[rgba(0,0,0,0.4)] bg-opacity-40 transition-opacity duration-300 ${
+                        hoveredIndex === index ? "opacity-100" : "opacity-0"
+                      }`}
+                    ></div>
+
+                    <div
+                      className={`absolute bottom-4 left-4 right-4 text-white transition-all duration-300 z-20 ${
+                        hoveredIndex === index
+                          ? "translate-y-0 opacity-100"
+                          : "translate-y-2 opacity-0"
+                      }`}
+                    >
+                      <p className="text-sm opacity-90">مشاهده جزئیات →</p>
+                    </div>
+
+                    <div
+                      className={`absolute inset-0 border-2 border-blue-500 transition-all duration-300 ${
+                        hoveredIndex === index
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-95"
+                      }`}
+                    ></div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
         </div>
       </div>

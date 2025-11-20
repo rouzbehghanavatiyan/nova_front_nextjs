@@ -20,27 +20,27 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
   const [resolvedParams, setResolvedParams] = useState<{
     categoryId: string;
   } | null>(null);
-  
+
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     const resolveParams = async () => {
       const resolved = await params;
       setResolvedParams(resolved);
     };
-    
+
     resolveParams();
   }, [params]);
 
   const fetchCategoryData = async () => {
     if (!resolvedParams) return;
-    
     try {
       setLoading(true);
-      const res = await categoryServices.getProductCategory(Number(resolvedParams.categoryId));
+      const res = await categoryServices.getProductCategory(
+        Number(resolvedParams.categoryId)
+      );
+      console.log(res?.data);
       setProducts(res?.data || []);
-
       setCategory({
         id: resolvedParams.categoryId,
         name: `دسته‌بندی ${resolvedParams.categoryId}`,
@@ -54,9 +54,9 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
 
   const handleProductClick = (product: any) => {
     if (!resolvedParams) return;
-    
-    dispatch(setCurrentProduct(product));
-    router.push(`/category/${resolvedParams.categoryId}/products/${product.id}`);
+    // router.push(`/category/${resolvedParams.categoryId}/products/${product.id}`);
+    sessionStorage.setItem("currentProduct", JSON.stringify(product));
+    router.push(`/products/${product.id}`);
   };
 
   useEffect(() => {

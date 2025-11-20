@@ -1,24 +1,6 @@
 import React, { useState, useEffect } from "react";
-import BaseImage from "@/src/assets/img/0928976001757762909.jpg";
-import BaseImage2 from "@/src/assets/img/PROFSSIONAL PLIERS 8003-8009 -8017-8051.png";
-import BaseImage3 from "@/src/assets/img/ANGEL GRlNDER.png";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Autoplay,
-  Pagination,
-  Navigation,
-  Mousewheel,
-  Keyboard,
-} from "swiper/modules";
-import img1 from "../../assets/displayProduct/محصولات نمایشی 1.jpg";
-import img2 from "../../assets/displayProduct/محصولات نمایشی 2.jpg";
-import img3 from "../../assets/displayProduct/محصولات نمایشی 3.jpg";
-import img4 from "../../assets/displayProduct/محصولات نمایشی 4.jpg";
-import img5 from "../../assets/displayProduct/محصولات نمایشی 5.jpg";
-import img6 from "../../assets/displayProduct/محصولات نمایشی 6.jpg";
-import img7 from "../../assets/displayProduct/محصولات نمایشی 8.jpg";
-import img8 from "../../assets/displayProduct/محصولات نمایشی9.jpg";
-import img9 from "../../assets/displayProduct/محصولات نمایشی10.jpg";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -28,39 +10,38 @@ const MostPopular: React.FC = () => {
     new Array(9).fill(false)
   );
   const [imagesReady, setImagesReady] = useState(false);
-  const images = [img9, img2, img3, img4, img5, img6, img7, img8, img1];
   const fixedHeight = "40vh";
   const fixedWidth = "100%";
 
-  const preloadImages = async () => {
-    const imagePromises = images.map((image, index) => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.src = image.src;
-        img.onload = () => {
-          setLoadedImages((prev) => {
-            const newLoaded = [...prev];
-            newLoaded[index] = true;
-            return newLoaded;
-          });
-          resolve(true);
-        };
-        img.onerror = () => {
-          setLoadedImages((prev) => {
-            const newLoaded = [...prev];
-            newLoaded[index] = true;
-            return newLoaded;
-          });
-          resolve(false);
-        };
-      });
-    });
-    await Promise.all([imagePromises[0], imagePromises[1]]);
-    setImagesReady(true);
-  };
+  // const preloadImages = async () => {
+  //   const imagePromises = images.map((image, index) => {
+  //     return new Promise((resolve, reject) => {
+  //       const img = new Image();
+  //       img.src = image.src;
+  //       img.onload = () => {
+  //         setLoadedImages((prev) => {
+  //           const newLoaded = [...prev];
+  //           newLoaded[index] = true;
+  //           return newLoaded;
+  //         });
+  //         resolve(true);
+  //       };
+  //       img.onerror = () => {
+  //         setLoadedImages((prev) => {
+  //           const newLoaded = [...prev];
+  //           newLoaded[index] = true;
+  //           return newLoaded;
+  //         });
+  //         resolve(false);
+  //       };
+  //     });
+  //   });
+  //   await Promise.all([imagePromises[0], imagePromises[1]]);
+  //   setImagesReady(true);
+  // };
 
   useEffect(() => {
-    preloadImages();
+    // preloadImages();
   }, []);
 
   const handleImageLoad = (index: number) => {
@@ -107,7 +88,7 @@ const MostPopular: React.FC = () => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper shadow-small w-full h-full"
           >
-            {images.map((image, index) => (
+            {["images"].map((image, index) => (
               <SwiperSlide key={index}>
                 <div className="relative w-full h-full">
                   {!loadedImages[index] && (
@@ -118,7 +99,7 @@ const MostPopular: React.FC = () => {
                   <img
                     width={1500}
                     height={1500}
-                    src={image.src}
+                    // src={image.src}
                     alt={`Slide ${index + 1}`}
                     className={`w-full h-full object-cover transition-opacity duration-300 ${
                       loadedImages[index] ? "opacity-100" : "opacity-0"
