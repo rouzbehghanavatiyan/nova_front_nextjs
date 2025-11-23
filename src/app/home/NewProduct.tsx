@@ -70,7 +70,7 @@ const NewProduct: React.FC = () => {
   };
 
   const handleImageClick = (data: any) => {
-    const productId = data.id;
+    const productId = data.product_id;
     sessionStorage.setItem("currentProduct", JSON.stringify(data));
     router.push(`/products/${productId}`);
   };
@@ -110,6 +110,7 @@ const NewProduct: React.FC = () => {
           >
             {newProduct.map((item: any, index: number) => {
               const fixImageUrl = `${StringHelpers.baseURL}/${item?.attachmentType}/${item?.fileName}${item?.ext}`;
+              console.log(item);
 
               return (
                 <SwiperSlide key={index}>
@@ -126,7 +127,7 @@ const NewProduct: React.FC = () => {
                         </div>
                       )}
                       <img
-                        src={fixImageUrl}
+                        src={StringHelpers.getProfile(item?.attachments?.[0])}
                         alt={item.alt}
                         className={`h-[50vh] w-full object-cover transition-all duration-300 ease-in-out ${
                           hoveredIndex === index
@@ -144,8 +145,10 @@ const NewProduct: React.FC = () => {
                     </div>
 
                     <div
-                      className={`absolute inset-0 bg-[rgba(0,0,0,0.4)] bg-opacity-40 transition-opacity duration-300 ${
-                        hoveredIndex === index ? "opacity-100" : "opacity-0"
+                      className={`absolute  text-white inset-0 bg-[rgba(0,0,0,0.4)] bg-opacity-40 transition-opacity duration-300 ${
+                        hoveredIndex === index
+                          ? "opacity-100 pt-20 px-2"
+                          : "opacity-0"
                       }`}
                     ></div>
 

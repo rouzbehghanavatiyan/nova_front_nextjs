@@ -91,12 +91,12 @@ const TopContent: React.FC = () => {
                     <h1 className="font20 font-bold text-white transform transition-all duration-1000 delay-500">
                       {item?.productName}
                     </h1>
-                    <p className="font15 text-white my-10 transform transition-all duration-1000 delay-700">
+                    <p className="font15 text-white my-5 transform transition-all duration-1000 delay-700">
                       {item?.features?.slice(0, 2)?.map((item: any) => {
                         return (
-                          <div className="flex">
+                          <div className="flex my-3">
                             <div className="me-2 inline justify-center items-center ">
-                              <span className="border px-2  rounded-full">
+                              <span className=" ">
                                 +
                               </span>
                             </div>
