@@ -38,8 +38,20 @@ export class CategoryServices extends BaseService<
     }
   }
 
-  async getProductCategory(categoryId: number): Promise<ApiResponse<any[]>> {
-    try {   
+  async getSubCategoryById(categoryId: number): Promise<ApiResponse<any[]>> {
+    try {
+      const response = await baseClient.get(
+        `/category/subCategoryId=${categoryId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error getting subcategories:", error);
+      throw error;
+    }
+  }
+
+  async getCategoryById(categoryId: number): Promise<ApiResponse<any[]>> {
+    try {
       const response = await baseClient.get(
         `/category/categoryId=${categoryId}`
       );

@@ -16,6 +16,8 @@ import Light from "@/src/assets/img/3032.png";
 import Other from "@/src/assets/img/2943.png";
 import Chargy from "@/src/assets/img/7715.png";
 import { categoryServices } from "@/src/api/services/categoryServices";
+import { useAppDispatch, useAppSelector } from "@/src/store/hook";
+import { RsetIsOpenMegaMenu } from "@/src/store/slices/main";
 
 const categoryImages = [
   Metr,
@@ -35,21 +37,14 @@ const categoryImages = [
   Chargy,
 ];
 
-interface MegaMenuProps {
-  setIsProductsPanelOpen: (isOpen: boolean) => void;
-  categories: any[];
-}
-
-const MegaMenu: React.FC<MegaMenuProps> = ({
-  setIsProductsPanelOpen,
-  categories,
-}) => {
+const MegaMenu: React.FC<any> = ({ categories }) => {
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [subCategories, setSubCategories] = useState<{ [key: string]: any[] }>(
     {}
   );
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const main = useAppSelector((state) => state.product);
   const [currentSubCategories, setCurrentSubCategories] = useState<any[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -81,22 +76,17 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
 
   const getCategoryImage = (categoryId: string): any => {
     const index =
-      categories.findIndex((cat) => cat.id === categoryId) %
+      categories.findIndex((cat: any) => cat.id === categoryId) %
       categoryImages.length;
     return categoryImages[index];
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsOpen(true), 50);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        dispatch(RsetIsOpenMegaMenu(false));
         setTimeout(() => {
-          setIsProductsPanelOpen(false);
+          dispatch(RsetIsOpenMegaMenu(false));
         }, 300);
       }
     };
@@ -106,7 +96,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setIsProductsPanelOpen]);
+  }, []);
 
   useEffect(() => {
     if (hoveredCategory && subCategories[hoveredCategory]) {
@@ -119,43 +109,54 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
   return (
     <div
       ref={menuRef}
-      className={`absolute top-full left-0 w-full h-[60vh] bg-white backdrop-blur-md border-t border-gray-200 shadow-lg z-40 transform transition-all duration-500 ease-out ${
-        isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
+      className={`absolute top-full left-0 w-full bg-white backdrop-blur-md border-t border-gray-200 shadow-lg z-40 transform transition-all duration-500 ease-out ${
+        main?.isOpenMegaMenu
+          ? "translate-y-0 opacity-100"
+          : "-translate-y-4 opacity-0"
       }`}
     >
-      <div className="container mx-auto pt-6 ">
+      <div className="container  mx-auto">
         <div className="flex gap-8">
-          <div className="w-1/7 pl-6">
-            <div className="">
-              {categories.map((category) => (
-                <div
-                  key={category.id}
-                  className="relative group"
-                  onMouseEnter={() => handleCategoryHover(category.id)}
-                >
+          <div className="w-[200px]">
+            <div className="py-4">
+              {categories?.map((category: any) => {
+                console.log(category);
+
+                return (
                   <div
-                    className={`flex items-center justify-between p-2 ${
-                      hoveredCategory === category.id ? "text-blue-700" : ""
-                    }`}
+                    key={category.id}
+                    className="relative  group"
+                    onMouseEnter={() => handleCategoryHover(category.id)}
                   >
-                    <div className="flex items-center gap-3 flex-1">
-                      <div className=" font13 flex-1 text-right hover:scale-105  hover:text-blue-600 transition-colors duration-200">
-                        {category.title_per}
-                      </div>
-                    </div>
-                    <ChevronDownIcon
-                      className={`w-4 h-4  flex-shrink-0 transition-transform duration-200 ${
-                        hoveredCategory === category.id
-                          ? "rotate-180 text-blue-600"
-                          : "text-gray-400"
+                    <div
+                      className={`flex  items-center justify-between p-2 ${
+                        hoveredCategory === category.id ? "text-blue-700" : ""
                       }`}
-                    />
+                    >
+                      <div className="flex items-center gap-3 flex-1">
+                        <Link
+                          key={category.id}
+                          href={`/category/${category?.id}`}
+                          onClick={() => dispatch(RsetIsOpenMegaMenu(false))}
+                          className="cursor-pointer font13 flex-1 text-right hover:scale-105  hover:text-blue-600 transition-colors duration-200"
+                        >
+                          {category.title_per}
+                        </Link>
+                      </div>
+                      <ChevronDownIcon
+                        className={`w-4 h-4  flex-shrink-0 transition-transform duration-200 ${
+                          hoveredCategory === category.id
+                            ? "rotate-180 text-blue-600"
+                            : "text-gray-400"
+                        }`}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
-          <div className="flex-1">
+          <div className="flex-1  py-4">
             {hoveredCategory && (
               <div className="flex justify-around">
                 <div className="w-96">
@@ -170,12 +171,9 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                       return (
                         <Link
                           key={subCategory.id}
-                          href={`/category/${subCategory.id}`}
+                          href={`/category/${subCategory?.categoryId}/subCategory/${subCategory.id}`}
                           onClick={() => {
-                            setIsOpen(false);
-                            setTimeout(() => {
-                              setIsProductsPanelOpen(false);
-                            }, 300);
+                            dispatch(RsetIsOpenMegaMenu(false));
                           }}
                           className="block hover:text-blue-600 transform  transition-all duration-200 mb-3 break-inside-avoid"
                         >
@@ -199,8 +197,9 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                       className="w-4/5 h-4/5 object-contain"
                       src={getCategoryImage(hoveredCategory).src}
                       alt={
-                        categories.find((cat) => cat.id === hoveredCategory)
-                          ?.title_per
+                        categories.find(
+                          (cat: any) => cat.id === hoveredCategory
+                        )?.title_per
                       }
                     />
                   </div>

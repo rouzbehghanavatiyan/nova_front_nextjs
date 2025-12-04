@@ -1,17 +1,31 @@
 "use client";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import CompanyRecords from "./home/CompanyRecords";
-import MostPopular from "./home/MostPopular";
+import { Suspense, useEffect } from "react";
+import MostPopular from "./home/Achievements";
 import NewProduct from "./home/NewProduct";
-import LearningAboutProduct from "./home/LearningAboutProduct";
-import MainTitle from "./home/MainTitle";
+import PopularProduct from "./home/PopularProduct";
+import CategoryContentPage from "./categoryContent/page";
+import { categoryServices } from "../api/services/categoryServices";
+import { useAppDispatch, useAppSelector } from "../store/hook";
+import { RsetCategories } from "../store/slices/main";
 
 const TopContent = dynamic(() => import("./home/TopContent"), {
   ssr: false,
 });
 
 export default function Home() {
+  const main = useAppSelector((state) => state.product);
+  const dispatch = useAppDispatch();
+
+  const handleGetAllCategories = async () => {
+    const res: any = await categoryServices.getAllCategories();
+    dispatch(RsetCategories(res?.data));
+  };
+
+  useEffect(() => {
+    handleGetAllCategories();
+  }, []);
+
   return (
     <section className="flex flex-col">
       <Suspense
@@ -20,10 +34,11 @@ export default function Home() {
         }
       >
         <TopContent />
-        <CompanyRecords />
+        {/* <CompanyRecords /> */}
         <NewProduct />
+        <CategoryContentPage categories={main?.categories || []} />
         {/* <MainTitle /> */}
-        <LearningAboutProduct />
+        <PopularProduct />
         <MostPopular />
       </Suspense>
     </section>

@@ -40,8 +40,8 @@ const CallDetail = () => {
           <div className="mt-8">
             <h3 className="font-semibold mb-3">ساعات کاری</h3>
             <div className="text-gray-600 space-y-1">
-              <p>شنبه تا چهارشنبه: ۸:۰۰ - ۱۷:۰۰</p>
-              <p>پنجشنبه: ۸:۰۰ - ۱۴:۰۰</p>
+              <p>شنبه تا چهارشنبه: 0۸:30 - ۱۷:30</p>
+              <p>پنجشنبه: 0۸:30 - ۱3:۰۰</p>
               <p>جمعه: تعطیل</p>
             </div>
           </div>

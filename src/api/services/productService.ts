@@ -15,6 +15,7 @@ export class ProductService extends BaseService<
   constructor() {
     super("");
   }
+
   async getMainCover(): Promise<ApiResponse<Product[]>> {
     try {
       const response = await baseClient.get("/product/cover");
@@ -66,6 +67,11 @@ export class ProductService extends BaseService<
 
   async getNewProduct(): Promise<ApiResponse<Product[]>> {
     const response = await baseClient.get(`/product/new`);
+    return response.data;
+  }
+
+  async getPopular(): Promise<ApiResponse<Product[]>> {
+    const response = await baseClient.get(`/product/popular`);
     return response.data;
   }
 }

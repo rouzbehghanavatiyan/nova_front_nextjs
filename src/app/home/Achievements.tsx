@@ -4,44 +4,27 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { productService } from "@/src/api/services/productService";
 
-const MostPopular: React.FC = () => {
+const Achievements: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<boolean[]>(
     new Array(9).fill(false)
   );
-  const [imagesReady, setImagesReady] = useState(false);
+  const [popularProduct, setPopularProduct] = useState(false);
   const fixedHeight = "40vh";
   const fixedWidth = "100%";
 
-  // const preloadImages = async () => {
-  //   const imagePromises = images.map((image, index) => {
-  //     return new Promise((resolve, reject) => {
-  //       const img = new Image();
-  //       img.src = image.src;
-  //       img.onload = () => {
-  //         setLoadedImages((prev) => {
-  //           const newLoaded = [...prev];
-  //           newLoaded[index] = true;
-  //           return newLoaded;
-  //         });
-  //         resolve(true);
-  //       };
-  //       img.onerror = () => {
-  //         setLoadedImages((prev) => {
-  //           const newLoaded = [...prev];
-  //           newLoaded[index] = true;
-  //           return newLoaded;
-  //         });
-  //         resolve(false);
-  //       };
-  //     });
-  //   });
-  //   await Promise.all([imagePromises[0], imagePromises[1]]);
-  //   setImagesReady(true);
-  // };
+  const preloadImages = async () => {
+    try {
+      const res: any = await productService.getPopular();
+      setPopularProduct(res?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    // preloadImages();
+    preloadImages();
   }, []);
 
   const handleImageLoad = (index: number) => {
@@ -52,11 +35,11 @@ const MostPopular: React.FC = () => {
     });
   };
 
-  if (!imagesReady) {
+  if (!popularProduct) {
     return (
       <div className="grid grid-cols-5 gap-5 mb-10">
         <div className="col-span-3">
-          <div className="w-full h-40vh bg-gray-200 animate-pulse flex items-center justify-center">
+          <div className="w-full h-40vh bg-gray-200 animate-pulse  flex items-center justify-center">
             <div className="animate-spin h-8 w-8 border-b-2 border-blue-main"></div>
           </div>
         </div>
@@ -88,12 +71,12 @@ const MostPopular: React.FC = () => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper shadow-small w-full h-full"
           >
-            {["images"].map((image, index) => (
+            {["popularProduct"].map((image: any, index: number) => (
               <SwiperSlide key={index}>
                 <div className="relative w-full h-full">
                   {!loadedImages[index] && (
-                    <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
-                      <div className="animate-spin h-8 w-8 border-b-2 border-blue-600"></div>
+                    <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center  justify-center">
+                      <div className="animate-spin h-8 w-8 border-b-2 border-blue-600 rounded-full"></div>
                     </div>
                   )}
                   <img
@@ -150,4 +133,4 @@ const MostPopular: React.FC = () => {
   );
 };
 
-export default MostPopular;
+export default Achievements;

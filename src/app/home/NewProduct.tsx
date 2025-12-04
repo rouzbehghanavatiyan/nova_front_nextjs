@@ -1,61 +1,26 @@
 import React, { useState, useEffect } from "react";
-import img1 from "@/src/assets/newProduct/محصولات جدید1.jpg";
-import img2 from "@/src/assets/newProduct/محصولات جدید2.jpg";
-import img3 from "@/src/assets/newProduct/محصولات جدید3.jpg";
-import img4 from "@/src/assets/newProduct/محصولات جدید4.jpg";
-import img5 from "@/src/assets/newProduct/محصولات جدید5.jpg";
-import img6 from "@/src/assets/newProduct/محصولات جدید6.jpg";
-import img7 from "@/src/assets/newProduct/محصولات جدید7.jpg";
-import img8 from "@/src/assets/newProduct/محصولات جدید8.jpg";
-import img9 from "@/src/assets/newProduct/محصولات جدید9.jpg";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { productService } from "@/src/api/services/productService";
 import StringHelpers from "@/src/config/StringHelpers";
 import { useRouter } from "next/navigation";
-
+import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
 const NewProduct: React.FC = () => {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [loadedImages, setLoadedImages] = useState<boolean[]>(
     new Array(4).fill(false)
   );
+
+  const [loadedHoverImages, setLoadedHoverImages] = useState<boolean[]>(
+    new Array(4).fill(false)
+  );
+
   const [newProduct, setNewProduct] = useState<any>([]);
-
-  // const preloadImages = async () => {
-  //   const imagePromises = images.map((image, index) => {
-  //     return new Promise((resolve, reject) => {
-  //       const img = new Image();
-  //       img.src = image.src.src;
-  //       img.onload = () => {
-  //         setLoadedImages((prev) => {
-  //           const newLoaded = [...prev];
-  //           newLoaded[index] = true;
-  //           return newLoaded;
-  //         });
-  //         resolve(true);
-  //       };
-  //       img.onerror = () => {
-  //         setLoadedImages((prev) => {
-  //           const newLoaded = [...prev];
-  //           newLoaded[index] = true;
-  //           return newLoaded;
-  //         });
-  //         resolve(false);
-  //       };
-  //     });
-  //   });
-  //   await Promise.all(imagePromises.slice(0, 2));
-  //   setImagesReady(true);
-  // };
-
   const handleGetNewProduct = async () => {
     try {
       const res: any = await productService.getNewProduct();
       setNewProduct(res?.data);
-      console.log();
     } catch (error) {
       console.log(error);
     }
@@ -69,10 +34,29 @@ const NewProduct: React.FC = () => {
     });
   };
 
+  const handleHoverImageLoad = (index: number) => {
+    setLoadedHoverImages((prev) => {
+      const newLoaded = [...prev];
+      newLoaded[index] = true;
+      return newLoaded;
+    });
+  };
+
   const handleImageClick = (data: any) => {
-    const productId = data.product_id;
-    sessionStorage.setItem("currentProduct", JSON.stringify(data));
-    router.push(`/products/${productId}`);
+    if (data?.categoryId !== null) {
+      const productId = data.product_id;
+      const updatedData = {
+        ...data,
+        attachments: data.attachments?.map((attachment: any) => ({
+          ...attachment,
+          attachmentType: "img",
+        })),
+      };
+      sessionStorage.setItem("currentProduct", JSON.stringify(updatedData));
+      router.push(`/products/${productId}`);
+    } else {
+      router.push(`/category/${data?.subcategoryId}`);
+    }
   };
 
   useEffect(() => {
@@ -80,17 +64,24 @@ const NewProduct: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full  py-8 bg-red">
+    <div className="w-full py-8 bg-red">
+      <div className="c items-center gap-10 my-5 px-15 flex text-center justify-center  font-bold">
+        <span className="flex justify-start font25">محصولات جدید</span>
+      </div>
+      <div className=" text-blue-500 items-center gap-2 my-5 px-15 flex text-center justify-center  font-bold">
+        <span className="cursor-pointer font16 text-blue-500">نمایش </span>
+        <ArrowLongLeftIcon className="cursor-pointer h-5 w-5" />
+      </div>
       <div className="max-w-full mx-auto">
-        <div className="mx-16">
-          <Swiper
+        <div className="mx-10 gap-4 flex ">
+          {/* <Swiper
             slidesPerView={1}
             spaceBetween={5}
             loop={true}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-            }}
+            // autoplay={{
+            //   delay: 3000,
+            //   disableOnInteraction: false,
+            // }}
             breakpoints={{
               640: {
                 slidesPerView: 2,
@@ -105,75 +96,88 @@ const NewProduct: React.FC = () => {
                 spaceBetween: 10,
               },
             }}
-            modules={[Pagination, Autoplay, Navigation]}
+            modules={[]}
             className="mySwiper"
-          >
-            {newProduct.map((item: any, index: number) => {
-              const fixImageUrl = `${StringHelpers.baseURL}/${item?.attachmentType}/${item?.fileName}${item?.ext}`;
-              console.log(item);
-
-              return (
-                <SwiperSlide key={index}>
-                  <div
-                    className="relative group cursor-pointer"
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                    onClick={() => handleImageClick(item)}
-                  >
-                    <div className="overflow-hidden shadow-lg">
-                      {!loadedImages[index] && (
-                        <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center z-10">
-                          <div className="animate-spin h-8 w-8 border-b-2 border-blue-600"></div>
-                        </div>
-                      )}
-                      <img
-                        src={StringHelpers.getProfile(item?.attachments?.[0])}
-                        alt={item.alt}
-                        className={`h-[50vh] w-full object-cover transition-all duration-300 ease-in-out ${
-                          hoveredIndex === index
-                            ? "scale-105 brightness-110"
-                            : "scale-100 brightness-100"
-                        } ${loadedImages[index] ? "opacity-100" : "opacity-0"}`}
-                        onLoad={() => handleImageLoad(index)}
-                        onError={() => handleImageLoad(index)}
-                        loading="lazy"
-                        crossOrigin="anonymous"
-                      />
-                      <span className="absolute top-0 text-white m-5 p-3 bg-red-500 z-20">
+          > */}
+          {newProduct.map((item: any, index: number) => {
+            const fixImageUrl = `${StringHelpers.baseURL}/img/${item?.fileName}${item?.ext}`;
+            const hoverImageUrl = StringHelpers.getProfile(
+              item?.attachments?.[0]
+            );
+            return (
+              <div className="hover:shadow-lg" key={index}>
+                <div
+                  className="relative group cursor-pointer flex   border border-gray-200"
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  onClick={() => handleImageClick(item)}
+                >
+                  <div>
+                    <div className="overflow-hidden   h-[50vh]">
+                      <div className="relative w-full h-full">
+                        <img
+                          src={fixImageUrl}
+                          alt={item.alt}
+                          className={`w-full h-full transition-all duration-300 ease-in-out ${
+                            hoveredIndex === index
+                              ? "scale-105 brightness-110"
+                              : "scale-100 brightness-100"
+                          } ${loadedImages[index] ? "opacity-100" : "opacity-0"}`}
+                          style={{
+                            objectFit: "cover",
+                            objectPosition: "center",
+                          }}
+                          onLoad={() => handleImageLoad(index)}
+                          onError={() => handleImageLoad(index)}
+                          loading="lazy"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                      <span className="absolute top-0 text-white px-4 py-2 font-bold bg-red-500 z-20">
                         جدید
                       </span>
+                      <div
+                        className={`absolute inset-0 transition-all duration-500 ${
+                          hoveredIndex === index
+                            ? "opacity-100"
+                            : "opacity-0 pointer-events-none"
+                        }`}
+                      >
+                        <div className="relative w-full h-full z-10">
+                          <img
+                            src={hoverImageUrl}
+                            alt={`Hover ${item.alt}`}
+                            className={`w-full h-full transition-all duration-300 ${
+                              loadedHoverImages[index]
+                                ? "opacity-100"
+                                : "opacity-0"
+                            }`}
+                            style={{
+                              objectFit: "cover",
+                              objectPosition: "center",
+                            }}
+                            onLoad={() => handleHoverImageLoad(index)}
+                            onError={() => handleHoverImageLoad(index)}
+                            loading="lazy"
+                            crossOrigin="anonymous"
+                          />
+                        </div>
+                      </div>
                     </div>
-
-                    <div
-                      className={`absolute  text-white inset-0 bg-[rgba(0,0,0,0.4)] bg-opacity-40 transition-opacity duration-300 ${
-                        hoveredIndex === index
-                          ? "opacity-100 pt-20 px-2"
-                          : "opacity-0"
-                      }`}
-                    ></div>
-
-                    <div
-                      className={`absolute bottom-4 left-4 right-4 text-white transition-all duration-300 z-20 ${
-                        hoveredIndex === index
-                          ? "translate-y-0 opacity-100"
-                          : "translate-y-2 opacity-0"
-                      }`}
-                    >
-                      <p className="text-sm opacity-90">مشاهده جزئیات →</p>
-                    </div>
-
-                    <div
-                      className={`absolute inset-0 border-2 border-blue-500 transition-all duration-300 ${
-                        hoveredIndex === index
-                          ? "opacity-100 scale-100"
-                          : "opacity-0 scale-95"
-                      }`}
-                    ></div>
                   </div>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
+                </div>
+                <div className="border-b border-x p-5 border-gray-200">
+                  <span className="text-gray-400 flex justify-end pb-1">
+                    مدل: {item?.code}
+                  </span>
+                  <p className="text-gray-600 flex justify-end font13">
+                    {item?.name}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+          {/* </Swiper> */}
         </div>
       </div>
     </div>

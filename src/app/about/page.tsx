@@ -30,7 +30,7 @@ const ContactPage = () => {
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
     setZoomStyle({
-      transform: "scale(4)",
+      transform: "scale(1.5)",
       transformOrigin: `${x}% ${y}%`,
     });
   };
@@ -45,7 +45,7 @@ const ContactPage = () => {
         <div className="relative h-[90vh] w-[100vw] overflow-hidden">
           <img
             className="h-full w-full object-cover transition-transform duration-200 ease-out"
-            style={zoomStyle}
+            // style={zoomStyle}
             src={cover.src}
             alt="Contact cover"
             onMouseMove={handleMouseMove}

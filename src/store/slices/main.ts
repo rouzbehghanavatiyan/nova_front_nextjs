@@ -15,6 +15,8 @@ interface ProductState {
   recentProducts: Product[];
   loading: boolean;
   error: string | null;
+  isOpenMegaMenu: boolean;
+  categories: any;
 }
 
 const initialState: ProductState = {
@@ -22,6 +24,8 @@ const initialState: ProductState = {
   recentProducts: [],
   loading: false,
   error: null,
+  isOpenMegaMenu: false,
+  categories: {},
 };
 
 const mainSlice = createSlice({
@@ -69,6 +73,12 @@ const mainSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
+    RsetIsOpenMegaMenu: (state, action: PayloadAction<boolean>) => {
+      state.isOpenMegaMenu = action.payload;
+    },
+    RsetCategories: (state, action: PayloadAction<any>) => {
+      state.categories = action.payload;
+    },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
@@ -82,7 +92,9 @@ export const {
   removeFromRecentProducts,
   clearRecentProducts,
   setLoading,
+  RsetIsOpenMegaMenu,
   setError,
+  RsetCategories,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;

@@ -1,108 +1,87 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { categoryServices } from "@/src/api/services/categoryServices";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import StringHelpers from "@/src/config/StringHelpers";
-import { useAppDispatch } from "@/src/store/hook";
-import { setCurrentProduct } from "@/src/store/slices/main";
-import { productService } from "@/src/api/services/productService";
 
-interface CategoryPageProps {
-  params: Promise<{
-    categoryId: string;
-  }>;
-}
-
-const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
-  const [products, setProducts] = useState<any[]>([]);
-  const [category, setCategory] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [resolvedParams, setResolvedParams] = useState<{
-    categoryId: string;
-  } | null>(null);
-
+export default function CategoryMenuPage({
+  params,
+}: {
+  params: Promise<{ categoryId: string }>;
+}) {
+  const { categoryId } = React.use(params);
+  const [productCategories, setProductCategories] = useState([]);
+  const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
   const router = useRouter();
 
-  useEffect(() => {
-    const resolveParams = async () => {
-      const resolved = await params;
-      setResolvedParams(resolved);
-    };
-
-    resolveParams();
-  }, [params]);
-
-  const fetchCategoryData = async () => {
-    if (!resolvedParams) return;
+  const handleGetAllCategories = async () => {
     try {
-      setLoading(true);
-      const res = await categoryServices.getProductCategory(
-        Number(resolvedParams.categoryId)
-      );
-      console.log(res?.data);
-      setProducts(res?.data || []);
-      setCategory({
-        id: resolvedParams.categoryId,
-        name: `دسته‌بندی ${resolvedParams.categoryId}`,
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      if (categoryId) {
+        const res = await categoryServices.getCategoryById(
+          Number(categoryId)
+        );
+        console.log(res);
 
-  const handleProductClick = (product: any) => {
-    if (!resolvedParams) return;
-    // router.push(`/category/${resolvedParams.categoryId}/products/${product.id}`);
-    sessionStorage.setItem("currentProduct", JSON.stringify(product));
-    router.push(`/products/${product.id}`);
+        setProductCategories(res?.data?.[0]?.subCategory || []);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      setProductCategories([]);
+    }
   };
 
   useEffect(() => {
-    if (resolvedParams) {
-      fetchCategoryData();
-    }
-  }, [resolvedParams]);
+    handleGetAllCategories();
+  }, [categoryId]);
 
-  if (!resolvedParams || loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p className="text-gray-500">در حال بارگذاری...</p>
-      </div>
-    );
-  }
+  const handleImageLoad = (index: number) => {
+    setLoadedImages((prev) => {
+      const newLoaded = [...prev];
+      newLoaded[index] = true;
+      return newLoaded;
+    });
+  };
+
+  const handleShowProduct = (data: any) => {
+    router.push(`/category/${categoryId}/products/${data.id}`);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">{category?.name}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => {
-          const imgUrl = StringHelpers.getProfile(product.attachments?.[0]);
-          return (
-            <div
-              key={product.id}
-              onClick={() => handleProductClick(product)}
-              className="cursor-pointer border border-gray-200 p-4 transition-shadow"
-            >
-              <div className="flex">
-                <img
-                  src={imgUrl}
-                  alt={product.name}
-                  className="w-3/4 h-3/4 object-cover rounded mb-4"
-                  crossOrigin="anonymous"
-                />
-                <span className="text-gray-400">مدل:</span>
-                <span className="text-gray-400 ">{product.code}</span>
+      <h1 className="text-3xl font-bold mb-6">دسته‌بندی‌ها</h1>
+
+      {productCategories.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {productCategories.map((category: any, index: number) => {
+            const imageUrl = StringHelpers.getProfile(
+              category?.attachments?.[0]
+            );
+            console.log(category);
+            return (
+              <div
+                key={category.id}
+                onClick={() => handleShowProduct(category)}
+                className="bg-white p-4 border border-gray-200 cursor-pointer hover:shadow-lg"
+              >
+                <span className="text-xl text-gray-600 font-semibold">
+                  {category.title}
+                </span>
+                {/* <img
+                  src={imageUrl}
+                  width={400}
+                  height={400}
+                  onLoad={() => handleImageLoad(index)}
+                  onError={() => handleImageLoad(index)}
+                /> */}
+                <p className="text-gray-600">{category.en_name}</p>
               </div>
-              <h3 className="text-xl font-semibold">{product.name}</h3>
-              <p className="text-gray-600">{product.en_name}</p>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      ) : (
+        <p>در حال بارگذاری دسته‌بندی‌ها...</p>
+      )}
     </div>
   );
-};
-
-export default CategoryPage;
+}

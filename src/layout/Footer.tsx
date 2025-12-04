@@ -15,18 +15,18 @@ const Footer: React.FC = () => {
               <ShoppingCartIcon className="w-8 h-8 ml-2" />
               <span className="text-2xl font-bold">فروشگاه نووا</span>
             </div>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-300 font-light font14 mb-4">
               فروشگاه اینترنتی ما با سال‌ها تجربه در زمینه ارائه بهترین محصولات
               با کیفیت عالی در خدمت شماست.
             </p>
             <div className="flex space-x-4 space-x-reverse">
-              <div className="flex items-center text-gray-300">
-                <PhoneIcon className="w-5 h-5 ml-1" />
-                <span>021-12345678</span>
+              <div className="flex items-center font-light font14 text-gray-300">
+                <PhoneIcon className="w-5 h-5 ml-1 " />
+                <span className="font-light font14">021-12345678</span>
               </div>
               <div className="flex items-center text-gray-300">
                 <EnvelopeIcon className="w-5 h-5 ml-1" />
-                <span>info@store.com</span>
+                <span className="font-light font14">info@store.com</span>
               </div>
             </div>
           </div>
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-light font14 hover:text-white transition-colors"
                 >
                   خانه
                 </a>
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/store"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-light font14 hover:text-white transition-colors"
                 >
                   فروشگاه
                 </a>
@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/about"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-light font14 hover:text-white transition-colors"
                 >
                   درباره ما
                 </a>
@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/contact"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-light font14 hover:text-white transition-colors"
                 >
                   تماس با ما
                 </a>
@@ -75,7 +75,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/shipping"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-light font14 hover:text-white transition-colors"
                 >
                   شرایط ارسال
                 </a>
@@ -83,7 +83,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/return"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-light font14 hover:text-white transition-colors"
                 >
                   بازگرداندن کالا
                 </a>
@@ -91,7 +91,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/privacy"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-light font14 hover:text-white transition-colors"
                 >
                   حریم خصوصی
                 </a>
@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/terms"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-light font14 hover:text-white transition-colors"
                 >
                   قوانین و مقررات
                 </a>
@@ -108,8 +108,11 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-          <p className="text-gray-300">
-            © {new Date().getFullYear()} فروشگاه نووا ـ تمام حقوق محفوظ است.
+          <p className="text-gray-300 font-light font14">
+            © {new Date().getFullYear()}
+            <span className="font-light font14">
+              فروشگاه نووا ـ تمام حقوق محفوظ است.
+            </span>
           </p>
         </div>
       </div>

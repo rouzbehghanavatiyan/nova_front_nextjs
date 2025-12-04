@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, EffectFade, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -8,14 +8,23 @@ import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
 import { productService } from "@/src/api/services/productService";
 import StringHelpers from "@/src/config/StringHelpers";
+import { RsetIsOpenMegaMenu } from "@/src/store/slices/main";
 import { useAppDispatch } from "@/src/store/hook";
-import { setCurrentProduct } from "@/src/store/slices/main";
 
-const TopContent: React.FC = () => {
+interface TopContentProps {
+  setIsProductsPanelOpen?: (isOpen: boolean) => void;
+}
+
+const TopContent: React.FC<TopContentProps> = ({ setIsProductsPanelOpen }) => {
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
   const [mainProduct, setMainProduct] = useState<any[]>([]);
-  const router = useRouter();
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const swiperRef = useRef<HTMLDivElement>(null);
+
+  const handleImageClick = useCallback(() => {
+    dispatch(RsetIsOpenMegaMenu(false));
+  }, []);
 
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => {
@@ -26,8 +35,24 @@ const TopContent: React.FC = () => {
   };
 
   const handleRedirect = (data: any) => {
-    dispatch(setCurrentProduct(data));
-    router.push(`/category/${data?.subcategoryId}/products/${data.id}`);
+    if (data?.categoryId !== null) {
+      const productId = data.product_id;
+      const updatedData = {
+        ...data,
+        attachments: [
+          {
+            ext: data?.ext,
+            fileName: data?.fileName,
+            attachmentType: "img",
+          },
+        ],
+      };
+      console.log(data);
+      sessionStorage.setItem("currentProduct", JSON.stringify(updatedData));
+      router.push(`/products/${productId}`);
+    } else {
+      router.push(`/category/${data?.subcategoryId}`);
+    }
   };
 
   const handleGetMainCover = async () => {
@@ -40,7 +65,11 @@ const TopContent: React.FC = () => {
   }, []);
 
   return (
-    <div className="gap-5 relative">
+    <div
+      ref={swiperRef}
+      className="gap-5 relative"
+      data-ignore-click-outside="true"
+    >
       <Swiper
         pagination={{
           clickable: true,
@@ -60,50 +89,52 @@ const TopContent: React.FC = () => {
         effect="fade"
       >
         {mainProduct.map((item: any, index) => {
-          const imageUrl = `${StringHelpers.baseURL}/${item?.imageAttachment}/${item?.imageFileName}${item?.imageExt}`;
+          const imageUrl = `${StringHelpers.baseURL}/${item?.attachmentType}/${item?.fileName}${item?.ext}`;
           return (
             <SwiperSlide key={index}>
               <div className="relative w-full h-full">
                 <div className="absolute inset-0 w-full h-full">
-                  <img
-                    src={imageUrl}
-                    alt={`Slide ${index + 1}`}
-                    className={`w-full h-full object-cover transition-all duration-1000 ease-in-out ${
-                      loadedImages[index]
-                        ? "opacity-100 scale-100"
-                        : "opacity-0 scale-105"
-                    }`}
-                    onLoad={() => handleImageLoad(index)}
-                    onError={() => handleImageLoad(index)}
-                    loading="lazy"
-                    crossOrigin="anonymous"
-                    style={{
-                      transition:
-                        "opacity 1s ease-in-out, transform 1s ease-in-out",
+                  <span
+                    data-menu-image
+                    onClick={() => {
+                      window.dispatchEvent(new CustomEvent("close-mega-menu"));
                     }}
-                  />
+                    className="forImage"
+                  >
+                    <img
+                      src={imageUrl}
+                      alt={`Slide ${index + 1}`}
+                      className={`w-full h-full object-cover transition-all duration-1000 ease-in-out cursor-pointer ${
+                        loadedImages[index]
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-105"
+                      }`}
+                      onLoad={() => handleImageLoad(index)}
+                      onError={() => handleImageLoad(index)}
+                      onClick={handleImageClick}
+                      loading="lazy"
+                      crossOrigin="anonymous"
+                      data-ignore-click-outside="true"
+                      style={{
+                        transition:
+                          "opacity 1s ease-in-out, transform 1s ease-in-out",
+                      }}
+                    />
+                  </span>
                   {!loadedImages[index] && (
-                    <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                    <div
+                      className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center cursor-pointer"
+                      onClick={handleImageClick} 
+                    >
                       <div className="text-gray-400">Loading...</div>
                     </div>
                   )}
-                  <div className="absolute max-w-[40vh] top-10 left-10 p-5 bg-[rgba(0,0,0,0.4)] z-10 transform">
-                    <h1 className="font20 font-bold text-white transform transition-all duration-1000 delay-500">
-                      {item?.productName}
-                    </h1>
-                    <p className="font15 text-white my-5 transform transition-all duration-1000 delay-700">
-                      {item?.features?.slice(0, 2)?.map((item: any) => {
-                        return (
-                          <div className="flex my-3">
-                            <div className="me-2 inline justify-center items-center ">
-                              <span className=" ">
-                                +
-                              </span>
-                            </div>
-                            <span className="space-y-2 font-light">{item}</span>
-                          </div>
-                        );
-                      })}
+                  <div
+                    className="absolute max-w-[40vh] top-10 left-10 p-5 bg-[rgba(0,0,0,0.4)] z-10 transform"
+                    data-ignore-click-outside="true"
+                  >
+                    <p className="font30 font-bold text-white my-5 transform transition-all duration-1000 delay-700">
+                      {item?.title}
                     </p>
                     <div className="flex justify-end transform transition-all duration-1000 delay-900">
                       <Button
@@ -112,6 +143,7 @@ const TopContent: React.FC = () => {
                         className="rounded-none px-10 h-12 font15 transform transition-transform hover:scale-105"
                         color="primary"
                         variant="solid"
+                        data-ignore-click-outside="true"
                       >
                         اطلاعات بیشتر
                       </Button>

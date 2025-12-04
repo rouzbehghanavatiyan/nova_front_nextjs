@@ -8,26 +8,16 @@ import { useRouter } from "next/navigation";
 import { categoryServices } from "../api/services/categoryServices";
 import MegaMenu from "./megaMenu/page";
 import SearchField from "./SearchField";
+import { useAppDispatch, useAppSelector } from "../store/hook";
+import { RsetIsOpenMegaMenu } from "../store/slices/main";
 
 export const Header: React.FC = () => {
-  const [isProductsPanelOpen, setIsProductsPanelOpen] = useState(false);
-  const [categories, setCategories] = useState<any[]>([]);
-
+  const dispatch = useAppDispatch();
+  const main = useAppSelector((state) => state.product);
   const router = useRouter();
-
   const handleRedirect = (data: any) => {
-    console.log(data);
-    router.push(`/product/detail/${data}`);
+    router.push(`/`);
   };
-
-  const handleGetAllCategories = async () => {
-    const res: any = await categoryServices.getAllCategories();
-    setCategories(res?.data);
-  };
-
-  useEffect(() => {
-    handleGetAllCategories();
-  }, []);
 
   return (
     <>
@@ -40,12 +30,14 @@ export const Header: React.FC = () => {
                 return (
                   <button
                     key={`dropdown-${item.label}-${index}`}
-                    onClick={() => setIsProductsPanelOpen(!isProductsPanelOpen)}
+                    onClick={(e) => {
+                      dispatch(RsetIsOpenMegaMenu(!main?.isOpenMegaMenu));
+                    }}
                     className="flex items-center cursor-pointer space-x-1 text-blue-main transition-colors duration-200 font-medium "
                   >
                     <span className="font15">{item.label}</span>
                     <ChevronDownIcon
-                      className={`w-4 h-4  transition-transform ${isProductsPanelOpen ? "rotate-180" : ""}`}
+                      className={`w-4 h-4  transition-transform ${main?.isOpenMegaMenu ? "rotate-180" : ""}`}
                     />
                   </button>
                 );
@@ -62,21 +54,15 @@ export const Header: React.FC = () => {
             })}
           </nav>
           <SearchField />
-          <img className="w-36 h-auto" src={Logo.src} alt="Logo" />
-        </div>
-        {isProductsPanelOpen && (
-          <MegaMenu
-            setIsProductsPanelOpen={setIsProductsPanelOpen}
-            categories={categories}
+          <img
+            onClick={handleRedirect}
+            className="w-36 h-auto cursor-pointer"
+            src={Logo.src}
+            alt="Logo"
           />
-        )}
+        </div>
+        {main?.isOpenMegaMenu && <MegaMenu categories={main?.categories} />}
       </header>
-      {isProductsPanelOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 z-30 mt-[calc(100%-1px)]"
-          onClick={() => setIsProductsPanelOpen(false)}
-        />
-      )}
     </>
   );
 };
