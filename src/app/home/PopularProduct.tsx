@@ -131,6 +131,7 @@ import { Button } from "@heroui/button";
 import StringHelpers from "@/src/config/StringHelpers";
 import Img1 from "../../assets/a012fe7e-fe14-4f17-852c-3f6373b699fd.jpeg";
 import Img2 from "../../assets/c02b71fd-e446-47b3-b5b6-fcc5d8d3a747.jpeg";
+import MainTitle from "@/src/components/mainTitle";
 
 const PopularProduct = () => {
   const dispatch = useAppDispatch();
@@ -184,11 +185,9 @@ const PopularProduct = () => {
   const productPairs = groupProductsInPairs(popularProduct);
 
   return (
-    <div className="py-12 bg-gray-100">
+    <div className=" bg-gray-100">
       <div className="mx-5">
-        <h2 className="text-2xl font-bold text-center mb-12 text-gray-800">
-          آشنایی با محبوبترین ها
-        </h2>
+     <MainTitle title="آشنایی با محبوبترینها"/>
         <Swiper
           slidesPerView={2} // از 2 شروع کن
           spaceBetween={10}

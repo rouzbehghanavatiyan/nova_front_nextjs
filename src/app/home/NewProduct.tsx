@@ -5,6 +5,7 @@ import { productService } from "@/src/api/services/productService";
 import StringHelpers from "@/src/config/StringHelpers";
 import { useRouter } from "next/navigation";
 import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
+import MainTitle from "@/src/components/mainTitle";
 const NewProduct: React.FC = () => {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -64,10 +65,8 @@ const NewProduct: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full py-8 bg-red">
-      <div className="c items-center gap-10 my-5 px-15 flex text-center justify-center  font-bold">
-        <span className="flex justify-start font25">محصولات جدید</span>
-      </div>
+    <div className="w-full bg-red">
+      <MainTitle title="محصولات جدید" />
       <div className=" text-blue-500 items-center gap-2 my-5 px-15 flex text-center justify-center  font-bold">
         <span className="cursor-pointer font16 text-blue-500">نمایش </span>
         <ArrowLongLeftIcon className="cursor-pointer h-5 w-5" />

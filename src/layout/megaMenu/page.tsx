@@ -121,7 +121,6 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
             <div className="py-4">
               {categories?.map((category: any) => {
                 console.log(category);
-
                 return (
                   <div
                     key={category.id}
@@ -136,7 +135,8 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                       <div className="flex items-center gap-3 flex-1">
                         <Link
                           key={category.id}
-                          href={`/category/${category?.id}`}
+                          // href={`/category/${category?.id}`}
+                          href={`/#`}
                           onClick={() => dispatch(RsetIsOpenMegaMenu(false))}
                           className="cursor-pointer font13 flex-1 text-right hover:scale-105  hover:text-blue-600 transition-colors duration-200"
                         >

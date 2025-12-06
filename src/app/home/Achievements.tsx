@@ -5,6 +5,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { productService } from "@/src/api/services/productService";
+import MainTitle from "@/src/components/mainTitle";
+import ChildLoading from "@/src/components/childLoading";
 
 const Achievements: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<boolean[]>(
@@ -52,9 +54,7 @@ const Achievements: React.FC = () => {
 
   return (
     <section>
-      <h2 className="text-2xl flex justify-center mt-10 font-bold text-gray-800 mb-4">
-        دستاوردهای کلیدی
-      </h2>
+      <MainTitle title="دستاوردهای کلیدی" />
       <div className="grid grid-cols-5 gap-5   mb-10">
         <div className="col-span-3">
           <Swiper
@@ -74,11 +74,7 @@ const Achievements: React.FC = () => {
             {["popularProduct"].map((image: any, index: number) => (
               <SwiperSlide key={index}>
                 <div className="relative w-full h-full">
-                  {!loadedImages[index] && (
-                    <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center  justify-center">
-                      <div className="animate-spin h-8 w-8 border-b-2 border-blue-600 rounded-full"></div>
-                    </div>
-                  )}
+                  {!loadedImages[index] && <ChildLoading />}
                   <img
                     width={1500}
                     height={1500}

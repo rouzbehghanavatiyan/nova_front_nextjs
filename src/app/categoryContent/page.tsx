@@ -15,6 +15,13 @@ import Light from "@/src/assets/img/3032.png";
 import Other from "@/src/assets/img/2943.png";
 import Chargy from "@/src/assets/img/7715.png";
 import DefaultImage from "@/src/assets/img/6016.png";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import MainTitle from "@/src/components/mainTitle";
 
 const categoryImages = [
   Metr,
@@ -39,15 +46,24 @@ interface CategoryItem {
   id: number;
 }
 
-interface CategoryContentPageProps {
-  categories: CategoryItem[] | null | undefined;
-}
+// interface CategoryContentPageProps {
+//   categories: CategoryItem[] | null | undefined;
+// }
 
 const CategoryContentPage: React.FC<any> = ({ categories }) => {
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
+  const swiperRef = useRef<any>(null);
 
   useEffect(() => {
     setIsClient(true);
+    // شبیه‌سازی لود داده‌ها
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const getImageByIndex = (index: number) => {
@@ -65,7 +81,26 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
     return DefaultImage;
   };
 
-  if (!isClient) {
+  const handleRedirectSubCategory = (item: any) => {
+    console.log("Redirecting to category:", item);
+  };
+
+  const handleImageLoad = (index: number) => {
+    setLoadedImages((prev) => {
+      const newLoaded = [...prev];
+      newLoaded[index] = true;
+      return newLoaded;
+    });
+  };
+
+  // مقداردهی اولیه loadedImages
+  useEffect(() => {
+    if (categories && Array.isArray(categories)) {
+      setLoadedImages(new Array(categories.length).fill(false));
+    }
+  }, [categories]);
+
+  if (!isClient || isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
         <div className="text-center">
@@ -100,7 +135,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
     return (
       <div className="flex justify-center py-8 items-center min-h-screen bg-gradient-to-b from-gray-50 to-white">
         <div className="w-full max-w-6xl px-4 text-center">
-          <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
+          <h2 className="font25 font-bold text-center mb-10 text-gray-800">
             دسته‌بندی‌ها
           </h2>
           <div className="bg-gray-100 p-8">
@@ -112,47 +147,98 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
   }
 
   return (
-    <div className="flex justify-center py-8 items-center min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="w-full max-w-6xl px-4">
-        <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
-          دسته‌بندی‌ها
-        </h2>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6">
+    <div className="flex justify-center items-center bg-gradient-to-b from-gray-50 to-white">
+      <div className="w-full max-w-7xl px-4">
+        <MainTitle title="دسته‌بندی‌ها" />
+        <Swiper
+          navigation={true}
+          fadeEffect={{
+            crossFade: true,
+          }}
+          ref={swiperRef}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+          }}
+          autoplay={{
+            delay: 2000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          speed={500}
+          loop={categories.length > 5}
+          modules={[Autoplay, Navigation]}
+          className="mySwiper"
+          slidesPerView={1}
+          spaceBetween={10}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 25,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 30,
+            },
+            1280: {
+              slidesPerView: 5,
+              spaceBetween: 5,
+            },
+          }}
+        >
           {categories.map((item, index) => {
             const image = getImageByIndex(index);
-
+            const imageSrc = image?.src || DefaultImage.src;
             return (
-              <div
-                key={item.id || index}
-                className="group flex flex-col items-center justify-center p-5 bg-white 
-                  shadow-lg hover:shadow-2xl transition-all duration-300 
-                transform hover:-translate-y-2 border border-gray-100 cursor-pointer"
-              >
-                <div className="w-44 h-44 flex items-center justify-center mb-4 p-3">
-                  {image && image.src ? (
-                    <img
-                      src={image.src}
-                      alt={item.title_per || `Category ${index + 1}`}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.currentTarget.src = DefaultImage.src;
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <span className="text-gray-400">بدون تصویر</span>
+              <SwiperSlide key={item.id || index}>
+                <div className="h-full flex flex-col items-center justify-center">
+                  <Link
+                    // href={`/category/${item?.id}`}
+                    href={`/#`}
+                    onClick={() => handleRedirectSubCategory(item)}
+                    className="group w-full flex flex-col items-center justify-center p-4 bg-white 
+                      shadow-lg transition-all duration-300 
+                      transform border border-gray-100 cursor-pointer
+                      h-full"
+                  >
+                    <div className="w-36 h-36 md:w-44 md:h-44 flex items-center justify-center mb-4 p-2 relative">
+                      {!loadedImages[index] && (
+                        <div className="absolute inset-0 bg-gray-100 animate-pulse rounded-lg"></div>
+                      )}
+                      <img
+                        src={imageSrc}
+                        alt={item.title_per || `Category ${index + 1}`}
+                        className={`w-full h-full object-contain transition-all duration-500 ${
+                          loadedImages[index]
+                            ? "opacity-100 scale-100 group-hover:scale-110"
+                            : "opacity-0 scale-95"
+                        }`}
+                        loading="lazy"
+                        onLoad={() => handleImageLoad(index)}
+                        onError={(e) => {
+                          console.error(
+                            `Error loading image for category: ${item.title_per}`
+                          );
+                          e.currentTarget.src = DefaultImage.src;
+                          handleImageLoad(index);
+                        }}
+                        crossOrigin="anonymous"
+                      />
                     </div>
-                  )}
+
+                    <span className="text-sm md:text-base font-semibold text-gray-700 text-center line-clamp-2 transition-colors duration-300 group-hover:text-blue-600">
+                      {item?.title_per || `دسته ${index + 1}`}
+                    </span>
+                  </Link>
                 </div>
-                <span className="text-sm md:text-base font-semibold text-gray-700 text-center line-clamp-2">
-                  {item?.title_per || `دسته ${index + 1}`}
-                </span>
-              </div>
+              </SwiperSlide>
             );
           })}
-        </div>
+        </Swiper>
       </div>
     </div>
   );
