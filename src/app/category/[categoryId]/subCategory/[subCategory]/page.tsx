@@ -14,11 +14,9 @@ const SubCategoryPage: React.FC<SubCategoryPageProps> = ({ params }) => {
   const [products, setProducts] = useState<any[]>([]);
   const [category, setCategory] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [resolvedParams, setResolvedParams] = useState<{
-    categoryId: string;
-  } | null>(null);
+  const [resolvedParams, setResolvedParams] = useState<any>(null);
   const router = useRouter();
-  
+
   const resolveParams = async () => {
     const resolved = await params;
     setResolvedParams(resolved);
@@ -29,7 +27,7 @@ const SubCategoryPage: React.FC<SubCategoryPageProps> = ({ params }) => {
     try {
       setLoading(true);
       const res = await categoryServices.getSubCategoryById(
-        Number(resolvedParams.categoryId)
+        resolvedParams.subCategory
       );
       console.log(res?.data);
       setProducts(res?.data || []);

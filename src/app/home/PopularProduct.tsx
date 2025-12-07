@@ -119,7 +119,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "@/src/store/hook";
-import { setCurrentProduct } from "@/src/store/slices/main";
 import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
@@ -127,10 +126,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { productService } from "@/src/api/services/productService";
-import { Button } from "@heroui/button";
-import StringHelpers from "@/src/config/StringHelpers";
-import Img1 from "../../assets/a012fe7e-fe14-4f17-852c-3f6373b699fd.jpeg";
-import Img2 from "../../assets/c02b71fd-e446-47b3-b5b6-fcc5d8d3a747.jpeg";
+import Img1 from "../../assets/B_001.png";
+import Img2 from "../../assets/B_002.png";
 import MainTitle from "@/src/components/mainTitle";
 
 const PopularProduct = () => {
@@ -185,11 +182,11 @@ const PopularProduct = () => {
   const productPairs = groupProductsInPairs(popularProduct);
 
   return (
-    <div className=" bg-gray-100">
-      <div className="mx-5">
-     <MainTitle title="آشنایی با محبوبترینها"/>
+    <div className=" bg-white">
+      <div className="mx-10">
+        <MainTitle title="آشنایی با محبوب ترینها" />
         <Swiper
-          slidesPerView={2} // از 2 شروع کن
+          slidesPerView={2}
           spaceBetween={10}
           loop={true}
           autoplay={{
@@ -197,35 +194,17 @@ const PopularProduct = () => {
             disableOnInteraction: false,
           }}
           modules={[Pagination, Autoplay, Navigation]}
-          breakpoints={{
-            640: {
-              slidesPerView: 2, // در موبایل هم 2 تا
-              spaceBetween: 10,
-            },
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 15,
-            },
-            1024: {
-              slidesPerView: 2, // در دسکتاپ هم 2 تا
-              spaceBetween: 20,
-            },
-          }}
-          className="mySwiper h-[60vh] w-full"
+          className="mySwiper"
         >
           {allImage.map((product: any) => (
-            <SwiperSlide key={product.id}>
-              <div className="bg-white overflow-hidden border border-gray-300 transition-all duration-300 transform h-full flex flex-col mx-2">
-                <div className="relative overflow-hidden flex-shrink-0">
-                  <img
-                    src={product?.src?.src}
-                    alt={product.name}
-                    className="w-full h-[580px]"
-                    loading="lazy"
-                    crossOrigin="anonymous"
-                  />
-                </div>
-              </div>
+            <SwiperSlide key={product.id} className="flex">
+              <img
+                src={product?.src?.src}
+                alt={product.name}
+                className="w-full h-full"
+                loading="lazy"
+                crossOrigin="anonymous"
+              />
             </SwiperSlide>
           ))}
         </Swiper>

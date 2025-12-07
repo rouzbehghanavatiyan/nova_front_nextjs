@@ -17,9 +17,7 @@ export default function CategoryMenuPage({
   const handleGetAllCategories = async () => {
     try {
       if (categoryId) {
-        const res = await categoryServices.getCategoryById(
-          Number(categoryId)
-        );
+        const res = await categoryServices.getCategoryById(Number(categoryId));
         console.log(res);
 
         setProductCategories(res?.data?.[0]?.subCategory || []);
@@ -43,7 +41,8 @@ export default function CategoryMenuPage({
   };
 
   const handleShowProduct = (data: any) => {
-    router.push(`/category/${categoryId}/products/${data.id}`);
+    console.log(data);
+    router.push(`/category/${categoryId}/subCategory/${data.id}`);
   };
 
   return (

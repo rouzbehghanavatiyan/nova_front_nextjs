@@ -35,8 +35,8 @@ export default function Home() {
       >
         <TopContent />
         {/* <CompanyRecords /> */}
-        <NewProduct />
         <CategoryContentPage categories={main?.categories || []} />
+        <NewProduct />
         {/* <MainTitle /> */}
         <PopularProduct />
         <MostPopular />

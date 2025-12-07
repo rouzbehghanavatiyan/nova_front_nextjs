@@ -93,7 +93,6 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
     });
   };
 
-  // مقداردهی اولیه loadedImages
   useEffect(() => {
     if (categories && Array.isArray(categories)) {
       setLoadedImages(new Array(categories.length).fill(false));
@@ -147,7 +146,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
   }
 
   return (
-    <div className="flex justify-center items-center bg-gradient-to-b from-gray-50 to-white">
+    <div className="flex justify-center items-center bg-gradient-to-b bg-gray-100">
       <div className="w-full max-w-7xl px-4">
         <MainTitle title="دسته‌بندی‌ها" />
         <Swiper
@@ -197,8 +196,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
               <SwiperSlide key={item.id || index}>
                 <div className="h-full flex flex-col items-center justify-center">
                   <Link
-                    // href={`/category/${item?.id}`}
-                    href={`/#`}
+                    href={`/category/${item?.id}`}
                     onClick={() => handleRedirectSubCategory(item)}
                     className="group w-full flex flex-col items-center justify-center p-4 bg-white 
                       shadow-lg transition-all duration-300 
@@ -210,7 +208,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
                         <div className="absolute inset-0 bg-gray-100 animate-pulse rounded-lg"></div>
                       )}
                       <img
-                        src={imageSrc}
+                         src={imageSrc}
                         alt={item.title_per || `Category ${index + 1}`}
                         className={`w-full h-full object-contain transition-all duration-500 ${
                           loadedImages[index]
@@ -220,7 +218,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
                         loading="lazy"
                         onLoad={() => handleImageLoad(index)}
                         onError={(e) => {
-                          console.error(
+                         console.error(
                             `Error loading image for category: ${item.title_per}`
                           );
                           e.currentTarget.src = DefaultImage.src;

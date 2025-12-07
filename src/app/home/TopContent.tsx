@@ -233,14 +233,14 @@ const TopContent: React.FC<TopContentProps> = ({ setIsProductsPanelOpen }) => {
 
                   {/* Content Overlay */}
                   <div
-                    className={`absolute max-w-[40vh] top-10 left-10 p-5 bg-[rgba(0,0,0,0.4)] z-10 transform transition-all duration-1000 ${
+                    className={`absolute max-w-[40vh] top-10 left-10 p-5 bg-[rgba(255,255,255,0.4)] z-10 transform transition-all duration-1000 ${
                       loadedImages[index]
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-4"
                     }`}
                     data-ignore-click-outside="true"
                   >
-                    <p className="font30 font-bold text-white my-5 transform transition-all duration-1000 delay-300">
+                    <p className="font30 font-bold text-gray-950 my-5 transform transition-all duration-1000 delay-300">
                       {item?.title}
                     </p>
                     <div className="flex justify-end transform transition-all duration-1000 delay-500">

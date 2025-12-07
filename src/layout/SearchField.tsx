@@ -58,10 +58,10 @@ const SearchField: React.FC = () => {
     setShowResults(false);
   };
   const handleResultSelect = (item: any) => {
-      sessionStorage.setItem("currentProduct", JSON.stringify(item));
-      setSearchTitle(item.name);
-      setShowResults(false);
-      router.push(`/products/${item.id}`);
+    sessionStorage.setItem("currentProduct", JSON.stringify(item));
+    setSearchTitle(item.name);
+    setShowResults(false);
+    router.push(`/products/${item.id}`);
   };
 
   const handleInputFocus = () => {
@@ -90,7 +90,7 @@ const SearchField: React.FC = () => {
           endContent={
             <SearchIcon
               onClick={handleConfirmSearch}
-              className="cursor-pointer"
+              className="cursor-pointer "
             />
           }
           placeholder="جستجو . . ."
