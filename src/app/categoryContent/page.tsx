@@ -146,7 +146,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
   }
 
   return (
-    <div className="flex justify-center items-center bg-gradient-to-b bg-gray-100">
+    <div className="flex justify-center items-center bg-gradient-to-b bg-white">
       <div className="w-full max-w-7xl px-4">
         <MainTitle title="دسته‌بندی‌ها" />
         <Swiper
@@ -194,12 +194,12 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
             const imageSrc = image?.src || DefaultImage.src;
             return (
               <SwiperSlide key={item.id || index}>
-                <div className="h-full flex flex-col items-center justify-center">
+                <div className="h-full flex  flex-col items-center justify-center">
                   <Link
                     href={`/category/${item?.id}`}
                     onClick={() => handleRedirectSubCategory(item)}
                     className="group w-full flex flex-col items-center justify-center p-4 bg-white 
-                      shadow-lg transition-all duration-300 
+                      transition-all duration-300 
                       transform border border-gray-100 cursor-pointer
                       h-full"
                   >

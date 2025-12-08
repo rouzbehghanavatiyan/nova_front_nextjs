@@ -66,13 +66,14 @@ const NewProduct: React.FC = () => {
 
   return (
     <div className="w-full bg-red">
-      <span className="flex justify-center" >
-        <MainTitle title="محصولات جدید" />
-        <div className=" text-blue-500 items-center gap-2 my-5 px-15 flex text-center justify-center  font-bold">
-          <span className="cursor-pointer font16 text-blue-500">نمایش </span>
-          <ArrowLongLeftIcon className="cursor-pointer h-5 w-5" />
-        </div>
-      </span>
+      <div className="flex items-center justify-center gap-4">
+        <span className="ms-20">
+          <MainTitle title="محصولات جدید" />
+        </span>
+        <span>
+          <ArrowLongLeftIcon className="text-blue-500 cursor-pointer h-10 w-10" />
+        </span>
+      </div>
       <div className="max-w-full mx-auto">
         <div className="mx-10 gap-4 flex ">
           {/* <Swiper

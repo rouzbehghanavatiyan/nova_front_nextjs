@@ -84,9 +84,6 @@ const Achievements: React.FC = () => {
               delay: 2500,
               disableOnInteraction: false,
             }}
-            pagination={{
-              clickable: true,
-            }}
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper shadow-small w-full h-full"

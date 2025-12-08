@@ -9,7 +9,6 @@
   }
 }
 
-/* 006EF7 */
 
 @font-face {
   font-family: "IRANSans";
@@ -180,6 +179,18 @@ body {
 }
 
 .swiper-pagination-bullet {
-    width: var(--swiper-pagination-bullet-width, var(--swiper-pagination-bullet-size, 20px)) !important;
-    height: var(--swiper-pagination-bullet-height, var(--swiper-pagination-bullet-size, 20px)) !important;
+  background: #ffffff !important;  
+  opacity: 0.7 !important;
+  width: 10px !important;
+  height: 10px !important;
+  transition: all 0.3s ease !important;
+  margin-left: 30px !important;
 }
+
+.swiper-pagination-bullet-active {
+  background: #ffffff !important;
+  width: 15px !important;
+  height: 15px !important;
+  opacity: 1 !important;
+}
+
