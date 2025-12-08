@@ -74,7 +74,7 @@ const Achievements: React.FC = () => {
 
   return (
     <section>
-      <MainTitle title="دستاوردهای کلیدی" />
+      <MainTitle title="درخشش به سبک نووا" />
       <div className="grid grid-cols-5 gap-5 mb-10">
         <div className="col-span-3">
           <Swiper

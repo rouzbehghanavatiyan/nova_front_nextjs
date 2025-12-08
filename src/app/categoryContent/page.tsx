@@ -148,7 +148,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
   return (
     <div className="flex justify-center items-center bg-gradient-to-b bg-white">
       <div className="w-full max-w-7xl px-4">
-        <MainTitle title="دسته‌بندی‌ها" />
+        <MainTitle title="دسته‌بندی محصولات" />
         <Swiper
           navigation={true}
           fadeEffect={{

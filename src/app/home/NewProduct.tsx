@@ -68,7 +68,7 @@ const NewProduct: React.FC = () => {
     <div className="w-full bg-red">
       <div className="flex items-center justify-center gap-4">
         <span className="ms-20">
-          <MainTitle title="محصولات جدید" />
+          <MainTitle title="جدیدترین‌های نووا" />
         </span>
         <span>
           <ArrowLongLeftIcon className="text-blue-500 cursor-pointer h-10 w-10" />

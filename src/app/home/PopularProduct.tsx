@@ -184,7 +184,7 @@ const PopularProduct = () => {
   return (
     <div className=" bg-white">
       <div className="mx-10">
-        <MainTitle title="آشنایی با محبوب ترینها" />
+        <MainTitle title="پربازدید‌ترین‌های نووا" />
         <Swiper
           slidesPerView={2}
           spaceBetween={10}
