@@ -18,9 +18,9 @@ const Achievements: React.FC = () => {
   );
 
   const allImage = [
-    {
-      src: Img1,
-    },
+    // {
+    //   src: Img1,
+    // },
     {
       src: Img2,
     },
@@ -117,23 +117,17 @@ const Achievements: React.FC = () => {
           <div className="max-w-4xl w-full p-8">
             <div className="prose prose-lg max-w-none text-justify text-gray-700 leading-8">
               <div className="space-y-6">
-                <section className="p-6 border-r-1 border-blue-main">
+                <section className="p-6 border-blue-main">
                   <ul className="list-disc list-inside space-y-3 mr-4">
                     <li>
-                      کسب <strong>گواهینامه ISO 9001</strong> در زمینه مدیریت
-                      کیفیت
+                      اخذ <strong>تندیس برند برتر</strong> در چند سال متوالی
+                    </li>
+
+                    <li>
+                      ارسال به <strong>کل کشور</strong> 
                     </li>
                     <li>
-                      اخذ <strong>تندیس برند برتر</strong> در سه سال متوالی
-                    </li>
-                    <li>
-                      عقد قرارداد با <strong>۵۰۰ شرکت صنعتی بزرگ</strong> کشور
-                    </li>
-                    <li>
-                      صادرات به <strong>۱۵ کشور</strong> در منطقه خاورمیانه
-                    </li>
-                    <li>
-                      تولید بیش از <strong>۲۰۰۰ محصول</strong> تخصصی
+                      تولید بیش از <strong>900 محصول</strong> تخصصی
                     </li>
                   </ul>
                 </section>

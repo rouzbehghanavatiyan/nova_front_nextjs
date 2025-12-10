@@ -17,14 +17,17 @@ const SearchField: React.FC = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setSearchTitle(value);
+
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+
       if (value.trim() === "") {
         setSearchResults([]);
         setShowResults(false);
         return;
       }
+
       setIsLoading(true);
       setShowResults(true);
 
@@ -33,7 +36,8 @@ const SearchField: React.FC = () => {
           const isNumber = /^\d+$/.test(value.trim());
 
           let response;
-          if (isNumber) {
+
+          if (isNumber && value.trim().length >= 2) {
             response = await productService.productBySearching(
               null,
               parseInt(value)
@@ -53,6 +57,7 @@ const SearchField: React.FC = () => {
     },
     []
   );
+
   const handleConfirmSearch = () => {
     console.log("Confirm search:", searchTitle);
     setShowResults(false);

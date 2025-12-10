@@ -146,19 +146,14 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
   }
 
   return (
-    <div className="flex justify-center items-center bg-gradient-to-b bg-white">
+    <div className="flex mt-10 justify-center items-center bg-gradient-to-b bg-white">
       <div className="w-full max-w-7xl px-4">
         <MainTitle title="دسته‌بندی محصولات" />
         <Swiper
-          navigation={true}
           fadeEffect={{
             crossFade: true,
           }}
           ref={swiperRef}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-          }}
           autoplay={{
             delay: 2000,
             disableOnInteraction: false,
@@ -212,7 +207,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
                         alt={item.title_per || `Category ${index + 1}`}
                         className={`w-full h-full object-contain transition-all duration-500 ${
                           loadedImages[index]
-                            ? "opacity-100 scale-100 group-hover:scale-110"
+                            ? "opacity-100"
                             : "opacity-0 scale-95"
                         }`}
                         loading="lazy"

@@ -65,7 +65,7 @@ const NewProduct: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full bg-red">
+    <div className="w-full mt-10">
       <div className="flex items-center justify-center gap-4">
         <span className="ms-20">
           <MainTitle title="جدیدترین‌های نووا" />

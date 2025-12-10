@@ -31,7 +31,7 @@ export const Header: React.FC = () => {
                     onClick={(e) => {
                       dispatch(RsetIsOpenMegaMenu(!main?.isOpenMegaMenu));
                     }}
-                    className="flex items-center cursor-pointer space-x-1 text-blue-main transition-colors duration-200 font-medium "
+                    className="flex items-center cursor-pointer space-x-1 text-blue-main duration-200 font-medium transition-all hover:text-main hover:scale-105"
                   >
                     <span className="font15">{item.label}</span>
                     <ChevronDownIcon
@@ -44,7 +44,7 @@ export const Header: React.FC = () => {
                 <Link
                   key={`link-${item.label}-${index}`}
                   href={item.href || "#"}
-                  className="flex items-start text-blue-main space-x-1 transition-colors duration-200 font-medium  "
+                  className="flex items-start transform transition-all hover:text-main hover:scale-105 text-blue-main space-x-1 duration-200 font-medium"
                 >
                   <span className="font15">{item.label}</span>
                 </Link>

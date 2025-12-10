@@ -81,22 +81,23 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
     return categoryImages[index];
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        dispatch(RsetIsOpenMegaMenu(false));
-        setTimeout(() => {
-          dispatch(RsetIsOpenMegaMenu(false));
-        }, 300);
-      }
-    };
+  // useEffect(() => {
+  //   if (!main?.isOpenMegaMenu) return;
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+  //       dispatch(RsetIsOpenMegaMenu(false));
+  //       setTimeout(() => {
+  //         dispatch(RsetIsOpenMegaMenu(false));
+  //       }, 300);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
+  //   document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (hoveredCategory && subCategories[hoveredCategory]) {
@@ -120,7 +121,6 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
           <div className="w-[200px]">
             <div className="py-4">
               {categories?.map((category: any) => {
-                console.log(category);
                 return (
                   <div
                     key={category.id}

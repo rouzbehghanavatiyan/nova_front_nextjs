@@ -18,8 +18,6 @@ export default function CategoryMenuPage({
     try {
       if (categoryId) {
         const res = await categoryServices.getCategoryById(Number(categoryId));
-        console.log(res);
-
         setProductCategories(res?.data?.[0]?.subCategory || []);
       }
     } catch (error) {
@@ -55,7 +53,6 @@ export default function CategoryMenuPage({
             const imageUrl = StringHelpers.getProfile(
               category?.attachments?.[0]
             );
-            console.log(category);
             return (
               <div
                 key={category.id}

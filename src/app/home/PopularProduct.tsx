@@ -32,7 +32,6 @@
 //   const preloadImages = async () => {
 //     try {
 //       const res: any = await productService.getPopular();
-//       console.log(res);
 
 //       setPopularProduct(res?.data);
 //     } catch (error) {
@@ -126,41 +125,34 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { productService } from "@/src/api/services/productService";
-import Img1 from "../../assets/B_001.png";
-import Img2 from "../../assets/B_002.png";
 import MainTitle from "@/src/components/mainTitle";
+import { Button } from "@heroui/react";
+import StringHelpers from "@/src/config/StringHelpers";
 
 const PopularProduct = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   const handleRedirect = (data: any) => {
+    console.log(data);
+
     const updatedData = {
       ...data,
       attachments: data.attachments?.map((attachment: any) => ({
         ...attachment,
         attachmentType: "img",
+        ext:".png"
       })),
     };
     sessionStorage.setItem("currentProduct", JSON.stringify(updatedData));
     router.push(`/products/${data?.product_id}`);
   };
 
-  const allImage = [
-    {
-      src: Img1,
-    },
-    {
-      src: Img2,
-    },
-  ];
-
   const [popularProduct, setPopularProduct] = useState([]);
 
   const preloadImages = async () => {
     try {
       const res: any = await productService.getPopular();
-      console.log(res);
       setPopularProduct(res?.data);
     } catch (error) {
       console.log(error);
@@ -168,7 +160,7 @@ const PopularProduct = () => {
   };
 
   useEffect(() => {
-    // preloadImages();
+    preloadImages();
   }, []);
 
   const groupProductsInPairs = (products: any[]) => {
@@ -183,11 +175,11 @@ const PopularProduct = () => {
 
   return (
     <div className=" bg-white">
-      <div className="mx-10">
+      <div className="mx-10 p-10">
         <MainTitle title="پربازدید‌ترین‌های نووا" />
         <Swiper
           slidesPerView={2}
-          spaceBetween={10}
+          spaceBetween={18}
           loop={true}
           autoplay={{
             delay: 3000,
@@ -196,17 +188,40 @@ const PopularProduct = () => {
           modules={[Pagination, Autoplay, Navigation]}
           className="mySwiper"
         >
-          {allImage.map((product: any) => (
-            <SwiperSlide key={product.id} className="flex">
-              <img
-                src={product?.src?.src}
-                alt={product.name}
-                className="w-full h-full"
-                loading="lazy"
-                crossOrigin="anonymous"
-              />
-            </SwiperSlide>
-          ))}
+          {popularProduct.map((product: any) => {
+            return (
+              <SwiperSlide key={product.id} className="flex">
+                <div className="bg-gray-100 overflow-hidden h-full flex flex-col">
+                  <div className="relative hover:brightness-110 transition-all duration-300 transform">
+                    <img
+                      // src={product?.src?.src}
+                      src={StringHelpers.getProfile(product?.attachments?.[0])}
+                      alt={product.name}
+                      className="w-full object-cover"
+                      loading="lazy"
+                      crossOrigin="anonymous"
+                    />
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow ">
+                    <h3 className="text-xl font-bold mb-3 text-gray-800 text-start">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-600 font13 text-justify leading-6 font-light line-clamp-3">
+                      {product.content}
+                    </p>
+                    <div className="flex justify-end mt-6 pt-4 border-gray-200">
+                      <Button
+                        onClick={() => handleRedirect(product)}
+                        className="text-white bg-main"
+                      >
+                        اطلاعات بیشتر
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
     </div>

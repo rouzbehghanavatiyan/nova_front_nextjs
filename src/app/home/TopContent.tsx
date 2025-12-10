@@ -4,7 +4,7 @@ import { Pagination, Autoplay, EffectFade, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
-import { Button } from "@heroui/button";
+import { Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { productService } from "@/src/api/services/productService";
 import StringHelpers from "@/src/config/StringHelpers";
@@ -20,7 +20,6 @@ const TopContent: React.FC<TopContentProps> = () => {
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
   const [mainProduct, setMainProduct] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
   const dispatch = useAppDispatch();
   const router = useRouter();
   const swiperRef = useRef<HTMLDivElement>(null);
@@ -30,7 +29,9 @@ const TopContent: React.FC<TopContentProps> = () => {
   };
 
   const handleRedirect = (data: any) => {
-    if (data?.categoryId !== null) {
+    console.log(data);
+
+    if (data?.main_image !== null) {
       const productId = data.product_id;
       const updatedData = {
         ...data,
@@ -42,11 +43,12 @@ const TopContent: React.FC<TopContentProps> = () => {
           },
         ],
       };
-
       sessionStorage.setItem("currentProduct", JSON.stringify(updatedData));
       router.push(`/products/${productId}`);
     } else {
-      router.push(`/category/${data?.subcategoryId}`);
+      router.push(
+        `/category/${data?.categoryId}/subCategory/${data?.subcategoryId}`
+      );
     }
   };
 
@@ -91,6 +93,7 @@ const TopContent: React.FC<TopContentProps> = () => {
           }}
           speed={1000}
           loop
+          initialSlide={3}
           modules={[Pagination, Autoplay, EffectFade, Navigation]}
           className="mySwiper h-[94vh]"
         >
@@ -98,6 +101,8 @@ const TopContent: React.FC<TopContentProps> = () => {
             const imageUrl = `${StringHelpers.baseURL}/${item?.attachmentType}/${item?.fileName}${item?.ext}`;
             const fixHeadTitle = item?.title?.split("n/")[0];
             const fixPharaphTitle = item?.title?.split("n/")[1];
+            console.log(item);
+
             return (
               <SwiperSlide key={index}>
                 <div className="relative w-full h-full">
@@ -126,19 +131,16 @@ const TopContent: React.FC<TopContentProps> = () => {
                       {fixHeadTitle}
                     </h2>
                     <span> {fixPharaphTitle} </span>
-                    <div className="flex justify-end transition-all duration-1000 delay-500">
-                      <Button
-                        onClick={() => handleRedirect(item)}
-                        className={`rounded-none bg-main px-10 text-white h-12 font15 transition-all duration-300 ${
-                          loadedImages[index]
-                            ? "opacity-100 translate-y-0 hover:scale-105"
-                            : "opacity-0 translate-y-4"
-                        }`}
-                        variant="solid"
-                      >
-                        اطلاعات بیشتر
-                      </Button>
-                    </div>
+                    {item?.categoryId && (
+                      <div className="flex justify-end mt-5">
+                        <Button
+                          onClick={() => handleRedirect(item)}
+                          className={` cursor-pointer text-white bg-main px-10  h-12 font15 transition-all duration-300`}
+                        >
+                          اطلاعات بیشتر
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </SwiperSlide>
