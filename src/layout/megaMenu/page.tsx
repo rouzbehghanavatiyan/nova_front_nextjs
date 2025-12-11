@@ -110,14 +110,17 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
   return (
     <div
       ref={menuRef}
-      className={`absolute top-full left-0 w-full bg-white backdrop-blur-md border-t border-gray-200 shadow-lg z-40 transform transition-all duration-500 ease-out ${
+      className={`absolute 
+        top-full right-0 w-6/7
+        bg-white backdrop-blur-md border-t border-gray-200 shadow-lg z-40 
+        transform transition-all duration-500 ease-out ${
         main?.isOpenMegaMenu
           ? "translate-y-0 opacity-100"
           : "-translate-y-4 opacity-0"
       }`}
     >
-      <div className="container  mx-auto">
-        <div className="flex gap-8">
+      <div className="container  ms-auto">
+        <div className="flex">
           <div className="w-[200px]">
             <div className="py-4">
               {categories?.map((category: any) => {
@@ -128,9 +131,7 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                     onMouseEnter={() => handleCategoryHover(category.id)}
                   >
                     <div
-                      className={`flex  items-center justify-between p-2 ${
-                        hoveredCategory === category.id ? "text-blue-700" : ""
-                      }`}
+                      className={`flex items-center justify-between`}
                     >
                       <div className="flex items-center gap-3 flex-1">
                         <Link
@@ -138,15 +139,15 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                           // href={`/category/${category?.id}`}
                           href={`/#`}
                           onClick={() => dispatch(RsetIsOpenMegaMenu(false))}
-                          className="cursor-pointer font13 flex-1 text-right hover:scale-105  hover:text-blue-600 transition-colors duration-200"
+                          className="cursor-pointer font13 flex-1 text-right hover:font-bold py-1 my-1 ps-2 transition-colors duration-200"
                         >
                           {category.title_per}
                         </Link>
                       </div>
                       <ChevronDownIcon
-                        className={`w-4 h-4  flex-shrink-0 transition-transform duration-200 ${
+                        className={`flex-shrink-0 transition-transform duration-200 w-5 h-5 ${
                           hoveredCategory === category.id
-                            ? "rotate-180 text-blue-600"
+                            ? "rotate-180 "
                             : "text-gray-400"
                         }`}
                       />
@@ -156,12 +157,12 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
               })}
             </div>
           </div>
-          <div className="flex-1  py-4">
+          <div className="flex-1 bg-gray-100 py-4">
             {hoveredCategory && (
               <div className="flex justify-around">
                 <div className="w-96">
                   <div
-                    className="p-2"
+                    className=""
                     style={{
                       columnCount: currentSubCategories.length > 14 ? 2 : 1,
                       maxHeight: "60vh",

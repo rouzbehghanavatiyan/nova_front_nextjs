@@ -195,7 +195,7 @@ const CategoryContentPage: React.FC<any> = ({ categories }) => {
                     onClick={() => handleRedirectSubCategory(item)}
                     className="group w-full flex flex-col items-center justify-center p-4 bg-white 
                       transition-all duration-300 
-                      transform border border-gray-100 cursor-pointer
+                      transform border border-gray-200 cursor-pointer
                       h-full"
                   >
                     <div className="w-36 h-36 md:w-44 md:h-44 flex items-center justify-center mb-4 p-2 relative">

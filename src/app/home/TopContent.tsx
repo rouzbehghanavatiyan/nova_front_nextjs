@@ -32,7 +32,6 @@ const TopContent: React.FC<TopContentProps> = () => {
       ext: ".png",
       product_id: 902,
     },
-
     {
       id: 920,
       name: "دریل پیچ گوشتی شارژی 13 میلیمتری 20ولت براشلس با کیف BMC ",
