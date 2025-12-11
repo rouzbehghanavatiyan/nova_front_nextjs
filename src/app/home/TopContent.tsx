@@ -17,6 +17,80 @@ interface TopContentProps {
 }
 
 const TopContent: React.FC<TopContentProps> = () => {
+  const coverImages = [
+    {
+      id: 917,
+      name: null,
+      en_name: null,
+      code: "1",
+      categoryId: null,
+      subcategoryId: 92,
+      main_image: null,
+      title: "برتری، با یک ست کامل است! n/ انواع ست بیت و بکس های نووا",
+      attachmentType: "cov",
+      fileName: "1",
+      ext: ".png",
+      product_id: 902,
+    },
+
+    {
+      id: 920,
+      name: "دریل پیچ گوشتی شارژی 13 میلیمتری 20ولت براشلس با کیف BMC ",
+      en_name: "13mm Brushless Cordless Impact Drill",
+      code: "5524",
+      categoryId: 21,
+      subcategoryId: 8,
+      main_image: "5524",
+      title: null,
+      attachmentType: "cov",
+      fileName: "5524",
+      ext: ".png",
+      product_id: 864,
+    },
+    {
+      id: 921,
+      name: null,
+      en_name: null,
+      code: "73-2",
+      categoryId: 3,
+      subcategoryId: 73,
+      main_image: null,
+      title: "آماده برای سخت‌ترین کارها! n/ انواع جعبه بکس و متعلقات",
+      attachmentType: "cov",
+      fileName: "73-2",
+      ext: ".png",
+      product_id: 901,
+    },
+    {
+      id: 902,
+      name: "فارسی بر کشویی 210 میلیمتر 1500 وات دو طرفه",
+      en_name: "1500W 210mm Sliding Miter Saw",
+      code: "5723",
+      categoryId: 4,
+      subcategoryId: 99,
+      main_image: "5723",
+      title: "قدرت دست شماست! n/ اره زنجیری شارژی 5548",
+      attachmentType: "cov",
+      fileName: "5723",
+      ext: ".png",
+      product_id: 560,
+    },
+    {
+      id: 899,
+      name: "[null]",
+      en_name: null,
+      code: "73-2",
+      categoryId: 3,
+      subcategoryId: 73,
+      main_image: null,
+      title: null,
+      attachmentType: "cov",
+      fileName: "73-1",
+      ext: ".png",
+      product_id: 899,
+    },
+  ];
+
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
   const [mainProduct, setMainProduct] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -92,12 +166,11 @@ const TopContent: React.FC<TopContentProps> = () => {
             disableOnInteraction: false,
           }}
           speed={1000}
-          loop
-          initialSlide={3}
           modules={[Pagination, Autoplay, EffectFade, Navigation]}
           className="mySwiper h-[94vh]"
+          loop
         >
-          {mainProduct.map((item: any, index) => {
+          {coverImages.map((item: any, index) => {
             const imageUrl = `${StringHelpers.baseURL}/${item?.attachmentType}/${item?.fileName}${item?.ext}`;
             const fixHeadTitle = item?.title?.split("n/")[0];
             const fixPharaphTitle = item?.title?.split("n/")[1];
