@@ -8,13 +8,16 @@ import {
 
 const CallDetail = () => {
   return (
-    <div className="border shadow border-gray-200 p-5" >
+    <div className="border shadow border-gray-200 p-5">
       <div className="space-y-6 flex justify-around">
         <div className="flex text-start items-start">
           <MapPinIcon className="w-6 h-6 text-blue-600 mt-1 ml-3" />
           <div>
             <h3 className="font-semibold">آدرس:</h3>
-            <p className="text-gray-600">تهران، خیابان نمونه، پلاک ۱۲۳</p>
+            <p className="text-gray-600">
+              تهران، خیابان حافظ، نرسیده به میدان حسن آباد، کوچه سید صدری،
+              کوچه میرمحمدی، پلاک 4
+            </p>
           </div>
         </div>
         <div className="flex text-start items-start">
@@ -34,7 +37,7 @@ const CallDetail = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="w-full h-96 overflow-hidden">
         <iframe
           src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.367315719256!2d51.40724931449139!3d35.68807898018438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDQxJzE3LjEiTiA1McKwMjQnMzQuMCJF!5e0!3m2!1sen!2sir!4v1640000000000!5m2!1sen!2sir`}

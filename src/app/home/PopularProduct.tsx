@@ -212,7 +212,7 @@ const PopularProduct = () => {
                     <div className="flex justify-end mt-6 pt-4 border-gray-200">
                       <Button
                         onClick={() => handleRedirect(product)}
-                        className="text-white bg-main"
+                        className="text-white bg-main hover:bg-black"
                       >
                         اطلاعات بیشتر
                       </Button>

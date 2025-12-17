@@ -4,6 +4,7 @@ import Link from "next/link";
 import CallForm from "./CallForm";
 import CallDetail from "./CallDetail";
 import cover from "@/src/assets/img/mainContentCover.jpg";
+import Achievements from "../home/Achievements";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -53,7 +54,6 @@ const ContactPage = () => {
           />
         </div>
       </div>
-
       <div className="container mx-auto px-4">
         <div className="w-full mx-auto">
           <p className="font-light mb-14  gap-10 leading-8 text-justify">
@@ -77,7 +77,7 @@ const ContactPage = () => {
             روشن‌تر کند.
           </p>
           <div className="grid grid-cols-2 lg:grid-cols-2 gap-12">
-            <span className="col-span-1">
+            {/* <span className="col-span-1">
               <CallDetail />
             </span>
             <span className="col-span-1">
@@ -86,10 +86,11 @@ const ContactPage = () => {
                 formData={formData}
                 setFormData={setFormData}
               />
-            </span>
+            </span> */}
           </div>
         </div>
       </div>
+      <Achievements />
     </div>
   );
 };

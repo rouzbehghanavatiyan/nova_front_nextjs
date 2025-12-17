@@ -26,7 +26,7 @@ const TopContent: React.FC<TopContentProps> = () => {
       categoryId: null,
       subcategoryId: 92,
       main_image: null,
-      title: "برتری، با یک ست کامل است! n/ انواع ست بیت و بکس های نووا",
+      title: "صفر تا صد ابزار با نووا! n/ انواع ابزار دستی، برقی، شارژی و ...",
       attachmentType: "cov",
       fileName: "1",
       ext: ".png",
@@ -40,7 +40,7 @@ const TopContent: React.FC<TopContentProps> = () => {
       categoryId: 21,
       subcategoryId: 8,
       main_image: "5524",
-      title: null,
+      title: "ترکیبی از قدرت و دقت! n/  دریل پیچ گوشتی شارژی 5524 ",
       attachmentType: "cov",
       fileName: "5524",
       ext: ".png",
@@ -54,7 +54,7 @@ const TopContent: React.FC<TopContentProps> = () => {
       categoryId: 3,
       subcategoryId: 73,
       main_image: null,
-      title: "آماده برای سخت‌ترین کارها! n/ انواع جعبه بکس و متعلقات",
+      title: "انواع ست بیت و بکس‌های نووا n/ برتری، با یک ست کامل است!",
       attachmentType: "cov",
       fileName: "73-2",
       ext: ".png",
@@ -68,7 +68,7 @@ const TopContent: React.FC<TopContentProps> = () => {
       categoryId: 4,
       subcategoryId: 99,
       main_image: "5723",
-      title: "قدرت دست شماست! n/ اره زنجیری شارژی 5548",
+      title: "نهایت دقت در هر برش! n/ فارسی‌بر کشویی 5723",
       attachmentType: "cov",
       fileName: "5723",
       ext: ".png",
@@ -82,7 +82,7 @@ const TopContent: React.FC<TopContentProps> = () => {
       categoryId: 3,
       subcategoryId: 73,
       main_image: null,
-      title: null,
+      title: "آماده برای سخت‌ترین کارها! n/ انواع جعبه بکس و متعلقات",
       attachmentType: "cov",
       fileName: "73-1",
       ext: ".png",
@@ -207,7 +207,7 @@ const TopContent: React.FC<TopContentProps> = () => {
                       <div className="flex justify-end mt-5">
                         <Button
                           onClick={() => handleRedirect(item)}
-                          className={` cursor-pointer text-white bg-main px-10  h-12 font15 transition-all duration-300`}
+                          className={` cursor-pointer text-white bg-main hover:bg-black px-10  h-12 font15 transition-all duration-300`}
                         >
                           اطلاعات بیشتر
                         </Button>

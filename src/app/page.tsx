@@ -1,13 +1,13 @@
 "use client";
 import dynamic from "next/dynamic";
 import { Suspense, useEffect } from "react";
-import MostPopular from "./home/Achievements";
 import NewProduct from "./home/NewProduct";
 import PopularProduct from "./home/PopularProduct";
 import CategoryContentPage from "./categoryContent/page";
 import { categoryServices } from "../api/services/categoryServices";
 import { useAppDispatch, useAppSelector } from "../store/hook";
 import { RsetCategories } from "../store/slices/main";
+import Achievements from "./home/Achievements";
 
 const TopContent = dynamic(() => import("./home/TopContent"), {
   ssr: false,
@@ -39,7 +39,6 @@ export default function Home() {
         <NewProduct />
         {/* <MainTitle /> */}
         <PopularProduct />
-        <MostPopular />
       </Suspense>
     </section>
   );
