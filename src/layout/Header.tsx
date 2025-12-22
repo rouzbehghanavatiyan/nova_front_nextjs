@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import Logo from "@/src/assets/color-new-09.svg";
+import Logo from "../assets/color-new-09.svg";
 import { siteConfig } from "../config/site";
 import { useRouter } from "next/navigation";
 import MegaMenu from "./megaMenu/page";

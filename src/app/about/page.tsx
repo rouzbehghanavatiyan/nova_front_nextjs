@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import CallForm from "./CallForm";
 import CallDetail from "./CallDetail";
-import cover from "@/src/assets/img/mainContentCover.jpg";
+import cover from "../../assets/img/mainContentCover.jpg";
 import Achievements from "../home/Achievements";
 
 const ContactPage = () => {
@@ -46,47 +46,30 @@ const ContactPage = () => {
         <div className="relative h-[90vh] w-[100vw] overflow-hidden">
           <img
             className="h-full w-full object-cover transition-transform duration-200 ease-out"
-            // style={zoomStyle}
             src={cover.src}
             alt="Contact cover"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           />
         </div>
-      </div>
-      <div className="container mx-auto px-4">
-        <div className="w-full mx-auto">
-          <p className="font-light mb-14  gap-10 leading-8 text-justify">
-            داستان نووا از سال ۱۳۸۷ و از یک ایده آغاز شد؛ ایده‌ای برای ساخت
-            ابزاری که نه تنها کار کند، بلکه قدرت بیافریند. ما با رویای روشن‌کردن
-            مسیر کسانی متولد شدیم، که می‌سازند، می‌آفرینند و آینده را شکل
-            می‌دهند؛ با باوری عمیق به اینکه هر دست، می‌تواند خالق باشد، اگر
-            ابزار درست را در اختیار داشته باشد. «نووا» نام پدیده‌ای است که در آن
-            ستاره‌ای، ناگهان نوری تازه می‌تاباند. این نام، فلسفه‌ ما را بازگو
-            می‌کند: هر تحول بزرگ، با یک جرقه آغاز می‌شود. هر ابزار، می‌تواند
-            سرآغاز یک تحول باشد. برای ما، ابزار تنها یک وسیله نیست؛ بلکه نقطه‌
-            شروعی برای ساختن آینده‌ای درخشان‌تر است. در نووا، دقت یک اصل است،
-            اعتماد یک تعهد، و نوآوری راه پیش‌رو. ما ابزارهایی می‌سازیم که قدرت
-            خلق‌کردن را در اختیار همه قرار می‌دهد؛ از صنعت‌گران بزرگترین
-            کارگاه‌ها تا نوآفرینانی که آغازگر رویاهای تازه‌اند. زیرا باور داریم
-            هر کس، با ابزار درست می‌تواند خالق شگفتی‌ها باشد. نووا، فقط نامی حک
-            شده بر روی ابزار نیست، بلکه یک تعهد است. تعهدی برای ماندگاری،
-            کارایی، و الهام‌بخشی به خالقان فردا. ما آمده‌ایم تا ساختن را
-            آسان‌تر، نتیجه را قابل‌اعتمادتر، و رویاها را دست‌یافتنی‌تر کنیم. مثل
-            نوری که در تاریکی راه می‌گشاید، نووا اینجاست تا دنیاهای فردا را
-            روشن‌تر کند.
+        <div className="absolute top-1/10 mt-3 backdrop-blur-sm rounded-xl p-6">
+          <p className="text-white  leading-9 text-justify">
+            آنچه ابزار نووا را متمایز می‌کند، تمرکز هم‌زمان بر کیفیت و
+            دسترسی‌پذیری است. کنترل کیفیت مستمر، انتخاب مواد اولیه مناسب، تنوع
+            گسترده محصولات، ارائه ارزش واقعی در برابر قیمت و خدمات پس از فروش
+            گسترده و پاسخگو، از مهم‌ترین مزیت‌های رقابتی نووا به شمار می‌رود.
           </p>
           <div className="grid grid-cols-2 lg:grid-cols-2 gap-12">
             {/* <span className="col-span-1">
               <CallDetail />
-            </span>
-            <span className="col-span-1">
+              </span>
+              <span className="col-span-1">
               <CallForm
-                handleSubmit={handleSubmit}
-                formData={formData}
-                setFormData={setFormData}
+              handleSubmit={handleSubmit}
+              formData={formData}
+              setFormData={setFormData}
               />
-            </span> */}
+              </span> */}
           </div>
         </div>
       </div>

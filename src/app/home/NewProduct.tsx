@@ -6,88 +6,18 @@ import StringHelpers from "@/src/config/StringHelpers";
 import { useRouter } from "next/navigation";
 import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
 import MainTitle from "@/src/components/mainTitle";
-import image1 from "@/src/assets/newProduct/1533-1.jpg";
-import image2 from "@/src/assets/newProduct/1533.jpg";
-import image3 from "@/src/assets/newProduct/1535-1.jpg";
-import image4 from "@/src/assets/newProduct/1535.jpg";
-import image5 from "@/src/assets/newProduct/2685G-01.jpg";
-import image6 from "@/src/assets/newProduct/2685G.jpg";
-import image7 from "@/src/assets/newProduct/7717-01.jpg";
-import image8 from "@/src/assets/newProduct/7717.jpg";
-
 const NewProduct: React.FC = () => {
-  const allImages = [
-    {
-      id: 903,
-      name: "سنباده لرزان اوربیتال 150 میلیمتر 450 وات",
-      en_name: "450W 150mm Orbital Electric Sander",
-      code: "5386",
-      categoryId: 4,
-      subcategoryId: 101,
-      main_image: "5386",
-      title: null,
-      attachmentType: "new",
-      fileName: "2685G-01",
-      ext: ".png",
-      product_id: 563,
-      attachments: image5,
-    },
-    {
-      id: 904,
-      name: "دریل پیچ گوشتی شارژی 10 میلیمتری 16ولت براشلس با کیف BMC",
-      en_name: "10mm Brushless Cordless Impact Drill",
-      code: "5510",
-      categoryId: 21,
-      subcategoryId: 8,
-      main_image: "5510",
-      title: null,
-      attachmentType: "new",
-      fileName: "2685G",
-      ext: ".png",
-      product_id: 861,
-      attachments: image6,
-    },
-    {
-      id: 905,
-      name: "دریل پیچ گوشتی شارژی 13 میلیمتری 20ولت براشلس با کیف BMC ",
-      en_name: "13mm Brushless Cordless Impact Drill",
-      code: "5524",
-      categoryId: 21,
-      subcategoryId: 8,
-      main_image: "5524",
-      title: null,
-      attachmentType: "new",
-      fileName: "7717-01",
-      ext: ".png",
-      product_id: 864,
-      attachments: image7,
-    },
-    {
-      id: 914,
-      name: "بکس شارژی 20 ولت براشلس",
-      en_name: "20V Brushless Cordless Impact Wrench",
-      code: "7731",
-      categoryId: 21,
-      subcategoryId: 8,
-      main_image: "7731",
-      title: null,
-      attachmentType: "new",
-      fileName: "7717",
-      ext: ".png",
-      product_id: 849,
-      attachments: image8,
-    },
-  ];
-
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [newProduct, setNewProduct] = useState<any>([]);
   const [loadedImages, setLoadedImages] = useState<boolean[]>(
     new Array(4).fill(false)
   );
+
   const [loadedHoverImages, setLoadedHoverImages] = useState<boolean[]>(
     new Array(4).fill(false)
   );
+
+  const [newProduct, setNewProduct] = useState<any>([]);
   const handleGetNewProduct = async () => {
     try {
       const res: any = await productService.getNewProduct();
@@ -134,8 +64,6 @@ const NewProduct: React.FC = () => {
     handleGetNewProduct();
   }, []);
 
-  console.log(newProduct);
-
   return (
     <div className="w-full mt-10">
       <div className="flex items-center justify-center gap-4">
@@ -173,12 +101,11 @@ const NewProduct: React.FC = () => {
             modules={[]}
             className="mySwiper"
           > */}
-          {allImages.map((item: any, index: number) => {
+          {newProduct.map((item: any, index: number) => {
             const fixImageUrl = `${StringHelpers.baseURL}/img/${item?.fileName}${item?.ext}`;
             const hoverImageUrl = StringHelpers.getProfile(
               item?.attachments?.[0]
             );
-
             return (
               <div className="hover:shadow-lg" key={index}>
                 <div
@@ -191,20 +118,19 @@ const NewProduct: React.FC = () => {
                     <div className="overflow-hidden   h-[50vh]">
                       <div className="relative w-full h-full">
                         <img
-                          // src={fixImageUrl}
-                          src={item?.attachments.src}
+                          src={fixImageUrl}
                           alt={item.alt}
-                          // className={`w-full h-full transition-all duration-300 ease-in-out ${
-                          //   hoveredIndex === index
-                          //     ? "scale-105 brightness-110"
-                          //     : "scale-100 brightness-100"
-                          // } ${loadedImages[index] ? "opacity-100" : "opacity-0"}`}
+                          className={`w-full h-full transition-all duration-300 ease-in-out ${
+                            hoveredIndex === index
+                              ? "scale-105 brightness-110"
+                              : "scale-100 brightness-100"
+                          } ${loadedImages[index] ? "opacity-100" : "opacity-0"}`}
                           style={{
                             objectFit: "cover",
                             objectPosition: "center",
                           }}
-                          // onLoad={() => handleImageLoad(index)}
-                          // onError={() => handleImageLoad(index)}
+                          onLoad={() => handleImageLoad(index)}
+                          onError={() => handleImageLoad(index)}
                           loading="lazy"
                           crossOrigin="anonymous"
                         />
@@ -244,10 +170,10 @@ const NewProduct: React.FC = () => {
                 </div>
                 <div className="border-b border-x p-5 border-gray-200">
                   <span className="text-gray-400 flex justify-end pb-1">
-                    مدل: {item?.fileName}
+                    مدل: {item?.code}
                   </span>
                   <p className="text-gray-600 flex justify-end font13">
-                    {/* {item?.name} */}
+                    {item?.name}
                   </p>
                 </div>
               </div>

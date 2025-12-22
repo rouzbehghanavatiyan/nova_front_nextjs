@@ -1,10 +1,9 @@
 const nextConfig = {
+  // output: "export",
   images: {
-    domains: ['192.168.1.189'], 
-    unoptimized: true
+    domains: ["192.168.1.189"],
+    unoptimized: true,
   },
-   output: "standalone"
+};
 
-}
-
-module.exports = nextConfig
+module.exports = nextConfig;
