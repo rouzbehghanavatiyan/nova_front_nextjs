@@ -12,7 +12,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   isLoading,
   onSelect,
 }) => {
-  console.log(results);
 
   if (isLoading) {
     return (
@@ -30,7 +29,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 shadow-lg z-50 mt-1 max-h-96 overflow-y-auto">
       {results.map((item: any, index) => {
         const imgUri = StringHelpers.getProfile(item?.attachments?.[0]);
-        console.log(imgUri, results);
         return (
           <div
             key={item.id || index}

@@ -27,8 +27,6 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   const getProductFromStorage: any = sessionStorage?.getItem("currentProduct");
   const currentProduct = JSON.parse(getProductFromStorage);
 
-  console.log(StringHelpers.getProfile(currentProduct?.attachments?.[0]));
-
   const resolveParams = async () => {
     const resolved = await params;
     setResolvedParams(resolved);
@@ -106,7 +104,10 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
       <div className="grid grid-cols-1  lg:grid-cols-2 gap-10 items-start">
         <div className="sticky bottom-40  justify-center">
           <img
-            src={StringHelpers.getProfile(currentProduct?.attachments?.[0])}
+            src={StringHelpers.getProfile(
+              currentProduct?.attachments?.[0],
+              currentProduct?.code
+            )}
             alt={currentProduct?.name}
             crossOrigin="anonymous"
           />

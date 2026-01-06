@@ -59,7 +59,6 @@ const SearchField: React.FC = () => {
   );
 
   const handleConfirmSearch = () => {
-    console.log("Confirm search:", searchTitle);
     setShowResults(false);
   };
   const handleResultSelect = (item: any) => {

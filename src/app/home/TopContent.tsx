@@ -11,6 +11,7 @@ import StringHelpers from "@/src/config/StringHelpers";
 import { RsetIsOpenMegaMenu } from "@/src/store/slices/main";
 import { useAppDispatch } from "@/src/store/hook";
 import ChildLoading from "@/src/components/childLoading";
+import Loading from "@/src/components/Loading";
 
 interface TopContentProps {
   setIsProductsPanelOpen?: (isOpen: boolean) => void;
@@ -92,7 +93,7 @@ const TopContent: React.FC<TopContentProps> = () => {
 
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
   const [mainProduct, setMainProduct] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const swiperRef = useRef<HTMLDivElement>(null);
@@ -102,7 +103,6 @@ const TopContent: React.FC<TopContentProps> = () => {
   };
 
   const handleRedirect = (data: any) => {
-    console.log(data);
 
     if (data?.main_image !== null) {
       const productId = data.product_id;
@@ -125,19 +125,19 @@ const TopContent: React.FC<TopContentProps> = () => {
     }
   };
 
-  const handleGetMainCover = async () => {
-    try {
-      setIsLoading(true);
-      const products: any = await productService.getMainCover();
+  // const handleGetMainCover = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const products: any = await productService.getMainCover();
 
-      setMainProduct(products.data);
-      setLoadedImages(Array(products.data.length).fill(false));
-    } catch (error) {
-      console.error("Error loading main cover:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     setMainProduct(products.data);
+  //     setLoadedImages(Array(products.data.length).fill(false));
+  //   } catch (error) {
+  //     console.error("Error loading main cover:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => {
@@ -148,12 +148,13 @@ const TopContent: React.FC<TopContentProps> = () => {
   };
 
   useEffect(() => {
-    handleGetMainCover();
+    // handleGetMainCover();
   }, []);
 
   return (
     <>
-      {isLoading && <ChildLoading />}
+      <Loading active={isLoading ? true : false} />
+
       <div ref={swiperRef} className="gap-5 relative">
         <Swiper
           navigation
@@ -173,7 +174,6 @@ const TopContent: React.FC<TopContentProps> = () => {
             const imageUrl = `${StringHelpers.baseURL}/${item?.attachmentType}/${item?.fileName}${item?.ext}`;
             const fixHeadTitle = item?.title?.split("n/")[0];
             const fixPharaphTitle = item?.title?.split("n/")[1];
-            console.log(item);
 
             return (
               <SwiperSlide key={index}>

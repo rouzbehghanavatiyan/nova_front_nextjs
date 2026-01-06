@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import { Suspense, useEffect } from "react";
 import NewProduct from "./home/NewProduct";
 import PopularProduct from "./home/PopularProduct";
-import CategoryContentPage from "./categoryContent/page";
+import CategoryContent from "./categoryContent/CategoryContent";
 import { categoryServices } from "../api/services/categoryServices";
 import { useAppDispatch, useAppSelector } from "../store/hook";
 import { RsetCategories } from "../store/slices/main";
@@ -35,7 +35,7 @@ export default function Home() {
       >
         <TopContent />
         {/* <CompanyRecords /> */}
-        <CategoryContentPage categories={main?.categories || []} />
+        <CategoryContent categories={main?.categories || []} />
         <NewProduct />
         {/* <MainTitle /> */}
         <PopularProduct />

@@ -48,7 +48,6 @@ const CategoryMenu: React.FC = () => {
   };
 
   const handleShowProduct = (data: Category) => {
-    console.log("handleShowProduct handleShowProduct handleShowProduct", data);
     router.push(`/category/${categoryId}/products/${data.id}`);
   };
 

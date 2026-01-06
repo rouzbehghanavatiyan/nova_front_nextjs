@@ -39,7 +39,6 @@ export default function CategoryMenuPage({
   };
 
   const handleShowProduct = (data: any) => {
-    console.log(data);
     router.push(`/category/${categoryId}/subCategory/${data.id}`);
   };
 

@@ -18,7 +18,6 @@ const ContactPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
     alert("پیام شما با موفقیت ارسال شد!");
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
