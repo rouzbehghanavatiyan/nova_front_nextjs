@@ -67,7 +67,7 @@ const SubCategoryPage: React.FC<SubCategoryPageProps> = ({ params }) => {
             product.attachments?.[0],
             product.code
           );
-          console.log(product);
+          console.log(product,imgUrl);
 
           if (product?.categoryId !== null) {
             return (
