@@ -1,41 +1,10 @@
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import Metr from "@/src/assets/img/5025.png";
-import Body from "@/src/assets/img/2704.png";
-import Handly from "@/src/assets/img/9606.png";
-import Electricy from "@/src/assets/img/2236.png";
-import Gass from "@/src/assets/img/9565.png";
-import Cheft from "@/src/assets/img/1173.png";
-import Baghbani from "@/src/assets/img/2470.png";
-import TamirGahi from "@/src/assets/img/2202.png";
-import Looleh from "@/src/assets/img/1178.png";
-import Joosh from "@/src/assets/img/2420.png";
-import General from "@/src/assets/img/6016.png";
-import Light from "@/src/assets/img/3032.png";
-import Other from "@/src/assets/img/2943.png";
-import Chargy from "@/src/assets/img/7715.png";
 import { categoryServices } from "@/src/api/services/categoryServices";
 import { useAppDispatch, useAppSelector } from "@/src/store/hook";
 import { RsetIsOpenMegaMenu } from "@/src/store/slices/main";
 
-const categoryImages = [
-  Metr,
-  Body,
-  Handly,
-  Electricy,
-  Gass,
-  Cheft,
-  Baghbani,
-  TamirGahi,
-  Looleh,
-  "",
-  Joosh,
-  General,
-  Light,
-  Other,
-  Chargy,
-];
+ 
 
 const MegaMenu: React.FC<any> = ({ categories }) => {
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
@@ -74,19 +43,19 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
     }
   };
 
-  const getCategoryImage = (categoryId: string): any => {
-    const index =
-      categories.findIndex((cat: any) => cat.id === categoryId) %
-      categoryImages.length;
-    return categoryImages[index];
-  };
+  // const getCategoryImage = (categoryId: string): any => {
+  //   const index =
+  //     categories.findIndex((cat: any) => cat.id === categoryId) %
+  //     categoryImages.length;
+  //   return categoryImages[index];
+  // };
 
-  const getCategoryIcon = (categoryId: string): any => {
-    const index =
-      categories.findIndex((cat: any) => cat.id === categoryId) %
-      categoryImages.length;
-    return categoryImages[index];
-  };
+  // const getCategoryIcon = (categoryId: string): any => {
+  //   const index =
+  //     categories.findIndex((cat: any) => cat.id === categoryId) %
+  //     categoryImages.length;
+  //   return categoryImages[index];
+  // };
 
   // useEffect(() => {
   //   if (!main?.isOpenMegaMenu) return;
@@ -139,11 +108,11 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                   >
                     <div className={`flex items-center justify-between`}>
                       <div className="ms-5 mt-2 flex items-center flex-1">
-                        <img
+                        {/* <img
                           className="w-9 h-9 me-5 object-contain"
                           src={getCategoryIcon(category.id).src}
                           alt={category.title_per}
-                        />
+                        /> */}
                         <Link
                           key={category.id}
                           href={`/category/${category?.id}`}
@@ -198,7 +167,7 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                 </div>
                 <div className="w-1/3 flex items-start justify-center">
                   <div className="flex items-center justify-center">
-                    <img
+                    {/* <img
                       className="w-4/5 h-4/5 object-contain"
                       src={getCategoryImage(hoveredCategory).src}
                       alt={
@@ -206,7 +175,7 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                           (cat: any) => cat.id === hoveredCategory,
                         )?.title_per
                       }
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>

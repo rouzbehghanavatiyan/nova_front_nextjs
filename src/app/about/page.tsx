@@ -3,8 +3,9 @@ import { useState } from "react";
 import Link from "next/link";
 import CallForm from "./CallForm";
 import CallDetail from "./CallDetail";
-import cover from "../../assets/img/mainContentCover.jpg";
 import Achievements from "../home/Achievements";
+import { useAppSelector } from "@/src/store/hook";
+import StringHelpers from "@/src/config/StringHelpers";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,13 @@ const ContactPage = () => {
     subject: "",
     message: "",
   });
+
+  const main = useAppSelector((state) => state.product);
+  const cover = main?.moreImages?.[0];
+  const fixCover = StringHelpers.getProfile(
+    cover,
+    main?.moreImages?.[0]?.fileName,
+  );
 
   const [zoomStyle, setZoomStyle] = useState({});
 
@@ -45,7 +53,7 @@ const ContactPage = () => {
         <div className="relative h-[90vh] w-[100vw] overflow-hidden">
           <img
             className="h-full w-full object-cover transition-transform duration-200 ease-out"
-            src={cover.src}
+            src={fixCover}
             alt="Contact cover"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}

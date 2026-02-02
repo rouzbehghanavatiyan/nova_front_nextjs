@@ -1,20 +1,12 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-
-  // images: {
-  //   domains: ["greatnovatools.ir"],
-  //   remotePatterns: [
-  //     {
-  //       protocol: "http",
-  //       hostname: "greatnovatools.ir",
-  //       port: "",
-  //       pathname: "/storage/**",
-  //     },
-  //   ],
-  // },
+  
+  // اضافه کردن images config برای حل مشکل sharp
   images: {
-    unoptimized: true,
+    unoptimized: true, // این خط مشکل sharp را حل می‌کند
   },
+  
   async rewrites() {
     return [
       {

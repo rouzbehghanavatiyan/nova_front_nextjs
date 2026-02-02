@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import Logo from "../assets/color-new-09.svg";
+// import Logo from "../assets/color-new-09.svg";
 import { siteConfig } from "../config/site";
 import { useRouter } from "next/navigation";
 import MegaMenu from "./megaMenu/page";
@@ -55,11 +55,11 @@ export const Header: React.FC = () => {
             </nav>
           </ResponsiveMaker>
           <SearchField />
-          <img
+          {/* <img
             onClick={handleRedirect}
             className="w-36 cursor-pointer"
             src={Logo.src}
-          />
+          /> */}
         </div>
         {main?.isOpenMegaMenu && <MegaMenu categories={main?.categories} />}
       </header>

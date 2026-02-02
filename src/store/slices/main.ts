@@ -13,6 +13,7 @@ interface Product {
 interface ProductState {
   currentProduct: Product | null;
   recentProducts: Product[];
+  moreImages: [];
   loading: boolean;
   error: string | null;
   isOpenMegaMenu: boolean;
@@ -22,6 +23,7 @@ interface ProductState {
 const initialState: ProductState = {
   currentProduct: null,
   recentProducts: [],
+  moreImages: [],
   loading: false,
   error: null,
   isOpenMegaMenu: false,
@@ -37,7 +39,7 @@ const mainSlice = createSlice({
       if (action.payload) {
         // اضافه کردن به محصولات اخیر (بدون duplicate)
         const exists = state.recentProducts.some(
-          (p) => p.id === action.payload?.id
+          (p) => p.id === action.payload?.id,
         );
         if (!exists) {
           state.recentProducts.unshift(action.payload);
@@ -53,7 +55,7 @@ const mainSlice = createSlice({
     },
     addToRecentProducts: (state, action: PayloadAction<Product>) => {
       const exists = state.recentProducts.some(
-        (p) => p.id === action.payload.id
+        (p) => p.id === action.payload.id,
       );
       if (!exists) {
         state.recentProducts.unshift(action.payload);
@@ -64,7 +66,7 @@ const mainSlice = createSlice({
     },
     removeFromRecentProducts: (state, action: PayloadAction<number>) => {
       state.recentProducts = state.recentProducts.filter(
-        (product) => product.id !== action.payload
+        (product) => product.id !== action.payload,
       );
     },
     clearRecentProducts: (state) => {
@@ -78,6 +80,9 @@ const mainSlice = createSlice({
     },
     RsetCategories: (state, action: PayloadAction<any>) => {
       state.categories = action.payload;
+    },
+    RsetGetMoreImage: (state, action: PayloadAction<any>) => {
+      state.moreImages = action.payload;
     },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
@@ -95,6 +100,7 @@ export const {
   RsetIsOpenMegaMenu,
   setError,
   RsetCategories,
+  RsetGetMoreImage,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;

@@ -7,6 +7,10 @@ import Footer from "../layout/Footer";
 import { iransans } from "./fonts";
 import { Provider } from "react-redux";
 import StoreProvider from "../store/storeProvider";
+import { categoryServices } from "../api/services/categoryServices";
+import { addtionalService } from "../api/services/addtionalService";
+import { useEffect } from "react";
+import AppServices from "../api/services/AppServices";
 
 export const metadata: Metadata = {
   description: siteConfig.description,
@@ -27,9 +31,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  
-
-
   return (
     <html
       lang="fa"
@@ -40,9 +41,11 @@ export default function RootLayout({
       <body className="antialiased" suppressHydrationWarning>
         <Providers>
           <StoreProvider>
-            <Header />
-            {children}
-            <Footer />
+            <AppServices>
+              <Header />
+              {children}
+              <Footer />
+            </AppServices>
           </StoreProvider>
         </Providers>
       </body>

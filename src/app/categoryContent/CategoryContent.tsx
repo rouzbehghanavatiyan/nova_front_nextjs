@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,39 +6,8 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import MainTitle from "@/src/components/mainTitle";
-import Metr from "../../assets/img/5025.png";
-import Body from "../../assets/img/2704.png";
-import Handly from "../../assets/img/9606.png";
-import Electricy from "../../assets/img/2236.png";
-import Gass from "../../assets/img/9565.png";
-import Cheft from "../../assets/img/1173.png";
-import Baghbani from "../../assets/img/2470.png";
-import TamirGahi from "../../assets/img/2202.png";
-import Looleh from "../../assets/img/1178.png";
-import Joosh from "../../assets/img/2420.png";
-import General from "../../assets/img/6016.png";
-import Light from "../../assets/img/3032.png";
-import Other from "../../assets/img/2943.png";
-import Chargy from "../../assets/img/7715.png";
-import DefaultImage from "../../assets/img/6016.png";
-
-const categoryImages = [
-  Metr,
-  Body,
-  Handly,
-  Electricy,
-  Gass,
-  Cheft,
-  Baghbani,
-  TamirGahi,
-  Looleh,
-  DefaultImage,
-  Joosh,
-  General,
-  Light,
-  Other,
-  Chargy,
-];
+import { useAppSelector } from "@/src/store/hook";
+import StringHelpers from "@/src/config/StringHelpers";
 
 interface CategoryItem {
   id: number;
@@ -55,15 +23,24 @@ const CategoryContentPage: React.FC<CategoryContentPageProps> = ({
 }) => {
   const swiperRef = useRef<any>(null);
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
+  const main = useAppSelector((state) => state.product);
 
   const safeCategories: CategoryItem[] = Array.isArray(categories)
     ? categories
     : Array.isArray(categories?.data)
-    ? categories.data
-    : [];
+      ? categories.data
+      : [];
 
+  // تابع getImageByIndex رو اصلاح می‌کنیم
   const getImageByIndex = (index: number) => {
-    return categoryImages[index] || DefaultImage;
+    const categoryId = safeCategories[index].id;
+    const imagesForCategory = main?.moreImages?.filter(
+      (img: any) => img.ext === ".png",
+    );
+    // عکس اول هر دسته را برمی‌گردانیم
+    return imagesForCategory && imagesForCategory.length > 0
+      ? imagesForCategory[0]
+      : null;
   };
 
   const handleImageLoad = (index: number) => {
@@ -73,6 +50,8 @@ const CategoryContentPage: React.FC<CategoryContentPageProps> = ({
       return next;
     });
   };
+
+  console.log(main?.moreImages);
 
   useEffect(() => {
     setLoadedImages(new Array(safeCategories.length).fill(false));
@@ -105,8 +84,8 @@ const CategoryContentPage: React.FC<CategoryContentPageProps> = ({
         >
           {safeCategories.map((item, index) => {
             const image = getImageByIndex(index);
-            const imageSrc = image?.src || DefaultImage.src;
-
+            const fixImg = StringHelpers.getProfile(image, image.fileName);
+            console.log(fixImg, image);
             return (
               <SwiperSlide key={item.id}>
                 <div className="h-full flex flex-col items-center">
@@ -118,14 +97,12 @@ const CategoryContentPage: React.FC<CategoryContentPageProps> = ({
                       {!loadedImages[index] && (
                         <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-lg" />
                       )}
-
                       <img
-                        src={imageSrc}
+                        src={fixImg}
                         alt={item.title_per}
                         loading="lazy"
                         onLoad={() => handleImageLoad(index)}
                         onError={(e) => {
-                          e.currentTarget.src = DefaultImage.src;
                           handleImageLoad(index);
                         }}
                         className={`w-full h-full object-contain transition-all duration-500 ${

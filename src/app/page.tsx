@@ -16,12 +16,10 @@ const TopContent = dynamic(() => import("./home/TopContent"), {
 export default function Home() {
   const main = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
-
   const handleGetAllCategories = async () => {
     const res: any = await categoryServices.getAllCategories();
     dispatch(RsetCategories(res?.data));
   };
-
   useEffect(() => {
     handleGetAllCategories();
   }, []);

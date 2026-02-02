@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { categoryServices } from "@/src/api/services/categoryServices";
 import { useRouter } from "next/navigation";
 import StringHelpers from "@/src/config/StringHelpers";
-import Logo from "../../../assets/color-new-09.svg";
 export default function CategoryMenuPage({
   params,
 }: {
@@ -70,14 +69,14 @@ export default function CategoryMenuPage({
                   {category.title}
                 </span>
                 <span className=" flex col-span-3 justify-center">
-                  <img
+                  {/* <img
                     className="col-span-1"
                     src={Logo?.src}
                     width={300}
                     height={300}
                     onLoad={() => handleImageLoad(index)}
                     onError={() => handleImageLoad(index)}
-                  />
+                  /> */}
                 </span>
                 <p className="text-gray-600">{category.en_name}</p>
               </div>

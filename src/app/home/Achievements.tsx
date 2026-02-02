@@ -6,31 +6,26 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { productService } from "@/src/api/services/productService";
 import MainTitle from "@/src/components/mainTitle";
-import ChildLoading from "@/src/components/childLoading";
-import Img1 from "../../assets/3048.jpg";
-import Img2 from "../../assets/5251.jpg";
-import Img3 from "../../assets/5355.jpg";
-import Img4 from "../../assets/5548.jpg";
 
 const Achievements: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<boolean[]>(
     new Array(9).fill(false)
   );
 
-  const allImage = [
-    // {
-    //   src: Img1,
-    // },
-    {
-      src: Img2,
-    },
-    {
-      src: Img3,
-    },
-    {
-      src: Img4,
-    },
-  ];
+  // const allImage = [
+  //   // {
+  //   //   src: Img1,
+  //   // },
+  //   {
+  //     src: Img2,
+  //   },
+  //   {
+  //     src: Img3,
+  //   },
+  //   {
+  //     src: Img4,
+  //   },
+  // ];
 
   const [popularProduct, setPopularProduct] = useState(false);
   const fixedHeight = "40vh";
@@ -88,7 +83,7 @@ const Achievements: React.FC = () => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper shadow-small w-full h-full"
           >
-            {allImage.map((image: any, index: number) => (
+            {/* {allImage.map((image: any, index: number) => (
               <SwiperSlide key={index}>
                 <div className="relative w-full h-full">
                   {!loadedImages[index] && <ChildLoading />}
@@ -110,7 +105,7 @@ const Achievements: React.FC = () => {
                   />
                 </div>
               </SwiperSlide>
-            ))}
+            ))} */}
           </Swiper>
         </div>
         <div className="col-span-2 flex items-center justify-center px-4 sm:px-6 lg:px-8">
