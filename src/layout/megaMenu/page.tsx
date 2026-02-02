@@ -40,7 +40,7 @@ const categoryImages = [
 const MegaMenu: React.FC<any> = ({ categories }) => {
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [subCategories, setSubCategories] = useState<{ [key: string]: any[] }>(
-    {}
+    {},
   );
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<string | null>(null);
@@ -75,6 +75,13 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
   };
 
   const getCategoryImage = (categoryId: string): any => {
+    const index =
+      categories.findIndex((cat: any) => cat.id === categoryId) %
+      categoryImages.length;
+    return categoryImages[index];
+  };
+
+  const getCategoryIcon = (categoryId: string): any => {
     const index =
       categories.findIndex((cat: any) => cat.id === categoryId) %
       categoryImages.length;
@@ -131,14 +138,18 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                     onMouseEnter={() => handleCategoryHover(category.id)}
                   >
                     <div className={`flex items-center justify-between`}>
-                      <div className="flex items-center gap-3 flex-1">
+                      <div className="ms-5 mt-2 flex items-center flex-1">
+                        <img
+                          className="w-9 h-9 me-5 object-contain"
+                          src={getCategoryIcon(category.id).src}
+                          alt={category.title_per}
+                        />
                         <Link
                           key={category.id}
-                          // href={`/category/${category?.id}`}
-                          href={`/#`}
+                          href={`/category/${category?.id}`}
                           onClick={() => dispatch(RsetIsOpenMegaMenu(false))}
                           className="
-                          text hover:bg-gray-100 cursor-pointer grid grid-cols-2 font13 flex-1 text-right 
+                          text hover:bg-gray-100 cursor-pointer grid grid-cols-1 font13 flex-1 text-right 
                           hover:font-bold hover:font16 py-2 px-28 ps-2 transition-colors duration-200"
                         >
                           {category.title_per}
@@ -192,7 +203,7 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                       src={getCategoryImage(hoveredCategory).src}
                       alt={
                         categories.find(
-                          (cat: any) => cat.id === hoveredCategory
+                          (cat: any) => cat.id === hoveredCategory,
                         )?.title_per
                       }
                     />

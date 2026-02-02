@@ -11,11 +11,11 @@ const NewProduct: React.FC = () => {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [loadedImages, setLoadedImages] = useState<boolean[]>(
-    new Array(4).fill(false)
+    new Array(4).fill(false),
   );
 
   const [loadedHoverImages, setLoadedHoverImages] = useState<boolean[]>(
-    new Array(4).fill(false)
+    new Array(4).fill(false),
   );
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -25,7 +25,7 @@ const NewProduct: React.FC = () => {
     try {
       setIsLoading(true);
       const res: any = await productService.getNewProduct();
-      console.log(res?.data);
+      console.log(res);
 
       setIsLoading(false);
       setNewProduct(res?.data);
@@ -52,16 +52,7 @@ const NewProduct: React.FC = () => {
 
   const handleImageClick = (data: any) => {
     if (data?.categoryId !== null) {
-      const productId = data.product_id;
-      const updatedData = {
-        ...data,
-        attachments: data.attachments?.map((attachment: any) => ({
-          ...attachment,
-          attachmentType: "img",
-        })),
-      };
-      sessionStorage.setItem("currentProduct", JSON.stringify(updatedData));
-      router.push(`/products/${productId}`);
+      router.push(`/products/${data?.id}/${data?.name}`);
     } else {
       router.push(`/category/${data?.subcategoryId}`);
     }
@@ -74,7 +65,6 @@ const NewProduct: React.FC = () => {
   return (
     <>
       <Loading active={isLoading ? true : false} />
-
       <div className="w-full mt-10">
         <div className="flex items-center justify-center gap-4">
           <span className="ms-20">
@@ -85,86 +75,89 @@ const NewProduct: React.FC = () => {
           </span>
         </div>
         <div className="max-w-full mx-auto">
-          <div className="mx-10 gap-4 flex ">
-            {newProduct.map((item: any, index: number) => {
-              const fixImageUrl = `${StringHelpers.baseURL}/img/${item?.code}${item?.ext}`;
-              const hoverImageUrl = StringHelpers.getProfile(
-                item?.attachments?.[0],
-                item?.code
-              );
-              return (
-                <div className="hover:shadow-lg" key={index}>
-                  <div
-                    className="relative group cursor-pointer flex   border border-gray-200"
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                    onClick={() => handleImageClick(item)}
-                  >
-                    <div>
-                      <div className="overflow-hidden   h-[50vh]">
-                        <div className="relative w-full h-full">
-                          <img
-                            src={fixImageUrl}
-                            alt={item.alt}
-                            className={`w-full h-full transition-all duration-300 ease-in-out ${
-                              hoveredIndex === index
-                                ? "scale-105 brightness-110"
-                                : "scale-100 brightness-100"
-                            } ${loadedImages[index] ? "opacity-100" : "opacity-0"}`}
-                            style={{
-                              objectFit: "cover",
-                              objectPosition: "center",
-                            }}
-                            onLoad={() => handleImageLoad(index)}
-                            onError={() => handleImageLoad(index)}
-                            loading="lazy"
-                            crossOrigin="anonymous"
-                          />
-                        </div>
-                        <span className="absolute top-0 text-white px-4 py-2 font-bold bg-red-500 z-20">
-                          جدید
-                        </span>
-                        <div
-                          className={`absolute inset-0 transition-all duration-500 ${
-                            hoveredIndex === index
-                              ? "opacity-100"
-                              : "opacity-0 pointer-events-none"
-                          }`}
-                        >
-                          <div className="relative w-full h-full z-10">
+          <div className="">
+            <div className="mx-3 flex flex-wrap justify-center gap-4">
+              {newProduct.map((item: any, index: number) => {
+                // const fixImageUrl = `${StringHelpers.baseURL}/img/${item?.code}${item?.ext}`;
+                const fixImageUrl = `${StringHelpers.baseURL}/img/${item?.code}.png`;
+                const hoverImageUrl = StringHelpers.getProfile(
+                  item?.attachments?.[0],
+                  item?.code,
+                );
+                return (
+                  <div className="w-[45vh] hover:shadow-lg" key={index}>
+                    <div
+                      className="relative group cursor-pointer flex border border-gray-200"
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                      onClick={() => handleImageClick(item)}
+                    >
+                      <div>
+                        <div className="overflow-hidden h-[50vh]">
+                          <div className="relative w-full h-full">
                             <img
-                              src={hoverImageUrl}
-                              alt={`Hover ${item.alt}`}
-                              className={`w-full h-full transition-all duration-300 ${
-                                loadedHoverImages[index]
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              }`}
+                              src={fixImageUrl}
+                              alt={item.alt}
+                              className={`w-full h-full transition-all duration-300 ease-in-out ${
+                                hoveredIndex === index
+                                  ? "scale-105 brightness-110"
+                                  : "scale-100 brightness-100"
+                              } ${loadedImages[index] ? "opacity-100" : "opacity-0"}`}
                               style={{
                                 objectFit: "cover",
                                 objectPosition: "center",
                               }}
-                              onLoad={() => handleHoverImageLoad(index)}
-                              onError={() => handleHoverImageLoad(index)}
+                              onLoad={() => handleImageLoad(index)}
+                              onError={() => handleImageLoad(index)}
                               loading="lazy"
                               crossOrigin="anonymous"
                             />
                           </div>
+                          <span className="absolute top-0 text-white px-4 py-2 font-bold bg-red-500 z-20">
+                            جدید
+                          </span>
+                          <div
+                            className={`absolute inset-0 transition-all duration-500 ${
+                              hoveredIndex === index
+                                ? "opacity-100"
+                                : "opacity-0 pointer-events-none"
+                            }`}
+                          >
+                            <div className="relative w-full h-full z-10">
+                              <img
+                                src={hoverImageUrl}
+                                alt={`Hover ${item.alt}`}
+                                className={`w-full h-full transition-all duration-300 ${
+                                  loadedHoverImages[index]
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                }`}
+                                style={{
+                                  objectFit: "cover",
+                                  objectPosition: "center",
+                                }}
+                                onLoad={() => handleHoverImageLoad(index)}
+                                onError={() => handleHoverImageLoad(index)}
+                                loading="lazy"
+                                crossOrigin="anonymous"
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div className="border-b border-x min-h-[10vh] p-5 border-gray-200">
+                      <span className="text-gray-400 flex justify-end pb-1">
+                        مدل: {item?.code}
+                      </span>
+                      <p className="text-gray-600 flex justify-end font13">
+                        {item?.name}
+                      </p>
+                    </div>
                   </div>
-                  <div className="border-b border-x p-5 border-gray-200">
-                    <span className="text-gray-400 flex justify-end pb-1">
-                      مدل: {item?.code}
-                    </span>
-                    <p className="text-gray-600 flex justify-end font13">
-                      {item?.name}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

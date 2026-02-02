@@ -27,7 +27,7 @@ const SubCategoryPage: React.FC<SubCategoryPageProps> = ({ params }) => {
     try {
       setLoading(true);
       const res = await categoryServices.getSubCategoryById(
-        resolvedParams.subCategory
+        resolvedParams.subCategory,
       );
       setProducts(res?.data || []);
       setCategory({
@@ -44,8 +44,7 @@ const SubCategoryPage: React.FC<SubCategoryPageProps> = ({ params }) => {
   const handleProductClick = (product: any) => {
     if (!resolvedParams) return;
     // router.push(`/category/${resolvedParams.categoryId}/products/${product.id}`);
-    sessionStorage.setItem("currentProduct", JSON.stringify(product));
-    router.push(`/products/${product.id}`);
+    router.push(`/products/${product?.id}/${product.name}`);
   };
 
   useEffect(() => {
@@ -65,14 +64,12 @@ const SubCategoryPage: React.FC<SubCategoryPageProps> = ({ params }) => {
         {products.map((product) => {
           const imgUrl = StringHelpers.getProfile(
             product.attachments?.[0],
-            product.code
+            product.code,
           );
-          console.log(product,imgUrl);
-
           if (product?.categoryId !== null) {
             return (
               <div
-                key={product.id}
+                key={product.code}
                 onClick={() => handleProductClick(product)}
                 className="cursor-pointer border border-gray-200 p-4 transition-shadow"
               >

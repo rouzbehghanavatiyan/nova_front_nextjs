@@ -4,6 +4,7 @@ import StringHelpers from "@/src/config/StringHelpers";
 import { productService } from "@/src/api/services/productService";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { PlusIcon, MinusIcon } from "@heroicons/react/16/solid";
+import ThreeImage from "@/src/components/ThreeImage";
 
 interface ProductPageProps {
   params: Promise<{
@@ -15,17 +16,12 @@ interface ProductPageProps {
 const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   const [product, setProduct] = useState<any>(null);
   const [features, setFeatures] = useState<any>([]);
-  const [loading, setLoading] = useState(true);
   const [description, setDescription] = useState("");
-
   const [openSection, setOpenSection] = useState<string | null>("features");
   const [resolvedParams, setResolvedParams] = useState<{
     categoryId: string;
     productId: string;
   } | null>(null);
-
-  const getProductFromStorage: any = sessionStorage?.getItem("currentProduct");
-  const currentProduct = JSON.parse(getProductFromStorage);
 
   const resolveParams = async () => {
     const resolved = await params;
@@ -36,46 +32,31 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
     resolveParams();
   }, [params]);
 
-  const handleGetProductDescription = async () => {
+  const handleGetProduct = async () => {
     if (!resolvedParams) return;
     try {
-      const res = await productService.getDescription(
-        Number(resolvedParams.productId)
+      const res = await productService.getProduct(
+        Number(resolvedParams.productId),
       );
-
+      console.log("vvvvvv", res);
       const { code, data }: any = res;
+      setProduct(data);
       if (code === 0) setDescription(data?.content || "");
     } catch (error) {
       console.error("Error fetching description:", error);
     }
   };
 
-  const handleGetFeaturesFromProduct = async () => {
+  const handleGetFeaturesProduct = async () => {
     if (!resolvedParams) return;
     try {
       const res = await productService.getFeaturesFromProduct(
-        Number(resolvedParams.productId)
+        Number(resolvedParams.productId),
       );
       const { code, data }: any = res;
       if (code === 0) setFeatures(data);
     } catch (error) {
       console.error("Error fetching description:", error);
-    }
-  };
-
-  const fetchProduct = async () => {
-    if (!resolvedParams) return;
-    try {
-      setProduct({
-        id: resolvedParams.productId,
-        name: `محصول ${resolvedParams.productId}`,
-        description: "توضیحات محصول...",
-        category: `دسته‌بندی ${resolvedParams.categoryId}`,
-      });
-    } catch (error) {
-      console.error("Error fetching product:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -85,40 +66,46 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
 
   useEffect(() => {
     if (resolvedParams) {
-      fetchProduct();
-      handleGetFeaturesFromProduct();
-      handleGetProductDescription();
+      handleGetFeaturesProduct();
+      handleGetProduct();
     }
   }, [resolvedParams]);
-
-  if (!resolvedParams || loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p className="text-gray-500">در حال بارگذاری...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="grid grid-cols-1  lg:grid-cols-2 gap-10 items-start">
         <div className="sticky bottom-40  justify-center">
-          <img
-            src={StringHelpers.getProfile(
-              currentProduct?.attachments?.[0],
-              currentProduct?.code
-            )}
-            alt={currentProduct?.name}
-            crossOrigin="anonymous"
-          />
+          {product?.attachments?.map((item: any) => {
+            return (
+              <div key={item?.fileName || product?.code}>
+                <img
+                  key={item?.code}
+                  src={StringHelpers.getProfile(
+                    item,
+                    item?.fileName || product?.code,
+                  )}
+                  alt={item?.name}
+                  crossOrigin="anonymous"
+                />
+              </div>
+            );
+            // return (
+            //   <ThreeImage
+            //     imageUrl={StringHelpers.getProfile(
+            //       item?.attachments?.[0],
+            //       item?.code
+            //     )}
+            //   />
+            // );
+          })}
         </div>
-        <div className="p-2 shadow">
+        <div className="p-2">
           <div className="mb-8  border-gray-300 flex justify-between text-center">
             <h1 className="text-xl flex space-y-5 items-start font-bold text-gray-800 mb-2">
-              {currentProduct?.name || product?.name}
+              {product?.name}
             </h1>
             <span className="text-gray-600 flex font-bold items-center">
-              مدل: {currentProduct?.code || "—"}
+              مدل: {product?.code || "—"}
             </span>
           </div>
           <div className="mb-6">
@@ -189,8 +176,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
             >
               <div className="px-4 pt-4 pb-2 text-gray-600">
                 <p className="leading-8 whitespace-pre-line break-words font14 text-justify">
-                  {description ||
-                    product?.description ||
+                  {product?.des?.content ||
                     "توضیحی برای این محصول ثبت نشده است."}
                 </p>
               </div>

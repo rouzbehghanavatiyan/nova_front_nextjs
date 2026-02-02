@@ -26,9 +26,9 @@ export class ProductService extends BaseService<
     }
   }
 
-  async getDescription(desId: number): Promise<ApiResponse<Product[]>> {
+  async getProduct(codeId: number | string): Promise<ApiResponse<Product[]>> {
     try {
-      const response = await baseClient.get(`/product/getDesById/${desId}`);
+      const response = await baseClient.get(`/product/getProduct/${codeId}`);
       return response.data;
     } catch (error) {
       console.error("Error getting main products:", error);

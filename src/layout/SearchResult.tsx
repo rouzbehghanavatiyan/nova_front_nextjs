@@ -12,7 +12,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   isLoading,
   onSelect,
 }) => {
-
   if (isLoading) {
     return (
       <div className="absolute top-full left-0 right-0 bg-white border-gray-200 shadow-lg z-50 mt-1 max-h-60 overflow-y-auto">
@@ -28,7 +27,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   return (
     <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 shadow-lg z-50 mt-1 max-h-96 overflow-y-auto">
       {results.map((item: any, index) => {
-        const imgUri = StringHelpers.getProfile(item?.attachments?.[0]);
+        const imgUri = StringHelpers.getProfile(
+          item?.attachments?.[0],
+          item?.code
+        );
         return (
           <div
             key={item.id || index}
@@ -36,7 +38,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({
             onClick={() => onSelect(item)}
           >
             <div className="flex justify-between">
-              <div className="font-light flex items-center font12 text-gray-600">{item.name}</div>
+              <div className="font-light flex items-center font12 text-gray-600">
+                {item.name}
+              </div>
               <img
                 src={imgUri}
                 alt={item?.name}
