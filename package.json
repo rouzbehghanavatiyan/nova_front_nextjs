@@ -6,9 +6,11 @@
     "dev": "next dev -p 3030",
     "build": "next build",
     "start": "next start -p 3000",
+    "start:prod": "NODE_OPTIONS='--max-old-space-size=4096 --max-http-header-size=16384' next start -p 3000",
     "lint": "eslint src/ --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint src/ --ext .ts,.tsx,.js,.jsx --fix",
-    "lint:watch": "eslint src/ --ext .ts,.tsx,.js,.jsx --watch"
+    "lint:watch": "eslint src/ --ext .ts,.tsx,.js,.jsx --watch",
+    "pm2:start": "pm2 start npm --name \"next-app\" -- run start:prod"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

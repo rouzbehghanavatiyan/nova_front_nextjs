@@ -1,20 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  
-  // اضافه کردن images config برای حل مشکل sharp
+  reactStrictMode: false,
+  experimental: {},
   images: {
-    unoptimized: true, // این خط مشکل sharp را حل می‌کند
+    unoptimized: true,
   },
-  
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "http://localhost:4000/api/:path*",
-      },
-    ];
-  },
+  poweredByHeader: false,
+  compress: true,
 };
 
 module.exports = nextConfig;

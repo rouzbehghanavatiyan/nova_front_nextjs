@@ -8,7 +8,8 @@ if (!baseURL) {
 
 export const baseClient = axios.create({
   baseURL,
-  timeout: 10000,
+  timeout: 5000,
+  maxRedirects: 0,
   headers: {
     "Content-Type": "application/json",
   },
@@ -25,7 +26,7 @@ baseClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 baseClient.interceptors.response.use(
@@ -48,5 +49,5 @@ baseClient.interceptors.response.use(
       status: error.response?.status,
       data: error.response?.data,
     });
-  }
+  },
 );
