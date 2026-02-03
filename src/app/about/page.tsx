@@ -16,11 +16,11 @@ const ContactPage = () => {
   });
 
   const main = useAppSelector((state) => state.product);
-  const cover = main?.moreImages?.[0];
-  const fixCover = StringHelpers.getProfile(
-    cover,
-    main?.moreImages?.[0]?.fileName,
-  );
+  // const cover: any = main?.moreImages?.[0];
+  // const fixCover = StringHelpers.getProfile(
+  //   cover,
+  //   main?.moreImages?.[0]?.fileName,
+  // );
 
   const [zoomStyle, setZoomStyle] = useState({});
 
@@ -53,7 +53,7 @@ const ContactPage = () => {
         <div className="relative h-[90vh] w-[100vw] overflow-hidden">
           <img
             className="h-full w-full object-cover transition-transform duration-200 ease-out"
-            src={fixCover}
+            // src={fixCover}
             alt="Contact cover"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
