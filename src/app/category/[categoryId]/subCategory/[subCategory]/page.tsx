@@ -44,7 +44,7 @@ const SubCategoryPage: React.FC<SubCategoryPageProps> = ({ params }) => {
   const handleProductClick = (product: any) => {
     if (!resolvedParams) return;
     // router.push(`/category/${resolvedParams.categoryId}/products/${product.id}`);
-    router.push(`/products/${product?.id}/${product.name}`);
+    router.push(`/products/${product?.productid}/${product.name}`);
   };
 
   useEffect(() => {
