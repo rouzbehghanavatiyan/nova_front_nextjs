@@ -13,7 +13,7 @@ interface Product {
 interface ProductState {
   currentProduct: Product | null;
   recentProducts: Product[];
-  moreImages: [];
+  moreImages: any;
   loading: boolean;
   error: string | null;
   isOpenMegaMenu: boolean;
