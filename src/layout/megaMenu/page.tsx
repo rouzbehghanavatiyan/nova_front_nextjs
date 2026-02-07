@@ -3,8 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { categoryServices } from "@/src/api/services/categoryServices";
 import { useAppDispatch, useAppSelector } from "@/src/store/hook";
 import { RsetIsOpenMegaMenu } from "@/src/store/slices/main";
-
- 
+import StringHelpers from "@/src/config/StringHelpers";
 
 const MegaMenu: React.FC<any> = ({ categories }) => {
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
@@ -21,6 +20,7 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
     setLoading(categoryId);
     try {
       const res: any = await categoryServices.getSubCategories(categoryId);
+
       setSubCategories((prev) => ({
         ...prev,
         [categoryId]: res?.data || [],
@@ -36,46 +36,46 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
     }
   };
 
-  const handleCategoryHover = (categoryId: string) => {
-    setHoveredCategory(categoryId);
-    if (!subCategories[categoryId]) {
-      fetchSubCategories(categoryId);
+  const handleCategoryHover = (category: any) => {
+    setHoveredCategory(category?.categoryid);
+    if (!subCategories[category?.categoryid]) {
+      fetchSubCategories(category?.categoryid);
     }
   };
 
-  // const getCategoryImage = (categoryId: string): any => {
-  //   const index =
-  //     categories.findIndex((cat: any) => cat.id === categoryId) %
-  //     categoryImages.length;
-  //   return categoryImages[index];
-  // };
+  const getCategoryImage = (categoryId: string) => {
+    const category = categories.find((cat: any) => cat.id === categoryId);
+    if (!category) return "";
+    return `${StringHelpers.baseURL}/${category.attachmentType}/${category.code}${category.ext}`;
+  };
 
-  // const getCategoryIcon = (categoryId: string): any => {
-  //   const index =
-  //     categories.findIndex((cat: any) => cat.id === categoryId) %
-  //     categoryImages.length;
-  //   return categoryImages[index];
-  // };
-
-  // useEffect(() => {
-  //   if (!main?.isOpenMegaMenu) return;
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-  //       dispatch(RsetIsOpenMegaMenu(false));
-  //       setTimeout(() => {
-  //         dispatch(RsetIsOpenMegaMenu(false));
-  //       }, 300);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
+  const getCategoryIcon = (categoryId: string): any => {
+    const category = categories.find((cat: any) => cat.id === categoryId);
+    if (!category) return "";
+    return `${StringHelpers.baseURL}/${category.attachmentType}/${category.code}${category.ext}`;
+  };
 
   useEffect(() => {
+    if (!main?.isOpenMegaMenu) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        dispatch(RsetIsOpenMegaMenu(false));
+        setTimeout(() => {
+          dispatch(RsetIsOpenMegaMenu(false));
+        }, 300);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log(hoveredCategory, subCategories);
+
     if (hoveredCategory && subCategories[hoveredCategory]) {
       setCurrentSubCategories(subCategories[hoveredCategory]);
     } else {
@@ -100,28 +100,29 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
           <div className="">
             <div className="py-4 ">
               {categories?.map((category: any) => {
+                const image = `${StringHelpers.baseURL}/${category?.attachmentType}/${category?.code}${category?.ext}`;
                 return (
                   <div
                     key={category.id}
                     className="relative group "
-                    onMouseEnter={() => handleCategoryHover(category.id)}
+                    onMouseEnter={() => handleCategoryHover(category)}
                   >
                     <div className={`flex items-center justify-between`}>
                       <div className="ms-5 mt-2 flex items-center flex-1">
-                        {/* <img
+                        <img
                           className="w-9 h-9 me-5 object-contain"
-                          src={getCategoryIcon(category.id).src}
-                          alt={category.title_per}
-                        /> */}
+                          src={image}
+                          alt={category.categoryname}
+                        />
                         <Link
                           key={category.id}
-                          href={`/category/${category?.id}`}
+                          href={`/category/${category?.categoryid}`}
                           onClick={() => dispatch(RsetIsOpenMegaMenu(false))}
                           className="
                           text hover:bg-gray-100 cursor-pointer grid grid-cols-1 font13 flex-1 text-right 
                           hover:font-bold hover:font16 py-2 px-28 ps-2 transition-colors duration-200"
                         >
-                          {category.title_per}
+                          {category.categoryname}
                         </Link>
                       </div>
                     </div>
@@ -167,15 +168,15 @@ const MegaMenu: React.FC<any> = ({ categories }) => {
                 </div>
                 <div className="w-1/3 flex items-start justify-center">
                   <div className="flex items-center justify-center">
-                    {/* <img
+                    <img
                       className="w-4/5 h-4/5 object-contain"
-                      src={getCategoryImage(hoveredCategory).src}
+                      src={getCategoryImage(hoveredCategory)}
                       alt={
                         categories.find(
                           (cat: any) => cat.id === hoveredCategory,
-                        )?.title_per
+                        )?.categoryname
                       }
-                    /> */}
+                    />
                   </div>
                 </div>
               </div>

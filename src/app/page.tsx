@@ -18,8 +18,11 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const handleGetAllCategories = async () => {
     const res: any = await categoryServices.getAllCategories();
+    console.log(res);
+
     dispatch(RsetCategories(res?.data));
   };
+
   useEffect(() => {
     handleGetAllCategories();
   }, []);

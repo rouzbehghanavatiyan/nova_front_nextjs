@@ -84,7 +84,6 @@ const NewProduct: React.FC = () => {
                   item?.attachments?.[0],
                   item?.code,
                 );
-                console.log(fixImageUrl,hoverImageUrl);
                 return (
                   <div className="w-[45vh] hover:shadow-lg" key={index}>
                     <div

@@ -9,10 +9,15 @@ import SearchField from "./SearchField";
 import { useAppDispatch, useAppSelector } from "../store/hook";
 import { RsetIsOpenMegaMenu } from "../store/slices/main";
 import ResponsiveMaker from "../components/ResponsiveMaker";
+import StringHelpers from "../config/StringHelpers";
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
-  const main = useAppSelector((state) => state.product);
+  const main: any = useAppSelector((state) => state.product);
+  const logo: any = main?.moreImages?.find(
+    (item: any) => item?.fileName === "6262",
+  );
+  const imageFix = `${StringHelpers.baseURL}/${logo?.attachmentType}/${logo?.fileName}${logo?.ext}`;
   const router = useRouter();
   const handleRedirect = (data: any) => {
     router.push(`/`);
@@ -25,7 +30,6 @@ export const Header: React.FC = () => {
           <ResponsiveMaker visibleWidth={768}>
             <nav className="flex py-5 space-x-12">
               {siteConfig.navItems.map((item: any, index: number) => {
-                const Icon = item.icon;
                 if (item.hasDropdown) {
                   return (
                     <button
@@ -55,11 +59,11 @@ export const Header: React.FC = () => {
             </nav>
           </ResponsiveMaker>
           <SearchField />
-          {/* <img
+          <img
             onClick={handleRedirect}
             className="w-36 cursor-pointer"
-            src={Logo.src}
-          /> */}
+            src={imageFix}
+          />
         </div>
         {main?.isOpenMegaMenu && <MegaMenu categories={main?.categories} />}
       </header>

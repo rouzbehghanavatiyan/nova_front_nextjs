@@ -61,6 +61,7 @@ export class CategoryServices extends BaseService<
       throw error;
     }
   }
+  
 }
 
 export const categoryServices = new CategoryServices();
