@@ -51,8 +51,6 @@ const CategoryContentPage: React.FC<CategoryContentPageProps> = ({
     });
   };
 
-  console.log(main?.moreImages);
-
   useEffect(() => {
     setLoadedImages(new Array(safeCategories.length).fill(false));
   }, [safeCategories.length]);
@@ -84,8 +82,7 @@ const CategoryContentPage: React.FC<CategoryContentPageProps> = ({
         >
           {safeCategories.map((item, index) => {
             const image = getImageByIndex(index);
-            // const fixImg = StringHelpers.getProfile(image, image.fileName);
-            // console.log(fixImg, image);
+            const fixImg = StringHelpers.getProfile(image, image?.fileName);
             return (
               <SwiperSlide key={item.id}>
                 <div className="h-full flex flex-col items-center">
@@ -98,7 +95,7 @@ const CategoryContentPage: React.FC<CategoryContentPageProps> = ({
                         <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-lg" />
                       )}
                       <img
-                        // src={fixImg}
+                        src={fixImg}
                         alt={item.title_per}
                         loading="lazy"
                         onLoad={() => handleImageLoad(index)}

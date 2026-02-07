@@ -103,7 +103,7 @@ const TopContent: React.FC<TopContentProps> = () => {
                     }`}
                     onLoad={() => handleImageLoad(index)}
                     onError={() => handleImageLoad(index)}
-                    // loading="lazy"
+                    loading="lazy"
                     crossOrigin="anonymous"
                   />
                   <div
