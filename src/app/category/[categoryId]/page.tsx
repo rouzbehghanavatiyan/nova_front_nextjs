@@ -3,11 +3,17 @@ import React, { useEffect, useState } from "react";
 import { categoryServices } from "@/src/api/services/categoryServices";
 import { useRouter } from "next/navigation";
 import StringHelpers from "@/src/config/StringHelpers";
+import { useAppSelector } from "@/src/store/hook";
 export default function CategoryMenuPage({
   params,
 }: {
   params: Promise<{ categoryId: string }>;
 }) {
+  const main: any = useAppSelector((state) => state.product);
+  const logo: any = main?.moreImages?.find(
+    (item: any) => item?.fileName === "6262",
+  );
+  const imageFix = `${StringHelpers.baseURL}/${logo?.attachmentType}/${logo?.fileName}${logo?.ext}`;
   const { categoryId } = React.use(params);
   const [productCategories, setProductCategories] = useState([]);
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
@@ -46,9 +52,6 @@ export default function CategoryMenuPage({
     router.push(`/category/${categoryId}/subCategory/${data.id}`);
   };
 
-  console.log(productCategories);
-  
-
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">دسته بندی‌ها</h1>
@@ -56,9 +59,6 @@ export default function CategoryMenuPage({
       {productCategories.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {productCategories.map((category: any, index: number) => {
-            const imageUrl = StringHelpers.getProfile(
-              category?.attachments?.[0]
-            );
             return (
               <div
                 key={category.id}
@@ -69,14 +69,14 @@ export default function CategoryMenuPage({
                   {category.title}
                 </span>
                 <span className=" flex col-span-3 justify-center">
-                  {/* <img
+                  <img
                     className="col-span-1"
-                    src={Logo?.src}
-                    width={300}
-                    height={300}
+                    src={imageFix}
+                    width={100}
+                    height={100}
                     onLoad={() => handleImageLoad(index)}
                     onError={() => handleImageLoad(index)}
-                  /> */}
+                  />
                 </span>
                 <p className="text-gray-600">{category.en_name}</p>
               </div>
